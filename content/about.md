@@ -3,12 +3,10 @@ title = "About Me"
 date = "2014-04-09"
 aliases = ["about-us","about-hugo","contact"]
 [ author ]
-  name = "Hugo Authors"
+  name = "James Smith"
 +++
 
-# About Me
-
-{{ $image := resources.Get "images/author.png" }}
+![alt text](/static/images/author.png)
 
 Hi there,
 

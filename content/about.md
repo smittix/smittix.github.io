@@ -9,7 +9,7 @@ aliases = ["about-us","about-hugo","contact"]
 {{< image src="/images/author.png" alt="Smittix" position="center" style="width: 120px; height: auto;" >}}
 
 
-Hi there,
+Greetings,
 
 I’m **James Smith**, or as my online moniker goes, **“Smittix”**. The nick isn’t anything special—just a mixture of my surname and Unix. Boring, I know.
 

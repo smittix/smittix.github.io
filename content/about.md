@@ -6,7 +6,7 @@ aliases = ["about-us","about-hugo","contact"]
   name = "James Smith"
 +++
 
-{{< figure src="/static/images/author.png" title="Avatar" width="400">}}
+![your image](/posts/images/author.png)
 
 Hi there,
 

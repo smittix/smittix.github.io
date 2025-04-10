@@ -6,7 +6,8 @@ aliases = ["about-us","about-hugo","contact"]
   name = "James Smith"
 +++
 
-![your image](/posts/images/author.png "500px")
+{{< image src="/images/author.png" alt="Smittix" position="center" style="width: 120px; height: auto;" >}}
+
 
 Hi there,
 

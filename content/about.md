@@ -6,7 +6,7 @@ aliases = ["about-us","about-hugo","contact"]
   name = "James Smith"
 +++
 
-{{< image src="/images/author.png" alt="Smittix" position="center" style="display: block; margin: 0 auto; width: 120px; height: auto;" >}}
+{{< image src="/images/author.png" alt="Smittix" position="center" style="display: block; margin: 0 auto; width: 160px; height: auto;" >}}
 
 
 Greetings,
@@ -19,7 +19,7 @@ I’m also a massive **Linux fanboy**, with a specific interest in the **Fedora 
 
 I got into computer security as a kid after seeing movies such as _Wargames_ and _Sneakers_. The whole concept fascinated me.
 
-You’ll see that the blog has been neglected for a while due to me writing for the company I work for. However, I hope to **revive smittix.net this year**.
+You’ll see that the blog has been neglected for a while due to me writing for the company I work for.
 
 I hope some of these posts help some of you out there.
 

@@ -1,6 +1,6 @@
 ---
 title: "Gigastone TR1 (CVE-2024-44678)"
-date: 2025-04-11T11:49:34+01:00
+date: 2024-08-11T11:49:34+01:00
 draft: false
 toc: false
 images:

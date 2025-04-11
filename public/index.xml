@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Smittix</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 09 Apr 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About Me</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;img src=&#34;http://localhost:1313/images/author.png&#34;  alt=&#34;Smittix&#34;  class=&#34;center&#34;  style=&#34;display: block; margin: 0 auto; width: 160px; height: auto;&#34;  /&gt;&#xD;&#xA;&#xD;&#xA;&#xA;&lt;p&gt;Greetings,&lt;/p&gt;&#xA;&lt;p&gt;I’m &lt;strong&gt;James Smith&lt;/strong&gt;, or as my online moniker goes, &lt;strong&gt;“Smittix”&lt;/strong&gt;. The nick isn’t anything special—just a mixture of my surname and Unix. Boring, I know.&lt;/p&gt;&#xA;&lt;p&gt;By day, I’m the &lt;strong&gt;Head of Offensive Security&lt;/strong&gt; for an award-winning cyber security firm. I lead all things Offensive Security, and as an ethical hacker myself, I also get to break things from time to time.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -2,7 +2,7 @@
 title: "Gigastone TR1 (CVE-2024-44678)"
 date: 2025-04-11T11:49:34+01:00
 draft: false
-toc: true
+toc: false
 images:
 tags:
   - CVE
@@ -11,18 +11,17 @@ tags:
   - Hardware
 ---
 
-[toc]
 # Introduction
 
 So, I got sucked into the vortex of social media the other night and noticed these quirky little red thingies a few people were using to boost their WiFi range. After some detective work (thanks, Amazon!), I stumbled upon these tiny travel routers from Gigastone, and guess what? They were a steal, just £18.99 for a pair!
 
-{{< image src="/images/gigastone1.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
+{{< image src="/images/gigastone1.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 80%; height: auto;" >}}
 
 Naturally, I couldn't resist snagging a couple. I mean, they practically screamed "hack me" for a tear-down post.
 
 ## Let’s open it up!
 
-{{< image src="/images/gigastone2.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
+{{< image src="/images/gigastone2.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 80%; height: auto;" >}}
 
 Upon opening the device which was really simple with a pry tool and took near to no effort I was happy to see a Serial Peripheral Interface (SPI) NOR Flash chip (Red Box) and what looked to be Universal Asynchronous Receiver / Transmitter **(**UART) connectivity (Yellow Box).
 

@@ -125,9 +125,9 @@ disableHugoGeneratorInject = false
   #
   [params.footer]
     trademark = 2025
-    rss = true
+    rss = false
     copyright = true
-    author = true
+    author = false
 
     topText = []
     bottomText = [
@@ -237,18 +237,6 @@ disableHugoGeneratorInject = false
   [[params.social]]
     name = "linkedin"
     url  = "https://www.linkedin.com/in/smittix1/"
-
-# [languages]
-#  [languages.en]
-#    weight    = 1
-#    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-#  [languages.en.params]
-#    subtitle  = "Hello Friend NG Theme"
-#  [languages.fr]
-#    weight    = 2
-#    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-#  [languages.fr.params]
-#    subtitle  = "Hello Friend NG Theme"
 
 [menu]
   [[menu.main]]

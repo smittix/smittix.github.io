@@ -2,7 +2,7 @@
 title: "Gigastone Cve"
 date: 2025-04-11T11:49:34+01:00
 draft: false
-toc: false
+toc: true
 images:
 tags:
   - untagged
@@ -19,7 +19,7 @@ Naturally, I couldn't resist snagging a couple. I mean, they practically screame
 
 ## Let’s open it up!
 
-![image.png](:/63e73860bfe0413ebdcc90e4fcfd1f54)
+{{< image src="/images/gigastone2.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 Upon opening the device which was really simple with a pry tool and took near to no effort I was happy to see a Serial Peripheral Interface (SPI) NOR Flash chip (Red Box) and what looked to be Universal Asynchronous Receiver / Transmitter **(**UART) connectivity (Yellow Box).
 
@@ -27,21 +27,21 @@ Upon opening the device which was really simple with a pry tool and took near to
 
 I managed to get a console via the UART connection using some dupont wires and a TTL USB to UART cable. However, no joy there as the shell that was provided was very limited and attempts to dump the firmware image was futile.
 
-![image.png](:/347b4f499eb14526b4da42904adc2742)
 
+{{< image src="/images/gigastone3.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 ## SPI
 
 Let’s move on to the SPI chip and see if we can dump the firmware using my trusty BusPirate 
 
-![](:/d2a169ee87b6462dbe381cfe4755b011)
+{{< image src="/images/gigastone4.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 After a little Google-fu I found the datasheet for this particular chip which had the pin-outs which enabled me to hook it up to the BusPirate which dumped the firmware successfully now I could have a rummage through the file-system.
 
-![image.png](:/5411ca2370354ea7b6ccf9ee1db56381)
+{{< image src="/images/gigastone5.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 I spent a few evenings going through things which turned out quite fruitful. The first one being that the router was using 202.96.209.5 for DNS which is owned by China Telecom and that just may be a concern to those of us that are privacy minded.
 
-![china_dns.png](:/9da5cde831d94c2687e00b75b8f973b6)
+{{< image src="/images/gigastone6.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 Secondly, there were a handful of scripts/binaries lurking around some in plain-text some needing a little persuasion by Ghidra.
 
@@ -125,31 +125,31 @@ The `wget` command is exploiting a vulnerability/feature in the CGI script of th
 
 Ok, so I have the travel router on and ready to go, lets give it a quick port scan to see what ports are open before we execute the command.
 
-![nmap_before_vuln.png](:/4f7900bfcc494eed817b3adc694eeb4e)
+{{< image src="/images/gigastone7.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 As you can see no Telnet service is listening (Port 23)
 
 So let’s run the command detailed earlier in the article and show what happens
 
-![launching_vuln.png](:/2108095560b14335b08a183e3a9c5d8d)
+{{< image src="/images/gigastone8.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 The router has just rebooted itself, lets re-run that port scan
 
-![nmap_after_vuln.png](:/288f57996ba14da19e8d75db3a422cd0)
+{{< image src="/images/gigastone9.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 Et Voila, the Telnet service is now magically listening on its default port of ‘23’
 
 Let’s connect to the Telnet service
 
-![busybox_login_telnet_initial.png](:/ea793a78121c43b8b0a91d5a7d13b163)
+{{< image src="/images/gigastone10.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 We’re now connected without any user credentials having to be supplied. Let’s take a look around
 
-![initial_telnet_passwd.png](:/d1eeb624390f498aacdd0179642ee6a6)
+{{< image src="/images/gigastone11.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 I’ll send that off to the cracking rig along with the shadow file (which I won’t show) especially with how poor the password actually was. Users Admin and root had the same hash.
 
-![root_login.png](:/f42d7bf573024023b77e0421ac9c0df5)
+{{< image src="/images/gigastone12.png" alt="" position="center" style="display: block; margin: 0 auto; max-width: 100%; height: auto;" >}}
 
 We’ve successfully logged in as root!
 

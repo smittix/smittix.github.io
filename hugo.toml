@@ -68,7 +68,7 @@ disableHugoGeneratorInject = false
 
   # Home subtitle of the index page.
   #
-  homeSubtitle = "Linux and Security by James Smith"
+  homeSubtitle = "Ramblings on Linux, InfoSec and SDR by James Smith"
 
   # Set a background for the homepage
   # backgroundImage = "assets/images/background.jpg"
@@ -131,7 +131,7 @@ disableHugoGeneratorInject = false
 
     topText = []
     bottomText = [
-      "Powered by <a href=\"http://gohugo.io\">Hugo</a>"
+      "Powered by <a href=\"http://gohugo.io\">Hugo</a>",
     ]
 
   # Colors for favicons

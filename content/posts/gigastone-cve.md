@@ -162,3 +162,8 @@ I have sat here rummaging around the file-system and I’ve come up with many wa
 # Responsible Disclosure
 
 Gigastone were contacted multiple times via email to various departments none of which seemed interested in having a conversation around my research. After failing to respond to my last email I gave it a few weeks until I responded with a timeline for disclosure which I also didn’t have a response to. Since then Gigastone have discontinued this product from their website however you can still purchase these devices from well known online vendors.
+
+# Further Links
+
+- [NIST National Vulnerability Database Entry](https://nvd.nist.gov/vuln/detail/CVE-2024-44678)
+- [Bridewell Writeup](https://www.bridewell.com/insights/blogs/detail/cve-2024-44678-identified-vulnerability-in-gigastone-wi-fi-range-extenders)

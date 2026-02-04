@@ -28,6 +28,7 @@ disableSitemap = false
 disable404     = false
 disableHugoGeneratorInject = false
 
+
 [pagination]
   disableAliases = false
   pagerSize = 20

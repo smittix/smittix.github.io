@@ -32,7 +32,7 @@ This blog post will demonstrate how the ‘right shift’ Operator ( **>>** ) ca
 
 
 
-**Note: A full description of Bit Functions and Operators can be found at the following URL: **[**https://dev.mysql.com/doc/refman/5.7/en/bit-functions.html**](https://dev.mysql.com/doc/refman/5.7/en/bit-functions.html)
+**Note: A full description of Bit Functions and Operators can be found at the following URL:** [https://dev.mysql.com/doc/refman/5.7/en/bit-functions.html](https://dev.mysql.com/doc/refman/5.7/en/bit-functions.html)
 
 
 
@@ -79,11 +79,7 @@ The data we wish to extract via this method is the first character returned for 
 
  [![](/wp-content/uploads/2017/12/0-1.jpg)](/wp-content/uploads/2017/12/0-1.jpg)
 
-**First Bit:**
-
-
-
-We start by finding the value of the **first** bit:
+**First Bit:** We start by finding the value of the **first** bit:
 
 
 
@@ -124,15 +120,10 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 7 )=0,benchmark(10000000,sha1(
 
 
 
-The SQL query resulted in a time delay, therefore the condition is TRUE, resulting in the **first** bit being **0**
-
-
-
-**0**???????
+The SQL query resulted in a time delay, therefore the condition is TRUE, resulting in the **first** bit being **0** **0**???????
 
  [![](/wp-content/uploads/2017/12/1.jpg)](/wp-content/uploads/2017/12/1.jpg)
 
-**
 Second Bit:**
 
 
@@ -170,19 +161,11 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 6 )=0,benchmark(10000000,sha1(
 
 
 
-The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **second **bit being **1**
-
-
-
-0**1**?????
+The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **second **bit being **1** 0**1**?????
 
  [![](/wp-content/uploads/2017/12/2.jpg)](/wp-content/uploads/2017/12/2.jpg)
 
-**Third Bit:**
-
-
-
-Now we need find the value of the **third** bit. As before, there are two possibilities for this:
+**Third Bit:** Now we need find the value of the **third** bit. As before, there are two possibilities for this:
 
 
 
@@ -215,19 +198,11 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 5 )=2,benchmark(10000000,sha1(
 
 
 
-The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **third** bit being **1**
-
-
-
-01**1**?????
+The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **third** bit being **1** 01**1**?????
 
  [![](/wp-content/uploads/2017/12/3.jpg)](/wp-content/uploads/2017/12/3.jpg)
 
-**Fourth Bit:**
-
-
-
-Now we need find the value of the **fourth** bit. As before, there are two possibilities for this:
+**Fourth Bit:** Now we need find the value of the **fourth** bit. As before, there are two possibilities for this:
 
 
 
@@ -260,19 +235,11 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 4 )=6,benchmark(10000000,sha1(
 
 
 
-The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **fourth** bit being **1**
-
-
-
-011**1**????
+The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **fourth** bit being **1** 011**1**????
 
  [![](/wp-content/uploads/2017/12/4.jpg)](/wp-content/uploads/2017/12/4.jpg)
 
-**Fifth Bit:**
-
-
-
-Now we need find the value of the **fifth** bit. As before, there are two possibilities for this:
+**Fifth Bit:** Now we need find the value of the **fifth** bit. As before, there are two possibilities for this:
 
 
 
@@ -305,19 +272,11 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 3 )=14,benchmark(10000000,sha1
 
 
 
-The SQL query resulted in a time delay, therefore the condition is **TRUE**, resulting in the **fifth **bit being **0**
-
-
-
-0111**0**???
+The SQL query resulted in a time delay, therefore the condition is **TRUE**, resulting in the **fifth **bit being **0** 0111**0**???
 
  [![](/wp-content/uploads/2017/12/5.jpg)](/wp-content/uploads/2017/12/5.jpg)
 
-**Sixth Bit:**
-
-
-
-Now we need find the value of the **sixth** bit. As before, there are two possibilities for this:
+**Sixth Bit:** Now we need find the value of the **sixth** bit. As before, there are two possibilities for this:
 
 
 
@@ -350,19 +309,11 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 2 )=28,benchmark(10000000,sha1
 
 
 
-The SQL query resulted in a time delay, therefore the condition is **TRUE**, resulting in the **sixth **bit being **0**
-
-
-
-01110**0**??
+The SQL query resulted in a time delay, therefore the condition is **TRUE**, resulting in the **sixth **bit being **0** 01110**0**??
 
  [![](/wp-content/uploads/2017/12/6.jpg)](/wp-content/uploads/2017/12/6.jpg)
 
-**Seventh Bit:**
-
-
-
-Now we need find the value of the **seventh **bit. As before, there are two possibilities for this:
+**Seventh Bit:** Now we need find the value of the **seventh **bit. As before, there are two possibilities for this:
 
 
 
@@ -395,23 +346,11 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 1 )=56,benchmark(10000000,sha1
 
 
 
-The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **seventh** bit being **1**
-
-
-
-The fourth bit must be **1**
-
-
-
-011100**1**?
+The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the **seventh** bit being **1** The fourth bit must be **1** 011100**1**?
 
  [![](/wp-content/uploads/2017/12/7.jpg)](/wp-content/uploads/2017/12/7.jpg)
 
-**Eighth Bit:**
-
-
-
-Now we need find the value of the **eighth and final **bit. As before, there are two possibilities for this:
+**Eighth Bit:** Now we need find the value of the **eighth and final **bit. As before, there are two possibilities for this:
 
 
 
@@ -444,13 +383,7 @@ mysql> select if ((ascii((substr(user(),1,1))) >> 0 )=114,benchmark(10000000,sha
 
 
 
-The SQL query resulted in a time delay, therefore the condition is **TRUE**, resulting in the **eight **bit being **0**
-
-
-
-0111001**0**
-
- [![](/wp-content/uploads/2017/12/8.jpg)](/wp-content/uploads/2017/12/8.jpg)
+The SQL query resulted in a time delay, therefore the condition is **TRUE**, resulting in the **eight **bit being **0** 0111001**0** [![](/wp-content/uploads/2017/12/8.jpg)](/wp-content/uploads/2017/12/8.jpg)
 
 Now we can conclude that the binary value for the first character returned by the query: *select user()* is **01110010** resulting in a decimal value of **114**. 114 being the ‘**r**’ character of the ASCII table.
 

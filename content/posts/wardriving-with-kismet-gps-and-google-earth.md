@@ -78,7 +78,7 @@ root@hunter~# gpsd -n -N -D 2 /dev/ttyUSB0
 
 - **-n** Don’t wait for a client to connect before polling whatever GPS is associated with it. Some RS232 GPSes wait in a standby mode (drawing less power) when the host machine is not asserting DTR, and some cellphone and handheld embedded GPSes have similar behaviors. Accordingly, waiting for a watch request to open the device may save battery power. (This capability is rare in consumer-grade devices).
 - **-N** Don’t daemonize; run in foreground. This switch is mainly useful for debugging.
-- **-D 2 ** Set debug level. At debug levels 2 and above, gpsd reports incoming sentence and actions to standard error if gpsd is in the foreground (-N) or to syslog if in the background.
+- **-D 2** Set debug level. At debug levels 2 and above, gpsd reports incoming sentence and actions to standard error if gpsd is in the foreground (-N) or to syslog if in the background.
 
  ![](/wp-content/uploads/2019/03/GPS-KISMET-3.png)GPSD up and running with debugging level set to 2.
 

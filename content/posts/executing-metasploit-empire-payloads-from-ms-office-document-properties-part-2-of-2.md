@@ -19,11 +19,7 @@ Building on from my previous post, this will primarily focus on delivering an Em
 
 
 
-**PowerShell Empire:**
-
-
-
-Begin by creating an Empire listener, see Empire’s documentation on how to get started with this by visiting the following URL: [https://www.powershellempire.com/?page_id=83](https://www.powershellempire.com/?page_id=83)
+**PowerShell Empire:** Begin by creating an Empire listener, see Empire’s documentation on how to get started with this by visiting the following URL: [https://www.powershellempire.com/?page_id=83](https://www.powershellempire.com/?page_id=83)
 
 
 
@@ -74,11 +70,7 @@ Now it comes to weaponizing the MS Excel document, the steps in order to do this
 
 
 
-**Note: The IP address: 192.168.0.11 is our Empire C2 server which is serving the launcher.bat payload. This will likely to be different in your environment.**
-
-
-
-Upon execution, the PowerShell script will retrieve the Empire payload and execute it on the victim host.
+**Note: The IP address: 192.168.0.11 is our Empire C2 server which is serving the launcher.bat payload. This will likely to be different in your environment.** Upon execution, the PowerShell script will retrieve the Empire payload and execute it on the victim host.
 
 
 
@@ -113,11 +105,7 @@ Invoke-Commentator -OfficeFile .\empire_posh_delivery.xlsx –CommentFile .\empi
 
 
 
-**Note: Given the size of the PowerShell script above, this was placed within the text file: *empire_posh_payload.txt***
-
-
-
-After successful execution, a copy of your existing MS Office file will be created with the payload embedded:
+**Note: Given the size of the PowerShell script above, this was placed within the text file: *empire_posh_payload.txt*** After successful execution, a copy of your existing MS Office file will be created with the payload embedded:
 
 
 
@@ -158,9 +146,7 @@ End Sub
 
 
 
-**Note: In order to utilise auto-execution via the ‘*Workbook_Open()*’ function, the weaponised MS Excel document needed to be downgraded to Office 98 – 2003 compatibility (.xls)**
-
- [![](/wp-content/uploads/2017/12/ks-empire4.jpg)](/wp-content/uploads/2017/12/ks-empire4.jpg)
+**Note: In order to utilise auto-execution via the ‘*Workbook_Open()*’ function, the weaponised MS Excel document needed to be downgraded to Office 98 – 2003 compatibility (.xls)** [![](/wp-content/uploads/2017/12/ks-empire4.jpg)](/wp-content/uploads/2017/12/ks-empire4.jpg)
 
 After the victim has clicked ‘enable editing’ and ‘enable content’, an Empire agent session should appear:
 

@@ -101,10 +101,7 @@ We now have a remote interface available at **http://localhost:7474**. Let’s h
 Login with the default credentials (below) you will then be asked to change the password :-
 
 
-- Username: **neo4j**
-- Password: **neo4j**
-
- [![](/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-27.png)](/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-27.png)
+- Username: **neo4j** - Password: **neo4j** [![](/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-27.png)](/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-27.png)
 
 Go ahead and complete the password change and close the browser window.
 
@@ -125,13 +122,7 @@ bloodhound
 As you can see, Bloodhound is now running and waiting for some user input. Earlier when launching Neo4j it also enabled Bolt on bolt://127.0.0.1:7687. You need to use this as your Database URL.
 
 
-- Database URL – **bolt://127.0.0.1:7687**
-- Username – **neo4j**
-- Password – **your newly changed password**
-
-
-
-Hit login and you should be presented with the Bloodhound tool minus any data. You can now import your data and get analyzing.
+- Database URL – **bolt://127.0.0.1:7687** - Username – **neo4j** - Password – **your newly changed password** Hit login and you should be presented with the Bloodhound tool minus any data. You can now import your data and get analyzing.
 
  [![](/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-27-17.png)](/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-27-17.png)
 

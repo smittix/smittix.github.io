@@ -102,19 +102,12 @@ Press Enter to use the default names **id_rsa** and **id_rsa.pub** in **/home/yo
 ### Upload your public key to your server
 
 
-#### For **Linux**
-
-
-```
+#### For **Linux** ```
 ssh-copy-id YOURUSER@YOURSERVER
 ```
 
 
-#### For **Mac**
-
-
-
-On your server do.
+#### For **Mac** On your server do.
 
 
 ```

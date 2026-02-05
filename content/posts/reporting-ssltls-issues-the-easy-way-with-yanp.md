@@ -17,6 +17,8 @@ tags:
   - ssl
   - tls
   - vulnerabilities
+aliases:
+  - "/posts/2017/10/reporting-ssltls-issues-the-easy-way-with-yanp/"
 ---
 
 What’s YANP I hear you ask? [YANP](https://github.com/adipinto/yet-another-nessus-parser) stands for “Yet Another Nessus Parser” written by [Alessandro Di Pinto](https://twitter.com/adipinto) and I’m over the moon that I found it. I’ll tell you why.

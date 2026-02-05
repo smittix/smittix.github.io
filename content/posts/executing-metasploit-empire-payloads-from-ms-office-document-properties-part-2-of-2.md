@@ -13,6 +13,8 @@ tags:
   - PowerShell
   - Red Teaming
   - security
+aliases:
+  - "/posts/2017/12/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/"
 ---
 
 Building on from my previous post, this will primarily focus on delivering an Empire payload via an embedded offensive PowerShell script stored within the ‘comments’ property of an MS Excel document.

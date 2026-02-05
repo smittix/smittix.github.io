@@ -9,6 +9,8 @@ tags:
   - Research
   - Exploit
   - Hardware
+aliases:
+  - "/posts/2024/08/gigastone-cve/"
 ---
 
 # Introduction

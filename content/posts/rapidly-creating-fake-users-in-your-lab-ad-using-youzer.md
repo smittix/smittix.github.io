@@ -18,6 +18,8 @@ tags:
   - pentest
   - security
   - youzer
+aliases:
+  - "/posts/2019/06/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/"
 ---
 
 ## Penetration Testing Lab

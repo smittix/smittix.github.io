@@ -27,6 +27,8 @@ tags:
   - server
   - ssh
   - to
+aliases:
+  - "/posts/2016/02/centos-7-server-hardening-guide/"
 ---
 
 So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.

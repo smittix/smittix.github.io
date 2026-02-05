@@ -12,6 +12,8 @@ tags:
   - metasploit
   - Penetration Testing
   - Red Teaming
+aliases:
+  - "/posts/2017/12/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/"
 ---
 
 As a penetration tester I’m always excited to see new and creative methods on creating weaponized MS Office documents. This blog post builds on the following findings published by Black Hills InfoSec: [https://www.blackhillsinfosec.com/hide-payload-ms-office-document-properties/](https://www.blackhillsinfosec.com/hide-payload-ms-office-document-properties/)

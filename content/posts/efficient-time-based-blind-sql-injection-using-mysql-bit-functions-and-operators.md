@@ -14,6 +14,8 @@ tags:
   - security
   - SQL Injection
   - Web Apps
+aliases:
+  - "/posts/2017/12/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/"
 ---
 
 I was performing some penetration tests in 2011 – 2012 against various PHP applications integrated with MySQL databases which were vulnerable to Time Based Blind SQL Injection. Due to various constraints and limitations, exploitation was a little tricky and I was forced to investigate a method which allowed me to retrieve data with as little requests as possible.

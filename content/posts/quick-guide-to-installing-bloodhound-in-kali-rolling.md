@@ -23,6 +23,8 @@ tags:
   - rolling
   - setup
   - six
+aliases:
+  - "/posts/2017/10/quick-guide-to-installing-bloodhound-in-kali-rolling/"
 ---
 
 ## Intro

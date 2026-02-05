@@ -18,6 +18,8 @@ tags:
   - Penetration Testing
   - wardriving
   - wireless
+aliases:
+  - "/posts/2019/03/wardriving-with-kismet-gps-and-google-earth/"
 ---
 
 Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.

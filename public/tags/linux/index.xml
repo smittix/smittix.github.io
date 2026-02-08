@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Smittix</title>
+    <link>https://smittix.github.io/tags/linux/</link>
+    <description>Recent content in Linux on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 26 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Summary of the CUPS Vulnerability</title>
+      <link>https://smittix.github.io/posts/summary-of-the-cups-vulnerability/</link>
+      <pubDate>Thu, 26 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/summary-of-the-cups-vulnerability/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;p&gt;Affected Software:&lt;/p&gt;&#xA;&lt;p&gt;Several components of the CUPS printing system, specifically &lt;code&gt;cups-browsed&lt;/code&gt;, &lt;code&gt;libppd&lt;/code&gt;, &lt;code&gt;libcupsfilters&lt;/code&gt;, and &lt;code&gt;cups-filters&lt;/code&gt;, in versions up to 2.0.1.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Discovered By&lt;/strong&gt;: Simone Margaritelli (@evilsocket)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Impact&lt;/strong&gt;: Allows remote code execution on the affected system.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;whats-the-problem&#34;&gt;What’s the Problem?&lt;/h3&gt;&#xA;&lt;p&gt;This vulnerability stems from how the CUPS system discovers printers on a network. The issue lies in the &lt;code&gt;cups-browsed&lt;/code&gt; component, which automatically adds printers by scanning the network. Unfortunately, it doesn’t verify whether the discovered printer is legitimate or not. This lack of verification allows an attacker to inject a malicious printer into the system, which can then execute arbitrary commands.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Wardriving with Kismet, GPS and Google Earth.</title>
+      <link>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</guid>
+      <description>&lt;p&gt;Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Quick Guide to Installing Bloodhound in Kali-Rolling</title>
+      <link>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</guid>
+      <description>&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;&#xA;&lt;p&gt;I have had a few people over the last couple of months asking me how to get &lt;a href=&#34;https://github.com/BloodHoundAD/Bloodhound/wiki&#34;&gt;Bloodhound&lt;/a&gt; up and running after I had sung its praise since seeing the “Six Degrees to Domain Admin” video from BSIDES Las Vegas. If you still haven’t seen the video I am referring to I suggest you take a peek before proceeding.&lt;/p&gt;&#xA;&lt;p&gt;[su_youtube url=”https://www.youtube.com/watch?v=lxd2rerVsLo”]&lt;/p&gt;&#xA;&lt;p&gt;It really is such an awesome tool and I highly recommend it to not only info-sec professionals but to anyone who administrates an Active Directory environment.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability</title>
+      <link>https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/</link>
+      <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/</guid>
+      <description>&lt;p&gt;Even though this vulnerability was detected back in 2015 I am only starting to notice it popping up on engagements more frequently.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;CVE-2015-8103 – Jenkins CLI – RMI Java Deserialization&lt;/strong&gt; allows remote attackers to execute arbitrary code via a crafted serialized Java object. Apparently, according to Foxglove security Jenkins and OpenNMS are not the only ones that are affected by this issue, Websphere, Weblogic and JBoss are also affected.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://smittix.github.io/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20.jpg&#34;&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20-300x177.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

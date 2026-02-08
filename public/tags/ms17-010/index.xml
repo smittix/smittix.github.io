@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ms17-010 on Smittix</title>
+    <link>https://smittix.github.io/tags/ms17-010/</link>
+    <description>Recent content in Ms17-010 on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 09 May 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/ms17-010/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell</title>
+      <link>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</guid>
+      <description>&lt;p&gt;[su_heading align=”left”]This walk through assumes you know a thing or two and won’t go into major detail. After all it’s meant for fellow researchers and penetration testers.[/su_heading]&lt;/p&gt;&#xA;&lt;h2 id=&#34;findings-so-far&#34;&gt;Findings so far…&lt;/h2&gt;&#xA;&lt;p&gt;Findings from using these tools are the following so far&lt;/p&gt;&#xA;&lt;p&gt;[su_note]The default process that Doublepulsar injects into is ‘lsass’ It was observed that whilst testing against Windows 2008 R2 SP1 that this caused the ‘lsass’ process to become unstable over time and resulting in some cases in a BSOD.[/su_note]&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

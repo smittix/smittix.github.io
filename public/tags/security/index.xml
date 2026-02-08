@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on Smittix</title>
+    <link>https://smittix.github.io/tags/security/</link>
+    <description>Recent content in Security on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 26 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Summary of the CUPS Vulnerability</title>
+      <link>https://smittix.github.io/posts/summary-of-the-cups-vulnerability/</link>
+      <pubDate>Thu, 26 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/summary-of-the-cups-vulnerability/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;p&gt;Affected Software:&lt;/p&gt;&#xA;&lt;p&gt;Several components of the CUPS printing system, specifically &lt;code&gt;cups-browsed&lt;/code&gt;, &lt;code&gt;libppd&lt;/code&gt;, &lt;code&gt;libcupsfilters&lt;/code&gt;, and &lt;code&gt;cups-filters&lt;/code&gt;, in versions up to 2.0.1.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Discovered By&lt;/strong&gt;: Simone Margaritelli (@evilsocket)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Impact&lt;/strong&gt;: Allows remote code execution on the affected system.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;whats-the-problem&#34;&gt;What’s the Problem?&lt;/h3&gt;&#xA;&lt;p&gt;This vulnerability stems from how the CUPS system discovers printers on a network. The issue lies in the &lt;code&gt;cups-browsed&lt;/code&gt; component, which automatically adds printers by scanning the network. Unfortunately, it doesn’t verify whether the discovered printer is legitimate or not. This lack of verification allows an attacker to inject a malicious printer into the system, which can then execute arbitrary commands.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rapidly Creating Fake Users in your Lab AD using Youzer</title>
+      <link>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</guid>
+      <description>&lt;h2 id=&#34;penetration-testing-lab&#34;&gt;Penetration Testing Lab&lt;/h2&gt;&#xA;&lt;p&gt;Whether you have a fully virtual organisation consisting of several different machines or the odd virtualised box you’re using to explore or freshen up on certain skills. They’re great fun and an asset to any security tester.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2019/06/IMG_2874-1024x767.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Having your own lab is a great way to perform security testing techniques in a controlled environment.&lt;/p&gt;&#xA;&lt;p&gt;If you’re attempting to build out a lab that replicates a real organisation it’s always good to do things properly. Let’s assume for this post that you’ve already built a Windows Domain Controller for your penetration testing lab.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</title>
+      <link>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</link>
+      <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</guid>
+      <description>&lt;p&gt;I was performing some penetration tests in 2011 – 2012 against various PHP applications integrated with MySQL databases which were vulnerable to Time Based Blind SQL Injection. Due to various constraints and limitations, exploitation was a little tricky and I was forced to investigate a method which allowed me to retrieve data with as little requests as possible.&lt;/p&gt;&#xA;&lt;p&gt;I stumbled across this paper demonstrating SQL injection using Bit shifting techniques: &lt;a href=&#34;https://www.exploit-db.com/papers/17073/&#34;&gt;https://www.exploit-db.com/papers/17073/&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 2 of 2)</title>
+      <link>https://smittix.github.io/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/</link>
+      <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/</guid>
+      <description>&lt;p&gt;Building on from my previous post, this will primarily focus on delivering an Empire payload via an embedded offensive PowerShell script stored within the ‘comments’ property of an MS Excel document.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;PowerShell Empire:&lt;/strong&gt; Begin by creating an Empire listener, see Empire’s documentation on how to get started with this by visiting the following URL: &lt;a href=&#34;https://www.powershellempire.com/?page_id=83&#34;&gt;https://www.powershellempire.com/?page_id=83&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;Note that in my configuration as illustrated in the screenshot below, the ‘Host’ entry, does not correspond to my C2 Empire Server, instead, this has been configured to point to a reverse-proxy utilising TLS / SSL encryption. This is considered to be good ‘OPSEC’ practice and allows easier portability.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Six on Smittix</title>
+    <link>https://smittix.github.io/tags/six/</link>
+    <description>Recent content in Six on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 11 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/six/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Quick Guide to Installing Bloodhound in Kali-Rolling</title>
+      <link>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</guid>
+      <description>&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;&#xA;&lt;p&gt;I have had a few people over the last couple of months asking me how to get &lt;a href=&#34;https://github.com/BloodHoundAD/Bloodhound/wiki&#34;&gt;Bloodhound&lt;/a&gt; up and running after I had sung its praise since seeing the “Six Degrees to Domain Admin” video from BSIDES Las Vegas. If you still haven’t seen the video I am referring to I suggest you take a peek before proceeding.&lt;/p&gt;&#xA;&lt;p&gt;[su_youtube url=”https://www.youtube.com/watch?v=lxd2rerVsLo”]&lt;/p&gt;&#xA;&lt;p&gt;It really is such an awesome tool and I highly recommend it to not only info-sec professionals but to anyone who administrates an Active Directory environment.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

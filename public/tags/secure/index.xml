@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Secure on Smittix</title>
+    <link>https://smittix.github.io/tags/secure/</link>
+    <description>Recent content in Secure on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 03 Feb 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/secure/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CentOS 7 Server Hardening Guide</title>
+      <link>https://smittix.github.io/posts/centos-7-server-hardening-guide/</link>
+      <pubDate>Wed, 03 Feb 2016 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/centos-7-server-hardening-guide/</guid>
+      <description>&lt;p&gt;So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.&lt;/p&gt;&#xA;&lt;p&gt;This guide was written with &lt;a href=&#34;https://www.centos.org/&#34;&gt;CentOS 7.1&lt;/a&gt; in mind but other up-to-date variants such as &lt;a href=&#34;https://getfedora.org/&#34;&gt;Fedora&lt;/a&gt; and &lt;a href=&#34;https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux&#34;&gt;RHEL&lt;/a&gt; should be pretty similar if not the same.&lt;/p&gt;&#xA;&lt;h1 id=&#34;hardening-ssh-secure-shell&#34;&gt;Hardening SSH (Secure Shell)&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH.png&#34;&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH-150x150.png&#34; alt=&#34;OpenSSH&#34;&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

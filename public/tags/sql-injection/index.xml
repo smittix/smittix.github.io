@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SQL Injection on Smittix</title>
+    <link>https://smittix.github.io/tags/sql-injection/</link>
+    <description>Recent content in SQL Injection on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 16 Dec 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/sql-injection/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</title>
+      <link>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</link>
+      <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</guid>
+      <description>&lt;p&gt;I was performing some penetration tests in 2011 – 2012 against various PHP applications integrated with MySQL databases which were vulnerable to Time Based Blind SQL Injection. Due to various constraints and limitations, exploitation was a little tricky and I was forced to investigate a method which allowed me to retrieve data with as little requests as possible.&lt;/p&gt;&#xA;&lt;p&gt;I stumbled across this paper demonstrating SQL injection using Bit shifting techniques: &lt;a href=&#34;https://www.exploit-db.com/papers/17073/&#34;&gt;https://www.exploit-db.com/papers/17073/&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

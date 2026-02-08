@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.
+This guide was written with CentOS 7.1 in mind but other up-to-date variants such as Fedora and RHEL should be pretty similar if not the same.
+Hardening SSH (Secure Shell) Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.
+" />
+<meta name="keywords" content=", apache, attackers, centos, fail2ban, fedora, hackers, hard, hardening, how, httpd, redhat, rhel, secure, securing, server, ssh, to" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://smittix.github.io/posts/centos-7-server-hardening-guide/" />
+
+
+    <title>
+        
+            CentOS 7 Server Hardening Guide :: Smittix 
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="https://smittix.github.io/main.min.2729760c629597024c5de34b40ea9f372f2b5a2a192dcdca537b7ddfa483eab8.css" integrity="sha256-Jyl2DGKVlwJMXeNLQOqfNy8rWioZLc3KU3t936SD6rg=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://smittix.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://smittix.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://smittix.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://smittix.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://smittix.github.io/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://smittix.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="CentOS 7 Server Hardening Guide">
+  <meta itemprop="description" content="So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.
+This guide was written with CentOS 7.1 in mind but other up-to-date variants such as Fedora and RHEL should be pretty similar if not the same.
+Hardening SSH (Secure Shell) Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.">
+  <meta itemprop="datePublished" content="2016-02-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2016-02-03T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1384">
+  <meta itemprop="image" content="https://smittix.github.io/wp-content/uploads/2016/02/kissclipart-linux-centos-clipart-centos-red-hat-enterprise-lin-b2486c5cdad38a37.png">
+  <meta itemprop="keywords" content="Apache,Attackers,Centos,Fail2ban,Fedora,Hackers,Hard,Hardening,How,Httpd,Redhat,Rhel,Secure,Securing,Server,Ssh,To">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://smittix.github.io/wp-content/uploads/2016/02/kissclipart-linux-centos-clipart-centos-red-hat-enterprise-lin-b2486c5cdad38a37.png">
+  <meta name="twitter:title" content="CentOS 7 Server Hardening Guide">
+  <meta name="twitter:description" content="So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.
+This guide was written with CentOS 7.1 in mind but other up-to-date variants such as Fedora and RHEL should be pretty similar if not the same.
+Hardening SSH (Secure Shell) Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.">
+
+
+
+    <meta property="og:url" content="https://smittix.github.io/posts/centos-7-server-hardening-guide/">
+  <meta property="og:site_name" content="Smittix">
+  <meta property="og:title" content="CentOS 7 Server Hardening Guide">
+  <meta property="og:description" content="So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.
+This guide was written with CentOS 7.1 in mind but other up-to-date variants such as Fedora and RHEL should be pretty similar if not the same.
+Hardening SSH (Secure Shell) Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-02-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2016-02-03T00:00:00+00:00">
+    <meta property="article:tag" content="Apache">
+    <meta property="article:tag" content="Attackers">
+    <meta property="article:tag" content="Centos">
+    <meta property="article:tag" content="Fail2ban">
+    <meta property="article:tag" content="Fedora">
+    <meta property="article:tag" content="Hackers">
+    <meta property="og:image" content="https://smittix.github.io/wp-content/uploads/2016/02/kissclipart-linux-centos-clipart-centos-red-hat-enterprise-lin-b2486c5cdad38a37.png">
+
+
+
+
+    <meta property="article:section" content="Fedora" />
+
+    <meta property="article:section" content="Linux" />
+
+    <meta property="article:section" content="Security" />
+
+
+
+    <meta property="article:published_time" content="2016-02-03 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://smittix.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://smittix.github.io/about/">About</a></li><li><a href="https://smittix.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        7 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://smittix.github.io/posts/centos-7-server-hardening-guide/">CentOS 7 Server Hardening Guide</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.</p>
+<p>This guide was written with <a href="https://www.centos.org/">CentOS 7.1</a> in mind but other up-to-date variants such as <a href="https://getfedora.org/">Fedora</a> and <a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">RHEL</a> should be pretty similar if not the same.</p>
+<h1 id="hardening-ssh-secure-shell">Hardening SSH (Secure Shell)</h1>
+<p><a href="https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH.png"><img src="https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH-150x150.png" alt="OpenSSH"></a></p>
+<p>Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.</p>
+<h2 id="create-a-standard-user">Create a standard user</h2>
+<p>Use the ‘useradd’ command to add a username of your choice.</p>
+<pre tabindex="0"><code>useradd YOURUSER
+</code></pre><p>Set a password for your newly created user.</p>
+<pre tabindex="0"><code>passwd YOURUSER
+</code></pre><p>Add your user to the WHEEL group to enable that user to use the sudo command.</p>
+<pre tabindex="0"><code>usermod -aG wheel YOURUSER
+</code></pre><h2></h2>
+<h2 id="create-an-authentication-key">Create an authentication key</h2>
+<p><a href="https://smittix.github.io/wp-content/uploads/2016/02/RSA.png"><img src="https://smittix.github.io/wp-content/uploads/2016/02/RSA-300x210.png" alt="RSA"></a></p>
+<p>This method of authenticating with your server is much more secure that using a standard password, part of this process will require you to create the key on your local machine which you will be connecting from.</p>
+<p>You will be asked if you would like to protect the key with a password, I advise you to do this but it’s not mandatory.</p>
+<h3 id="creating-the-key-on-maclinux">Creating the key on Mac/Linux</h3>
+<pre tabindex="0"><code>ssh-keygen -b 4096
+</code></pre><p>Press Enter to use the default names <strong>id_rsa</strong> and <strong>id_rsa.pub</strong> in <strong>/home/your_username/.ssh</strong> before entering your passphrase.</p>
+<h3 id="upload-your-public-key-to-your-server">Upload your public key to your server</h3>
+<h4 id="for-linux-">For <strong>Linux</strong> ```</h4>
+<p>ssh-copy-id YOURUSER@YOURSERVER</p>
+<pre tabindex="0"><code>
+
+#### For **Mac** On your server do.
+</code></pre><p>sudo mkdir -p ~/.ssh &amp;&amp; sudo chmod -R 700 ~/.ssh</p>
+<pre tabindex="0"><code>
+
+
+From your Mac do the following making sure to substitute ‘youruser’ and ‘yourserver’.
+</code></pre><p>scp <del>/.ssh/id_rsa.pub <a href="mailto:YOURUSER@YOURSERVER.0">YOURUSER@YOURSERVER.0</a>:</del>/.ssh/authorized_keys</p>
+<pre tabindex="0"><code>
+
+
+Now on to the configuration changes.
+
+
+### Open up the SSH config file for editing
+
+
+
+In this section we will be performing the following actions
+
+
+- Disallowing root logins
+- Setting allowed users
+- Changing the default port
+- Disabling password authentication
+- Force protocol 2
+
+
+
+You can replace nano with your favourite text editor such as vi.
+</code></pre><p>sudo nano /etc/ssh/sshd_config</p>
+<pre tabindex="0"><code>
+
+#### Disallow root logins.
+
+
+
+Find the line that says
+</code></pre><p>#PermitRootLogin yes</p>
+<pre tabindex="0"><code>
+
+
+and change it to
+</code></pre><p>PermitRootLogin no</p>
+<pre tabindex="0"><code>
+
+#### Setting your user as an allowed user.
+
+
+
+Add the following line to the bottom of your sshd_config file substituting ‘YOURUSER’ with your newly created account.
+</code></pre><p>AllowUsers YOURUSER</p>
+<pre tabindex="0"><code>
+
+#### Change the default service port.
+
+
+
+Find the line that says
+</code></pre><p>Port 22</p>
+<pre tabindex="0"><code>
+
+
+Change to something other than 22 such as 22000
+</code></pre><p>Port 22000</p>
+<pre tabindex="0"><code>
+
+#### Disabling password authentication
+
+
+
+We can disable password authentication because we will now be using our newly created key pair to authenticate to the server.
+
+
+
+Look for the line that has
+</code></pre><p>#PasswordAuthentication yes</p>
+<pre tabindex="0"><code>
+
+
+and replace it with the below line.
+</code></pre><p>PasswordAuthentication no</p>
+<pre tabindex="0"><code>
+
+#### Only use SSH protocol 2
+
+
+
+SSH Protocol 1 is generally considered obsolete as it’s vulnerable and old so lets go ahead and only use SSH Protocol 2. Protocol 2 should be enforced by default but it’s worth checking.
+
+
+
+Look for the line that says.
+</code></pre><p>#Protocol 2</p>
+<pre tabindex="0"><code>
+
+
+Uncomment the line so it looks like this.
+</code></pre><p>Protocol 2</p>
+<pre tabindex="0"><code>
+
+
+There are many more options that we could set but this should be suffice in securing your SSH Service.
+
+
+
+Save the file and restart the SSH service by doing the following.
+</code></pre><p>sudo systemctl reload sshd.service</p>
+<pre tabindex="0"><code>
+
+
+You should now be able to login on your chosen port with your authorised keys by connecting like this.
+</code></pre><p>ssh YOURUSER@YOURSERVER -p 22000</p>
+<pre tabindex="0"><code>
+
+# 
+
+
+# Fail2ban
+
+
+
+[Fail2ban](http://www.fail2ban.org/wiki/index.php/Main_Page) is a handy tool/service that monitors system log files to detect potential intrusion attempts and places bans using a variety of methods.
+
+
+
+To install on [CentOS](https://www.centos.org/) we need to enable the EPEL repository by doing the following.
+</code></pre><p>sudo yum install epel-release</p>
+<pre tabindex="0"><code>
+
+
+Once the installation has completed we need to then go ahead and install Fail2ban
+</code></pre><p>sudo yum install fail2ban fail2ban-systemd</p>
+<pre tabindex="0"><code>
+
+
+Fail to ban comes with a wealth of options that would deserve a post all to itself so in this instance we will create a basic configuration file that will help secure your server, especially the SSH service.
+
+
+
+Using SELinux? Then you will want to update your policy by doing the following.
+</code></pre><p>yum update -y selinux-policy*</p>
+<pre tabindex="0"><code>
+
+#### Configuration
+
+
+
+We will be configuring fail2ban for use with Firewalld as it is implemented by default in CentOS 7.
+
+
+
+Create a sshd.local file ready for editing.
+</code></pre><p>sudo nano /etc/fail2ban/jail.d/sshd.local</p>
+<pre tabindex="0"><code>
+
+
+Add the following lines.
+</code></pre><p>[sshd]
+enabled = true
+port = 22000
+logpath = %(sshd_log)s
+maxretry = 3
+bantime = 86400</p>
+<pre tabindex="0"><code>
+
+
+Save the file and go ahead and start fail2ban.
+</code></pre><p>sudo systemctl enable fail2ban
+sudo systemctl start fail2ban</p>
+<pre tabindex="0"><code>
+
+
+You should now have a working fail2ban installation which will automatically ban IP addresses after 3 failed attempts at logging in to your system via SSH.
+
+
+# Apache Hardening
+
+
+
+The default [Apache](http://www.apache.org/) configuration just works but there’s a few tweaks we can do here and there that makes the bad guys job a little harder. One of the things we can do is try and prevent information leakage.
+
+
+
+By default [Apache](http://www.apache.org/) gives out server version information on error pages. We can prevent this by adding a couple of lines to our httpd.conf file.
+
+
+### Version banner
+
+
+
+Open up the httpd config file ready for editing.
+</code></pre><p>sudo nano /etc/httpd/conf/httpd.conf</p>
+<pre tabindex="0"><code>
+
+
+add the following lines to the bottom of the file
+</code></pre><p>ServerTokens Prod
+ServerSignature Off</p>
+<pre tabindex="0"><code>
+
+### Cookies
+
+
+#### Trace Requests
+
+
+
+To protect yourself from [Cross Site Tracing](https://www.owasp.org/index.php/Cross_Site_Tracing) attacks append the following line to the end of your configuration file.
+</code></pre><p>TraceEnable off</p>
+<pre tabindex="0"><code>
+
+#### Set the HttpOnly and Secure flag
+
+
+
+To mitigate against most of the common [Cross Site Scripting (XSS)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)) attacks you can set the following directive, again add the following line at the end of your configuration file.
+</code></pre><p>Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure</p>
+<pre tabindex="0"><code>
+
+#### X-Frame Options
+
+
+
+Adding this option to your configuration file will indicate whether or not a browser should be allowed to open a webpage in a frame or iframe. This will prevent site content embedded into other sites. See – [https://www.owasp.org/index.php/Clickjacking](https://www.owasp.org/index.php/Clickjacking).
+
+
+
+Append the following line in your configuration file.
+</code></pre><p>Header always append X-Frame-Options SAMEORIGIN</p>
+<pre tabindex="0"><code>
+
+#### XSS Protection Again
+
+
+
+To ensure and enforce web browser [Cross Site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)) protection append the following to your configuration file.
+</code></pre><p>Header set X-XSS-Protection “1; mode=block”</p>
+<pre tabindex="0"><code>
+
+
+Now with those options set we need to restart the Apache daemon.
+</code></pre><p>sudo systemctl reload httpd.service</p>
+<pre tabindex="0"><code>
+
+# Logwatch
+
+
+
+Now to keep tabs on all of those logs, Logwatch is a great tool to monitor your servers logs and email the administrator a digest on a daily basis.
+
+
+#### Installation
+</code></pre><p>sudo yum install logwatch sendmail</p>
+<pre tabindex="0"><code>
+
+
+Now start sendmail.
+</code></pre><p>sudo systemctl start sendmail</p>
+<pre tabindex="0"><code>
+
+#### Configuration
+
+
+
+The default configuration file for Logwatch is located at the below path.
+</code></pre><p>/usr/share/logwatch/default.conf/logwatch.conf.</p>
+<pre tabindex="0"><code>
+
+
+This file contains information on which directories for Logwatch to track, how the digest is sent and where the digest is sent to.
+
+
+
+By default Logwatch keeps track of everything in /var/log but if you have other log files that you wish to add you can do this by adding the below to your logwatch.conf under the heading ‘Default Log Directory’.
+</code></pre><p>LogDir = /some/path/to/your/logs</p>
+<pre tabindex="0"><code>
+
+#### Email your daily digest
+
+
+
+let’s go ahead and edit the logwatch.conf file.
+</code></pre><p>sudo nano /usr/share/logwatch/default.conf/logwatch.conf</p>
+<pre tabindex="0"><code>
+
+
+We need to change add your email into the configuration file so that the digest gets delivered to your inbox.
+
+
+
+Look for the following section.
+</code></pre><h1 id="default-person-to-mail-reports-to--can-be-a-local-account-or-a">Default person to mail reports to.  Can be a local account or a</h1>
+<h1 id="complete-email-address--variable-output-should-be-set-to-mail-or">complete email address.  Variable Output should be set to mail, or</h1>
+<h1 id="output-mail-should-be-passed-on-command-line-to-enable-mail-feature">&ndash;output mail should be passed on command line to enable mail feature.</h1>
+<p>MailTo = root</p>
+<pre tabindex="0"><code>
+
+
+change ‘root’ to your own personal email address or wherever you want the digest sending to.
+
+
+#### Adding Logwatch to Cron
+
+
+
+Open up the crontab.
+</code></pre><p>crontab -e</p>
+<pre tabindex="0"><code>
+
+
+Now add the following line to the end of the file. This line will make logwatch run at midnight each day.
+</code></pre><p>00 00  * * *          /usr/sbin/logwatch</p>
+<pre tabindex="0"><code>
+
+
+This guide was a little quick and dirty so you have any additions to this guide I would love to hear them, also if you think something is wrong or could have been done more efficiently please get in contact.
+
+
+### About The Author
+
+
+ -  [](/)
+
+       [**](https://www.facebook.com/sharer.php?u=/centos-7-server-hardening-guide/) [**](http://twitter.com/share?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;text=CentOS%207%20Server%20Hardening%20Guide) [**](mailto:?subject=CentOS%207%20Server%20Hardening%20Guide&amp;body=/centos-7-server-hardening-guide/) [**](https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](javascript:pinIt();) [**](https://t.me/share/url?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](https://api.whatsapp.com/send?text=/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](https://www.reddit.com/submit?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](javascript:window.print())    
+## Post navigation
+
+ [Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability](/posts/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/)
+</code></pre>
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://smittix.github.io/tags/apache/">apache</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/attackers/">attackers</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/centos/">centos</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/fail2ban/">fail2ban</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/fedora/">fedora</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/hackers/">hackers</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/hard/">hard</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/hardening/">hardening</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/how/">how</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/httpd/">httpd</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/redhat/">redhat</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/rhel/">rhel</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/secure/">secure</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/securing/">securing</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/server/">server</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/ssh/">ssh</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/to/">to</a></span>
+        
+    </p>
+
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://smittix.github.io/categories/fedora/">Fedora</a></span>
+        <span class="tag"><a href="https://smittix.github.io/categories/linux/">Linux</a></span>
+        <span class="tag"><a href="https://smittix.github.io/categories/security/">Security</a></span>
+        
+    </p>
+
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1384 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          03-02-2016 00:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=CentOS%207%20Server%20Hardening%20Guide&amp;caption=CentOS%207%20Server%20Hardening%20Guide&amp;canonicalUrl=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=CentOS%207%20Server%20Hardening%20Guide&amp;body=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f&amp;media=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f;description=CentOS%207%20Server%20Hardening%20Guide" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f&amp;title=CentOS%207%20Server%20Hardening%20Guide&amp;summary=CentOS%207%20Server%20Hardening%20Guide&amp;source=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f&amp;resubmit=true&amp;title=CentOS%207%20Server%20Hardening%20Guide" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f;title=CentOS%207%20Server%20Hardening%20Guide" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=CentOS%207%20Server%20Hardening%20Guide%20https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f&amp;t=CentOS%207%20Server%20Hardening%20Guide" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=CentOS%207%20Server%20Hardening%20Guide&amp;url=https%3a%2f%2fsmittix.github.io%2fposts%2fcentos-7-server-hardening-guide%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability</span>
+                </a>
+            </span>
+            
+
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            
+            <span>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://smittix.github.io/bundle.min.ad54ad97364f77ede35def9096b162bb1f0b3973aa50b080f5e82fa147f6882e2a7200d7535adbf9b51bebf939f1c1ca9bbe6be87530092aca720eac4a226fda.js" integrity="sha512-rVStlzZPd&#43;3jXe&#43;QlrFiux8LOXOqULCA9egvoUf2iC4qcgDXU1rb&#43;bUb6/k58cHKm75r6HUwCSrKcg6sSiJv2g=="></script>
+
+
+
+
+    </body>
+</html>

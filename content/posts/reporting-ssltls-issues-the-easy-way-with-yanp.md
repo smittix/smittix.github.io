@@ -153,7 +153,6 @@ python yanp.py -i /home/james/Downloads/sample.nessus -d BEAST
 You now see a list that we can use for our report which tells the client the IP, Port and Issue.
 
 
-## 
 
 
 ## Parsing to CSV
@@ -178,14 +177,3 @@ As always please feel free to contact me I’d love to hear better ways of doing
 
 
 Special thanks to [Allesandro Di Pinto](https://twitter.com/adipinto?lang=en) for [YANP](https://github.com/adipinto/yet-another-nessus-parser).
-
-
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/reporting-ssltls-issues-the-easy-way-with-yanp/) [**](http://twitter.com/share?url=/reporting-ssltls-issues-the-easy-way-with-yanp/&text=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP) [**](mailto:?subject=Reporting%20SSL/TLS%20Issues%20the%20Easy%20Way%20with%20YANP&body=/reporting-ssltls-issues-the-easy-way-with-yanp/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/reporting-ssltls-issues-the-easy-way-with-yanp/&title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/reporting-ssltls-issues-the-easy-way-with-yanp/&title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP) [**](https://api.whatsapp.com/send?text=/reporting-ssltls-issues-the-easy-way-with-yanp/&title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP) [**](https://www.reddit.com/submit?url=/reporting-ssltls-issues-the-easy-way-with-yanp/&title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP) [**](javascript:window.print())    
-## Post navigation
-
- [Quick Guide to Installing Bloodhound in Kali-Rolling](/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/)[Executing Metasploit & Empire Payloads from MS Office Document Properties (part 1 of 2)](/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/)

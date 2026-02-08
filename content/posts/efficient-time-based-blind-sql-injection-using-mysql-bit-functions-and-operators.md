@@ -435,12 +435,3 @@ test%27+and+if+((ascii((substr(user(),1,1)))+>>+0+)=114,benchmark(5000000,md5('t
 ```
 
  [![](/wp-content/uploads/2017/12/ks-sql3.jpg)](/wp-content/uploads/2017/12/ks-sql3.jpg)
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/) [**](http://twitter.com/share?url=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&text=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators) [**](mailto:?subject=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators&body=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators) [**](https://api.whatsapp.com/send?text=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators) [**](https://www.reddit.com/submit?url=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators) [**](javascript:window.print())    
-## Post navigation
-
- [Executing Metasploit & Empire Payloads from MS Office Document Properties (part 2 of 2)](/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/)[Wardriving with Kismet, GPS and Google Earth.](/posts/wardriving-with-kismet-gps-and-google-earth/)

@@ -2,11 +2,306 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Smittix</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://smittix.github.io/tags/</link>
     <description>Recent content in Tags on Smittix</description>
     <generator>Hugo</generator>
-    <language>en</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 26 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux</title>
+      <link>https://smittix.github.io/tags/linux/</link>
+      <pubDate>Thu, 26 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://smittix.github.io/tags/security/</link>
+      <pubDate>Thu, 26 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CVE</title>
+      <link>https://smittix.github.io/tags/cve/</link>
+      <pubDate>Sun, 11 Aug 2024 11:49:34 +0100</pubDate>
+      <guid>https://smittix.github.io/tags/cve/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Exploit</title>
+      <link>https://smittix.github.io/tags/exploit/</link>
+      <pubDate>Sun, 11 Aug 2024 11:49:34 +0100</pubDate>
+      <guid>https://smittix.github.io/tags/exploit/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hardware</title>
+      <link>https://smittix.github.io/tags/hardware/</link>
+      <pubDate>Sun, 11 Aug 2024 11:49:34 +0100</pubDate>
+      <guid>https://smittix.github.io/tags/hardware/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Research</title>
+      <link>https://smittix.github.io/tags/research/</link>
+      <pubDate>Sun, 11 Aug 2024 11:49:34 +0100</pubDate>
+      <guid>https://smittix.github.io/tags/research/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Active</title>
+      <link>https://smittix.github.io/tags/active/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/active/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cracking</title>
+      <link>https://smittix.github.io/tags/cracking/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/cracking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Directory</title>
+      <link>https://smittix.github.io/tags/directory/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/directory/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hacking</title>
+      <link>https://smittix.github.io/tags/hacking/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/hacking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lab</title>
+      <link>https://smittix.github.io/tags/lab/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/lab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Penetration Testing</title>
+      <link>https://smittix.github.io/tags/penetration-testing/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/penetration-testing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pentest</title>
+      <link>https://smittix.github.io/tags/pentest/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/pentest/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Youzer</title>
+      <link>https://smittix.github.io/tags/youzer/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/youzer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Alfa</title>
+      <link>https://smittix.github.io/tags/alfa/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/alfa/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Globalsat</title>
+      <link>https://smittix.github.io/tags/globalsat/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/globalsat/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gpsd</title>
+      <link>https://smittix.github.io/tags/gpsd/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/gpsd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kali</title>
+      <link>https://smittix.github.io/tags/kali/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/kali/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wardriving</title>
+      <link>https://smittix.github.io/tags/wardriving/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/wardriving/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wireless</title>
+      <link>https://smittix.github.io/tags/wireless/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/wireless/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>OWASP</title>
+      <link>https://smittix.github.io/tags/owasp/</link>
+      <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/owasp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SQL Injection</title>
+      <link>https://smittix.github.io/tags/sql-injection/</link>
+      <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/sql-injection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web Apps</title>
+      <link>https://smittix.github.io/tags/web-apps/</link>
+      <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/web-apps/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Empire</title>
+      <link>https://smittix.github.io/tags/empire/</link>
+      <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/empire/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Metasploit</title>
+      <link>https://smittix.github.io/tags/metasploit/</link>
+      <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/metasploit/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PowerShell</title>
+      <link>https://smittix.github.io/tags/powershell/</link>
+      <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/powershell/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Red Teaming</title>
+      <link>https://smittix.github.io/tags/red-teaming/</link>
+      <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/red-teaming/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Issues</title>
+      <link>https://smittix.github.io/tags/issues/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/issues/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nessus</title>
+      <link>https://smittix.github.io/tags/nessus/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/nessus/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Parser</title>
+      <link>https://smittix.github.io/tags/parser/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/parser/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Parsing</title>
+      <link>https://smittix.github.io/tags/parsing/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/parsing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reporting</title>
+      <link>https://smittix.github.io/tags/reporting/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/reporting/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ssl</title>
+      <link>https://smittix.github.io/tags/ssl/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/ssl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tls</title>
+      <link>https://smittix.github.io/tags/tls/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/tls/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vulnerabilities</title>
+      <link>https://smittix.github.io/tags/vulnerabilities/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/vulnerabilities/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Admin</title>
+      <link>https://smittix.github.io/tags/admin/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/admin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bloodhound</title>
+      <link>https://smittix.github.io/tags/bloodhound/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/bloodhound/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Degrees</title>
+      <link>https://smittix.github.io/tags/degrees/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/degrees/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Domain</title>
+      <link>https://smittix.github.io/tags/domain/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/domain/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Guide</title>
+      <link>https://smittix.github.io/tags/guide/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/guide/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Install</title>
+      <link>https://smittix.github.io/tags/install/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/install/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Installing</title>
+      <link>https://smittix.github.io/tags/installing/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/tags/installing/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

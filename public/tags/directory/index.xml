@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Directory on Smittix</title>
+    <link>https://smittix.github.io/tags/directory/</link>
+    <description>Recent content in Directory on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 07 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/directory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rapidly Creating Fake Users in your Lab AD using Youzer</title>
+      <link>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</guid>
+      <description>&lt;h2 id=&#34;penetration-testing-lab&#34;&gt;Penetration Testing Lab&lt;/h2&gt;&#xA;&lt;p&gt;Whether you have a fully virtual organisation consisting of several different machines or the odd virtualised box you’re using to explore or freshen up on certain skills. They’re great fun and an asset to any security tester.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2019/06/IMG_2874-1024x767.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Having your own lab is a great way to perform security testing techniques in a controlled environment.&lt;/p&gt;&#xA;&lt;p&gt;If you’re attempting to build out a lab that replicates a real organisation it’s always good to do things properly. Let’s assume for this post that you’ve already built a Windows Domain Controller for your penetration testing lab.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

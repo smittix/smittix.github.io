@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>General on Smittix</title>
+    <link>https://smittix.github.io/categories/general/</link>
+    <description>Recent content in General on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 07 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/categories/general/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rapidly Creating Fake Users in your Lab AD using Youzer</title>
+      <link>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</link>
+      <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</guid>
+      <description>&lt;h2 id=&#34;penetration-testing-lab&#34;&gt;Penetration Testing Lab&lt;/h2&gt;&#xA;&lt;p&gt;Whether you have a fully virtual organisation consisting of several different machines or the odd virtualised box you’re using to explore or freshen up on certain skills. They’re great fun and an asset to any security tester.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2019/06/IMG_2874-1024x767.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Having your own lab is a great way to perform security testing techniques in a controlled environment.&lt;/p&gt;&#xA;&lt;p&gt;If you’re attempting to build out a lab that replicates a real organisation it’s always good to do things properly. Let’s assume for this post that you’ve already built a Windows Domain Controller for your penetration testing lab.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</title>
+      <link>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</link>
+      <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</guid>
+      <description>&lt;p&gt;I was performing some penetration tests in 2011 – 2012 against various PHP applications integrated with MySQL databases which were vulnerable to Time Based Blind SQL Injection. Due to various constraints and limitations, exploitation was a little tricky and I was forced to investigate a method which allowed me to retrieve data with as little requests as possible.&lt;/p&gt;&#xA;&lt;p&gt;I stumbled across this paper demonstrating SQL injection using Bit shifting techniques: &lt;a href=&#34;https://www.exploit-db.com/papers/17073/&#34;&gt;https://www.exploit-db.com/papers/17073/&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Quick Guide to Installing Bloodhound in Kali-Rolling</title>
+      <link>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</guid>
+      <description>&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;&#xA;&lt;p&gt;I have had a few people over the last couple of months asking me how to get &lt;a href=&#34;https://github.com/BloodHoundAD/Bloodhound/wiki&#34;&gt;Bloodhound&lt;/a&gt; up and running after I had sung its praise since seeing the “Six Degrees to Domain Admin” video from BSIDES Las Vegas. If you still haven’t seen the video I am referring to I suggest you take a peek before proceeding.&lt;/p&gt;&#xA;&lt;p&gt;[su_youtube url=”https://www.youtube.com/watch?v=lxd2rerVsLo”]&lt;/p&gt;&#xA;&lt;p&gt;It really is such an awesome tool and I highly recommend it to not only info-sec professionals but to anyone who administrates an Active Directory environment.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell</title>
+      <link>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</guid>
+      <description>&lt;p&gt;[su_heading align=”left”]This walk through assumes you know a thing or two and won’t go into major detail. After all it’s meant for fellow researchers and penetration testers.[/su_heading]&lt;/p&gt;&#xA;&lt;h2 id=&#34;findings-so-far&#34;&gt;Findings so far…&lt;/h2&gt;&#xA;&lt;p&gt;Findings from using these tools are the following so far&lt;/p&gt;&#xA;&lt;p&gt;[su_note]The default process that Doublepulsar injects into is ‘lsass’ It was observed that whilst testing against Windows 2008 R2 SP1 that this caused the ‘lsass’ process to become unstable over time and resulting in some cases in a BSOD.[/su_note]&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Parser on Smittix</title>
+    <link>https://smittix.github.io/tags/parser/</link>
+    <description>Recent content in Parser on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 12 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/parser/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reporting SSL/TLS Issues the Easy Way with YANP</title>
+      <link>https://smittix.github.io/posts/reporting-ssl/tls-issues-the-easy-way-with-yanp/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/reporting-ssl/tls-issues-the-easy-way-with-yanp/</guid>
+      <description>&lt;p&gt;What’s YANP I hear you ask? &lt;a href=&#34;https://github.com/adipinto/yet-another-nessus-parser&#34;&gt;YANP&lt;/a&gt; stands for “Yet Another Nessus Parser” written by &lt;a href=&#34;https://twitter.com/adipinto&#34;&gt;Alessandro Di Pinto&lt;/a&gt; and I’m over the moon that I found it. I’ll tell you why.&lt;/p&gt;&#xA;&lt;p&gt;Getting all the IP addresses and ports together from Nessus to stick them into other tools such as TestSSL.sh or SSLScan can take away valuable time on large engagements when the time could be spent looking into more harder to detect vulnerabilities. Ultimately we have a duty to our clients to report all our findings and it’s just another thing that needs to be done.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

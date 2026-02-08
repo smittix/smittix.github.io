@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.
+" />
+<meta name="keywords" content=", alfa, globalsat, gpsd, hacking, kali, linux, Penetration Testing, wardriving, wireless" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./" />
+
+
+    <title>
+        
+            Wardriving with Kismet, GPS and Google Earth. :: Smittix 
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="https://smittix.github.io/main.min.2729760c629597024c5de34b40ea9f372f2b5a2a192dcdca537b7ddfa483eab8.css" integrity="sha256-Jyl2DGKVlwJMXeNLQOqfNy8rWioZLc3KU3t936SD6rg=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://smittix.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://smittix.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://smittix.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://smittix.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://smittix.github.io/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="https://smittix.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="Wardriving with Kismet, GPS and Google Earth.">
+  <meta itemprop="description" content="Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.">
+  <meta itemprop="datePublished" content="2019-03-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2019-03-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="813">
+  <meta itemprop="image" content="https://smittix.github.io/wp-content/uploads/2019/03/3d-modern-wifi-router-black-background.jpg">
+  <meta itemprop="keywords" content="Alfa,Globalsat,Gpsd,Hacking,Kali,Linux,Penetration Testing,Wardriving,Wireless">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://smittix.github.io/wp-content/uploads/2019/03/3d-modern-wifi-router-black-background.jpg">
+  <meta name="twitter:title" content="Wardriving with Kismet, GPS and Google Earth.">
+  <meta name="twitter:description" content="Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.">
+
+
+
+    <meta property="og:url" content="https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./">
+  <meta property="og:site_name" content="Smittix">
+  <meta property="og:title" content="Wardriving with Kismet, GPS and Google Earth.">
+  <meta property="og:description" content="Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-03-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-03-05T00:00:00+00:00">
+    <meta property="article:tag" content="Alfa">
+    <meta property="article:tag" content="Globalsat">
+    <meta property="article:tag" content="Gpsd">
+    <meta property="article:tag" content="Hacking">
+    <meta property="article:tag" content="Kali">
+    <meta property="article:tag" content="Linux">
+    <meta property="og:image" content="https://smittix.github.io/wp-content/uploads/2019/03/3d-modern-wifi-router-black-background.jpg">
+
+
+
+
+    <meta property="article:section" content="Linux" />
+
+    <meta property="article:section" content="Security" />
+
+
+
+    <meta property="article:published_time" content="2019-03-05 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://smittix.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://smittix.github.io/about/">About</a></li><li><a href="https://smittix.github.io/posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        4 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./">Wardriving with Kismet, GPS and Google Earth.</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.</p>
+<h2 id="the-hardware">The Hardware</h2>
+<p>This was all setup on a Lenovo thinkpad with the Kali Rolling distribution, I used the following Wireless and GPS adapters which I’ve also included an Amazon link just in case you wanted to purchase them.</p>
+<h2 id="wireless-adapter">Wireless Adapter</h2>
+<p>I use an <strong>Alfa AWUS036NHA</strong> which has an Atheros AR9271 chipset and is well supported in Linux it also supports packet injection</p>
+<p><img src="https://i1.wp.com/stealingthe.network/wp-content/uploads/2019/03/617wm7-itL._SL1500_-1.jpg?fit=750%2C750&amp;ssl=1" alt=""></p>
+<p><strong>Amazon</strong> – <a href="https://www.amazon.co.uk/Network-AWUS036NHA-Adapter-150-Mbps-802-11b/dp/B004Y6MIXS/ref=sr_1_3?ie=UTF8&amp;qid=1551723601&amp;sr=8-3&amp;keywords=alfa+awus036nh%EF%BB%BF">LINK</a></p>
+<h2 id="gps-receiver">GPS Receiver</h2>
+<hr>
+<p>For the GPS side of things I chose to use the <strong>GlobalSat BU-353-S4 receiver</strong>. Purely because it’s well supported under Linux and Kismet.</p>
+<p><img src="https://i1.wp.com/stealingthe.network/wp-content/uploads/2019/03/GlobalSat-BU353-S4_-1.jpg?fit=750%2C784&amp;ssl=1" alt=""></p>
+<p>**Amazon **– <a href="https://www.amazon.co.uk/GlobalSat-BU-353-S4-Receiver-SiRF-Black/dp/B008200LHW/ref=sr_1_1?ie=UTF8&amp;qid=1551724582&amp;sr=8-1&amp;keywords=globalsat+bu-353-s4+usb+gps+receiver%EF%BB%BF">Link</a></p>
+<h2 id="setting-up-the-devices">Setting up the devices</h2>
+<p>There are some prerequisites we will need to install to get the GPS working which are not installed by default.</p>
+<pre tabindex="0"><code>root@Hunter~# apt install gpsd gpsd-clients
+</code></pre><p>Once we have those installed we’re pretty much good to go. Go ahead and plug in your GPS receiver and run the following. My device was located at <strong>/dev/ttyUSB0</strong> but yours maybe different so please check.</p>
+<pre tabindex="0"><code>root@hunter~# gpsd -n -N -D 2 /dev/ttyUSB0
+</code></pre><ul>
+<li><strong>-n</strong> Don’t wait for a client to connect before polling whatever GPS is associated with it. Some RS232 GPSes wait in a standby mode (drawing less power) when the host machine is not asserting DTR, and some cellphone and handheld embedded GPSes have similar behaviors. Accordingly, waiting for a watch request to open the device may save battery power. (This capability is rare in consumer-grade devices).</li>
+<li><strong>-N</strong> Don’t daemonize; run in foreground. This switch is mainly useful for debugging.</li>
+<li><strong>-D 2</strong> Set debug level. At debug levels 2 and above, gpsd reports incoming sentence and actions to standard error if gpsd is in the foreground (-N) or to syslog if in the background.</li>
+</ul>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-3.png" alt="">GPSD up and running with debugging level set to 2.</p>
+<p>To check whether your GPS receiver has locked onto satellites we can use cpsg which is used to test clients for gpsd, run the following command in a new tab or terminal window</p>
+<pre tabindex="0"><code>root@hunter~# cgps -s
+</code></pre><ul>
+<li><strong>-s</strong> Be silent (don’t print raw gpsd data)</li>
+</ul>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-1.jpg" alt=""></p>
+<p>Like above you should see some relavant details regarding your position, heading and speed. If you don’t see something like the above then something has gone wrong.</p>
+<h2 id="on-to-kismet">On to Kismet</h2>
+<p>Ok, now that we know our GPS receiver is working fine from the above steps let’s launch Kismet and start collecting data.</p>
+<pre tabindex="0"><code>root@hunter~# kismet
+</code></pre><h2 id="initial-steps">Initial Steps</h2>
+<p>You will be asked a few questions when launching kismet which are pretty straight forward.</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-5.png" alt=""></p>
+<p>I was running my kali instance as root so if you are too you can ignore this and hit OK.</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-6.png" alt=""></p>
+<p>Select Yes here.</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-7.png" alt=""></p>
+<p>You can either change these or leave them as default. Next you will see a console window which you can close. You will then be asked to add a source which will be the name of your Wireless Device in my case it was wlan1</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-8.png" alt=""> <img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-9.png" alt=""></p>
+<p>Once you have entered the correct device name select “Add”</p>
+<h2 id="capturing">Capturing</h2>
+<p>After the above steps you should now start seeing Kismet being populated with any Wireless SSID’s that it’s detected. Similar to the screenshot below. If it is then well done you’re successfully capturing wireless data.</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-10-1.png" alt=""></p>
+<h2 id="handling-the-data">Handling the Data</h2>
+<p>GISKismet is a wireless recon visualisation tool to represent the data gathered using Kismet, we can use this tool to import our captured data and then export into a format which is usable with GoogleEarth so we can visualise our Wardrive. Let’s go ahead and issue our command.</p>
+<pre tabindex="0"><code>root@hunter~# giskismet -x Kismet-(YOURFILE HERE).netxml
+</code></pre><p>We use the <strong>-x</strong> switch to tell the tool we’re importing an XML file, ensure you enter your capture file with the <strong>.netxml extension</strong>.</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/GPS-KISMET-11.png" alt=""></p>
+<p>Now we’ve imported our captured data into GISKismet’s SQLite database we can now grab that data by performing a simple SQL query and exporting it into a kml file which is usable by GoogleEarth. Obviously name your ouput file anything you like.</p>
+<pre tabindex="0"><code>root@hunter~# giskismet -q &#34;SELECT * FROM wireless&#34; -o YOURNEWFILE.kml
+</code></pre><ul>
+<li><strong>-q</strong> Query</li>
+<li><strong>-o</strong> Output file</li>
+</ul>
+<p>So we now have our newly created .kml file which you can open using GoogleEarth and you should have similar results to the below screenshot.</p>
+<p><img src="https://smittix.github.io/wp-content/uploads/2019/03/Wireless-Map-1024x822.png" alt=""></p>
+<p>I Hope you found this guide quick, to the point and most of all helpful.</p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="https://smittix.github.io/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/wardriving-with-kismet-gps-and-google-earth/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;text=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="mailto:?subject=Wardriving%20with%20Kismet,%20GPS%20and%20Google%20Earth.&amp;body=/wardriving-with-kismet-gps-and-google-earth/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="https://api.whatsapp.com/send?text=/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/">Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</a><a href="https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/">Rapidly Creating Fake Users in your Lab AD using Youzer</a></p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://smittix.github.io/tags/alfa/">alfa</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/globalsat/">globalsat</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/gpsd/">gpsd</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/hacking/">hacking</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/kali/">kali</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/linux/">linux</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/penetration-testing/">Penetration Testing</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/wardriving/">wardriving</a></span>
+        <span class="tag"><a href="https://smittix.github.io/tags/wireless/">wireless</a></span>
+        
+    </p>
+
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://smittix.github.io/categories/linux/">Linux</a></span>
+        <span class="tag"><a href="https://smittix.github.io/categories/security/">Security</a></span>
+        
+    </p>
+
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        813 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          05-03-2019 00:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.&amp;caption=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.&amp;canonicalUrl=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.&amp;body=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f&amp;media=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f;description=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth." target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f&amp;title=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.&amp;summary=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.&amp;source=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f&amp;resubmit=true&amp;title=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth." target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f;title=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth." target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.%20https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f&amp;t=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth." target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Wardriving%20with%20Kismet%2c%20GPS%20and%20Google%20Earth.&amp;url=https%3a%2f%2fsmittix.github.io%2fposts%2fwardriving-with-kismet-gps-and-google-earth.%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">Rapidly Creating Fake Users in your Lab AD using Youzer</span>
+                </a>
+            </span>
+            
+
+            
+            <span class="button next">
+                <a href="https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/">
+                    <span class="button__text">Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            
+            <span>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://smittix.github.io/bundle.min.ad54ad97364f77ede35def9096b162bb1f0b3973aa50b080f5e82fa147f6882e2a7200d7535adbf9b51bebf939f1c1ca9bbe6be87530092aca720eac4a226fda.js" integrity="sha512-rVStlzZPd&#43;3jXe&#43;QlrFiux8LOXOqULCA9egvoUf2iC4qcgDXU1rb&#43;bUb6/k58cHKm75r6HUwCSrKcg6sSiJv2g=="></script>
+
+
+
+
+    </body>
+</html>

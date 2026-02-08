@@ -75,7 +75,6 @@ usermod -aG wheel YOURUSER
 ```
 
 
-## 
 
 
 ## Create an authentication key
@@ -280,7 +279,6 @@ ssh YOURUSER@YOURSERVER -p 22000
 ```
 
 
-# 
 
 
 # Fail2ban
@@ -569,14 +567,3 @@ Now add the following line to the end of the file. This line will make logwatch 
 
 
 This guide was a little quick and dirty so you have any additions to this guide I would love to hear them, also if you think something is wrong or could have been done more efficiently please get in contact.
-
-
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/centos-7-server-hardening-guide/) [**](http://twitter.com/share?url=/centos-7-server-hardening-guide/&text=CentOS%207%20Server%20Hardening%20Guide) [**](mailto:?subject=CentOS%207%20Server%20Hardening%20Guide&body=/centos-7-server-hardening-guide/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/centos-7-server-hardening-guide/&title=CentOS%207%20Server%20Hardening%20Guide) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/centos-7-server-hardening-guide/&title=CentOS%207%20Server%20Hardening%20Guide) [**](https://api.whatsapp.com/send?text=/centos-7-server-hardening-guide/&title=CentOS%207%20Server%20Hardening%20Guide) [**](https://www.reddit.com/submit?url=/centos-7-server-hardening-guide/&title=CentOS%207%20Server%20Hardening%20Guide) [**](javascript:window.print())    
-## Post navigation
-
- [Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability](/posts/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/)

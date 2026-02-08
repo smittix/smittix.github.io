@@ -139,12 +139,3 @@ I also want to take a moment to thank [@_wald0](https://www.twitter.com/_wald0),
 Cheers Guys!
 
  [![](/wp-content/uploads/2017/10/Bloodhound-Dogs-300x169.jpg)](https://github.com/BloodHoundAD/Bloodhound/wiki)
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/quick-guide-to-installing-bloodhound-in-kali-rolling/) [**](http://twitter.com/share?url=/quick-guide-to-installing-bloodhound-in-kali-rolling/&text=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling) [**](mailto:?subject=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling&body=/quick-guide-to-installing-bloodhound-in-kali-rolling/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/quick-guide-to-installing-bloodhound-in-kali-rolling/&title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/quick-guide-to-installing-bloodhound-in-kali-rolling/&title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling) [**](https://api.whatsapp.com/send?text=/quick-guide-to-installing-bloodhound-in-kali-rolling/&title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling) [**](https://www.reddit.com/submit?url=/quick-guide-to-installing-bloodhound-in-kali-rolling/&title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling) [**](javascript:window.print())    
-## Post navigation
-
- [Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell](/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/)[Reporting SSL/TLS Issues the Easy Way with YANP](/posts/reporting-ssltls-issues-the-easy-way-with-yanp/)

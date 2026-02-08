@@ -178,14 +178,3 @@ So we now have our newly created .kml file which you can open using GoogleEarth 
  ![](/wp-content/uploads/2019/03/Wireless-Map-1024x822.png)
 
 I Hope you found this guide quick, to the point and most of all helpful.
-
-
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/wardriving-with-kismet-gps-and-google-earth/) [**](http://twitter.com/share?url=/wardriving-with-kismet-gps-and-google-earth/&text=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.) [**](mailto:?subject=Wardriving%20with%20Kismet,%20GPS%20and%20Google%20Earth.&body=/wardriving-with-kismet-gps-and-google-earth/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/wardriving-with-kismet-gps-and-google-earth/&title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/wardriving-with-kismet-gps-and-google-earth/&title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.) [**](https://api.whatsapp.com/send?text=/wardriving-with-kismet-gps-and-google-earth/&title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.) [**](https://www.reddit.com/submit?url=/wardriving-with-kismet-gps-and-google-earth/&title=Wardriving%20with%20Kismet%2C%20GPS%20and%20Google%20Earth.) [**](javascript:window.print())    
-## Post navigation
-
- [Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators](/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/)[Rapidly Creating Fake Users in your Lab AD using Youzer](/posts/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/)

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Globalsat on Smittix</title>
+    <link>https://smittix.github.io/tags/globalsat/</link>
+    <description>Recent content in Globalsat on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/globalsat/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wardriving with Kismet, GPS and Google Earth.</title>
+      <link>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</guid>
+      <description>&lt;p&gt;Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

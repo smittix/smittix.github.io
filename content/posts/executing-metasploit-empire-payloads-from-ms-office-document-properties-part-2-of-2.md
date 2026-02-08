@@ -153,12 +153,3 @@ End Sub
 After the victim has clicked ‘enable editing’ and ‘enable content’, an Empire agent session should appear:
 
  [![](/wp-content/uploads/2017/12/ks-empire5.jpg)](/wp-content/uploads/2017/12/ks-empire5.jpg) [![](/wp-content/uploads/2017/12/ks-empire6.jpg)](/wp-content/uploads/2017/12/ks-empire6.jpg)
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/) [**](http://twitter.com/share?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&text=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29) [**](mailto:?subject=Executing%20Metasploit%20%26amp;%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20(part%202%20of%202)&body=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29) [**](https://api.whatsapp.com/send?text=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29) [**](https://www.reddit.com/submit?url=/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-2-of-2/&title=Executing%20Metasploit%20%26%20Empire%20Payloads%20from%20MS%20Office%20Document%20Properties%20%28part%202%20of%202%29) [**](javascript:window.print())    
-## Post navigation
-
- [Executing Metasploit & Empire Payloads from MS Office Document Properties (part 1 of 2)](/posts/executing-metasploit-empire-payloads-from-ms-office-document-properties-part-1-of-2/)[Efficient Time Based Blind SQL Injection using MySQL Bit Functions and Operators](/posts/efficient-time-based-blind-sql-injection-using-mysql-bit-functions-and-operators/)

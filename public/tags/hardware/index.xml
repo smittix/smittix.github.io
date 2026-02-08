@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hardware on Smittix</title>
+    <link>https://smittix.github.io/tags/hardware/</link>
+    <description>Recent content in Hardware on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 11 Aug 2024 11:49:34 +0100</lastBuildDate>
+    <atom:link href="https://smittix.github.io/tags/hardware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gigastone TR1 (CVE-2024-44678)</title>
+      <link>https://smittix.github.io/posts/gigastone-tr1-cve-2024-44678/</link>
+      <pubDate>Sun, 11 Aug 2024 11:49:34 +0100</pubDate>
+      <guid>https://smittix.github.io/posts/gigastone-tr1-cve-2024-44678/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;So, I got sucked into the vortex of social media the other night and noticed these quirky little red thingies a few people were using to boost their WiFi range. After some detective work (thanks, Amazon!), I stumbled upon these tiny travel routers from Gigastone, and guess what? They were a steal, just £18.99 for a pair!&lt;/p&gt;&#xA;&#xA;    &lt;img src=&#34;https://smittix.github.io/images/gigastone1.png&#34;  class=&#34;center&#34;  style=&#34;display: block; margin: 0 auto; max-width: 80%; height: auto;&#34;  /&gt;&#xA;&#xA;&#xA;&lt;p&gt;Naturally, I couldn&amp;rsquo;t resist snagging a couple. I mean, they practically screamed &amp;ldquo;hack me&amp;rdquo; for a tear-down post.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

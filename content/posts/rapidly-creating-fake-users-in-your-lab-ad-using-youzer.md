@@ -167,14 +167,3 @@ That brings us to the end of this post, I hope you found the information valuabl
 
 
 Until next time.
-
-
-### About The Author
-
-
- -  [](/)
-
-       [**](https://www.facebook.com/sharer.php?u=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/) [**](http://twitter.com/share?url=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&text=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer) [**](mailto:?subject=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer&body=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/) [**](https://www.linkedin.com/sharing/share-offsite/?url=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer) [**](javascript:pinIt();) [**](https://t.me/share/url?url=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer) [**](https://api.whatsapp.com/send?text=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer) [**](https://www.reddit.com/submit?url=/rapidly-creating-fake-users-in-your-lab-ad-using-youzer/&title=Rapidly%20Creating%20Fake%20Users%20in%20your%20Lab%20AD%20using%20Youzer) [**](javascript:window.print())    
-## Post navigation
-
- [Wardriving with Kismet, GPS and Google Earth.](/posts/wardriving-with-kismet-gps-and-google-earth/)[Summary of the CUPS Vulnerability](/posts/summary-of-the-cups-vulnerability/)

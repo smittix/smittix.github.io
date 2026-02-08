@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Smittix</title>
+    <link>https://smittix.github.io/categories/linux/</link>
+    <description>Recent content in Linux on Smittix</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://smittix.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wardriving with Kismet, GPS and Google Earth.</title>
+      <link>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/wardriving-with-kismet-gps-and-google-earth./</guid>
+      <description>&lt;p&gt;Wardriving was once a really popular sport, I myself loved mapping new areas with my trusty Orinco Gold Card. I’m not sure how popular it is these days but I thought I’d write this guide as I came across my GPS dongle and got set it up in Kali Rolling. I then processed the results and dumped them into a usable format which you can then import into Google Earth. As with all of my guides I hope at least one person finds it useful.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Reporting SSL/TLS Issues the Easy Way with YANP</title>
+      <link>https://smittix.github.io/posts/reporting-ssl/tls-issues-the-easy-way-with-yanp/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/reporting-ssl/tls-issues-the-easy-way-with-yanp/</guid>
+      <description>&lt;p&gt;What’s YANP I hear you ask? &lt;a href=&#34;https://github.com/adipinto/yet-another-nessus-parser&#34;&gt;YANP&lt;/a&gt; stands for “Yet Another Nessus Parser” written by &lt;a href=&#34;https://twitter.com/adipinto&#34;&gt;Alessandro Di Pinto&lt;/a&gt; and I’m over the moon that I found it. I’ll tell you why.&lt;/p&gt;&#xA;&lt;p&gt;Getting all the IP addresses and ports together from Nessus to stick them into other tools such as TestSSL.sh or SSLScan can take away valuable time on large engagements when the time could be spent looking into more harder to detect vulnerabilities. Ultimately we have a duty to our clients to report all our findings and it’s just another thing that needs to be done.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Quick Guide to Installing Bloodhound in Kali-Rolling</title>
+      <link>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/quick-guide-to-installing-bloodhound-in-kali-rolling/</guid>
+      <description>&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;&#xA;&lt;p&gt;I have had a few people over the last couple of months asking me how to get &lt;a href=&#34;https://github.com/BloodHoundAD/Bloodhound/wiki&#34;&gt;Bloodhound&lt;/a&gt; up and running after I had sung its praise since seeing the “Six Degrees to Domain Admin” video from BSIDES Las Vegas. If you still haven’t seen the video I am referring to I suggest you take a peek before proceeding.&lt;/p&gt;&#xA;&lt;p&gt;[su_youtube url=”https://www.youtube.com/watch?v=lxd2rerVsLo”]&lt;/p&gt;&#xA;&lt;p&gt;It really is such an awesome tool and I highly recommend it to not only info-sec professionals but to anyone who administrates an Active Directory environment.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploiting MS17-010 – Using EternalBlue and DoublePulsar to gain a remote Meterpreter shell</title>
+      <link>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/exploiting-ms17-010-using-eternalblue-and-doublepulsar-to-gain-a-remote-meterpreter-shell/</guid>
+      <description>&lt;p&gt;[su_heading align=”left”]This walk through assumes you know a thing or two and won’t go into major detail. After all it’s meant for fellow researchers and penetration testers.[/su_heading]&lt;/p&gt;&#xA;&lt;h2 id=&#34;findings-so-far&#34;&gt;Findings so far…&lt;/h2&gt;&#xA;&lt;p&gt;Findings from using these tools are the following so far&lt;/p&gt;&#xA;&lt;p&gt;[su_note]The default process that Doublepulsar injects into is ‘lsass’ It was observed that whilst testing against Windows 2008 R2 SP1 that this caused the ‘lsass’ process to become unstable over time and resulting in some cases in a BSOD.[/su_note]&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploiting the OpenNMS/Jenkins RMI Java Deserialization Vulnerability</title>
+      <link>https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/</link>
+      <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/exploiting-the-opennms/jenkins-rmi-java-deserialization-vulnerability/</guid>
+      <description>&lt;p&gt;Even though this vulnerability was detected back in 2015 I am only starting to notice it popping up on engagements more frequently.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;CVE-2015-8103 – Jenkins CLI – RMI Java Deserialization&lt;/strong&gt; allows remote attackers to execute arbitrary code via a crafted serialized Java object. Apparently, according to Foxglove security Jenkins and OpenNMS are not the only ones that are affected by this issue, Websphere, Weblogic and JBoss are also affected.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://smittix.github.io/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20.jpg&#34;&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2016/09/fb80719f5e73aa5c6970fc0457e73d20-300x177.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>CentOS 7 Server Hardening Guide</title>
+      <link>https://smittix.github.io/posts/centos-7-server-hardening-guide/</link>
+      <pubDate>Wed, 03 Feb 2016 00:00:00 +0000</pubDate>
+      <guid>https://smittix.github.io/posts/centos-7-server-hardening-guide/</guid>
+      <description>&lt;p&gt;So… you’ve just setup a shiny new server and you want to take measures to keep the bad guys out? Well, here I will give you a few tips on how to do just that.&lt;/p&gt;&#xA;&lt;p&gt;This guide was written with &lt;a href=&#34;https://www.centos.org/&#34;&gt;CentOS 7.1&lt;/a&gt; in mind but other up-to-date variants such as &lt;a href=&#34;https://getfedora.org/&#34;&gt;Fedora&lt;/a&gt; and &lt;a href=&#34;https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux&#34;&gt;RHEL&lt;/a&gt; should be pretty similar if not the same.&lt;/p&gt;&#xA;&lt;h1 id=&#34;hardening-ssh-secure-shell&#34;&gt;Hardening SSH (Secure Shell)&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH.png&#34;&gt;&lt;img src=&#34;https://smittix.github.io/wp-content/uploads/2016/02/OpenSSH-150x150.png&#34; alt=&#34;OpenSSH&#34;&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;Most of you will be using this protocol as a means to remotely administrate your Linux server and your right to. Using SSH is by far the best method to administer your server due to its use of encrypted communications unlike it’s older cousins rlogin and telnet which provide no secure methods of communication.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

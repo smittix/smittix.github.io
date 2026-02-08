@@ -1,4 +1,4 @@
-baseURL = "https://smittix.github.io/"
+baseURL = "https://www.smittix.net/"
 title   = "Smittix"
 languageCode = "en-us"
 theme = "hello-friend-ng"

@@ -1,0 +1,4 @@
+# Ignore duplicate files created by Finder/merges (e.g., "index 2.html")
+public/**/*\ 2*
+resources/**/*\ 2*
+static/**/*\ 2*
